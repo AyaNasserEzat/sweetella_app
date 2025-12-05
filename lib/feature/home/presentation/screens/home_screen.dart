@@ -13,7 +13,7 @@ class DonutsHomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        padding: const EdgeInsets.only(left: 20, top: 35, right: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -22,16 +22,20 @@ class DonutsHomeScreen extends StatelessWidget {
             const SizedBox(height: 25),
             // ---------------- SEARCH BAR ----------------
             SearchTextFormField(),
-      
+
             const SizedBox(height: 25),
-      
+
             // ---------------- CATEGORIES ----------------
-            const Text(
+            Text(
               "Categories",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: AppColors.greyDark,
+              ),
             ),
             const SizedBox(height: 12),
-      
+
             SizedBox(
               height: 42,
               child: ListView(
@@ -44,17 +48,17 @@ class DonutsHomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-      
+
             const SizedBox(height: 30),
-      
+
             GridView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                mainAxisSpacing: 15,
-                crossAxisSpacing: 15,
-                childAspectRatio: .75 / 1,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 8,
+                childAspectRatio: .72 / 1,
               ),
               itemCount: 4,
               itemBuilder: (context, index) {
@@ -62,7 +66,6 @@ class DonutsHomeScreen extends StatelessWidget {
                   {
                     "title": "Chocolate Glaze",
                     "price": "5.49",
-                    "salePrice": "4.49",
                     "image": "assets/images/donuts_image.png",
                     "backgroundColor": Color(0xfff8e6e1),
                   },
@@ -71,7 +74,7 @@ class DonutsHomeScreen extends StatelessWidget {
                     "price": "5.49",
                     "salePrice": "4.49",
                     "image": "assets/images/donuts_image.png",
-                    "backgroundColor": Color(0xfffef6c9)  ,
+                    "backgroundColor": Color(0xfffef6c9),
                   },
                   {
                     "title": "Chocolate Glaze",
@@ -83,12 +86,12 @@ class DonutsHomeScreen extends StatelessWidget {
                   {
                     "title": "Chocolate Glaze",
                     "price": "5.49",
-                    "salePrice": "4.49",
+
                     "image": "assets/images/donuts_image.png",
                     "backgroundColor": Color(0xfff5f1f3),
                   },
                 ];
-      
+
                 final donut = donuts[index];
                 return DonutCard(
                   title: donut["title"] as String,

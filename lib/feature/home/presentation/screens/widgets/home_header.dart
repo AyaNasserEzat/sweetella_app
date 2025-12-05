@@ -14,7 +14,7 @@ class HomeHeader extends StatelessWidget {
           children: [
             RichText(
               text: TextSpan(
-                text: "What Would You Like\n",
+                text: "What Would You\n",
                 style: const TextStyle(
                   fontSize: 20,
                   color: Color(0xff484848),
@@ -24,7 +24,7 @@ class HomeHeader extends StatelessWidget {
                 ),
                 children: [
                   TextSpan(
-                    text: "To Order\n",
+                    text: "like to order\n",
                     style: TextStyle(
                       fontSize: 20,
                       color: AppColors.primaryColor,
@@ -34,7 +34,7 @@ class HomeHeader extends StatelessWidget {
                     ),
                   ),
                   const TextSpan(
-                    text: "Today?",
+                    text: "today?",
                     style: TextStyle(
                       fontSize: 20,
                       color: Color(0xff484848),
@@ -51,7 +51,7 @@ class HomeHeader extends StatelessWidget {
           ],
         ),
 
-        Image.asset('assets/images/donuts_image.png', height: 40, width: 40),
+        Image.asset('assets/images/donuts_image.png', height: 45, width: 45),
       ],
     );
   }

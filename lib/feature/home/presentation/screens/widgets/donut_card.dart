@@ -34,7 +34,7 @@ class DonutCard extends StatelessWidget {
             );
           },
           child: Container(
-            width: 160,
+            width: 170,
             margin: const EdgeInsets.only(right: 12),
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -53,7 +53,7 @@ class DonutCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (showSaleBadge)
+                  if (salePrice!=null)
                     Align(
                       alignment: Alignment.topRight,
                       child: Container(
@@ -87,7 +87,7 @@ class DonutCard extends StatelessWidget {
                   const SizedBox(height: 4),
 
                   Row(
-                    spacing: 10,
+                    spacing: 4,
                     children: [
                       if (salePrice != null)
                         Text(
