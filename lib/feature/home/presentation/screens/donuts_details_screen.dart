@@ -13,7 +13,7 @@ class DonutsDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xfffee3e3), //Color(0xffffd9da),
+      backgroundColor: Color(0xfffee3e3), 
       body: SingleChildScrollView(
         child: Stack(
           children: [

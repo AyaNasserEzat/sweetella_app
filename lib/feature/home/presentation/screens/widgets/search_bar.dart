@@ -1,24 +1,21 @@
-
 import 'package:flutter/material.dart';
+import 'package:sweetella/core/utils/app_colors.dart';
 
-class SearchBar extends StatelessWidget {
-  const SearchBar({
-    super.key,
-  });
+class SearchTextFormField extends StatelessWidget {
+  const SearchTextFormField({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      decoration: BoxDecoration(
-        color: Colors.grey.shade100,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: TextField(
-        decoration: InputDecoration(
-          hintText: "Search donuts...",
-          border: InputBorder.none,
-          icon: Icon(Icons.search, color: Colors.grey.shade600),
+    return TextFormField(
+      decoration: InputDecoration(
+        hintText: 'Search here...',
+        hintStyle: TextStyle(color: Colors.grey),
+        prefixIcon: Icon(Icons.search, color: Colors.grey),
+        filled: true,
+        fillColor: AppColors.grey,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25),
+          borderSide: BorderSide.none,
         ),
       ),
     );

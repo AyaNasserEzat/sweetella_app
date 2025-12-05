@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:sweetella/core/utils/app_colors.dart';
 
 class AddToCartButton extends StatelessWidget {
   const AddToCartButton({
@@ -9,13 +10,13 @@ class AddToCartButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 200,
+      width: 180,
       child: ElevatedButton(
         onPressed: () {
           // Add to cart functionality
         },
         style: ElevatedButton.styleFrom(
-          backgroundColor:Color(0xffe26784),
+          backgroundColor:AppColors.primaryColor,
           padding: const EdgeInsets.symmetric(
             vertical: 16,
           ),

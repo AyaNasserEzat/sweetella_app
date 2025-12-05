@@ -17,6 +17,8 @@ class DonutDescription extends StatelessWidget {
         ),
         SizedBox(height: 8),
         Text(
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
           'This donut is made with the finest ingredients and topped with a delicious glaze. Perfect for any time of the day!',
           style: TextStyle(fontSize: 16),
         ),
