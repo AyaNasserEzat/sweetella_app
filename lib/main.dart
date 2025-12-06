@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sweetella/core/utils/app_colors.dart';
+import 'package:sweetella/feature/auth/presentation/screens/login_screen.dart';
 import 'package:sweetella/feature/home/presentation/screens/home_screen.dart';
 
 void main() {
@@ -15,7 +16,7 @@ class DonutApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Sweetella Donuts',
       theme: ThemeData(primarySwatch: Colors.pink, useMaterial3: true),
-      home: const MainScreen(),
+      home: const LoginScreen(),
     );
   }
 }
