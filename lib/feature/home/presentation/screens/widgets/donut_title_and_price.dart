@@ -12,17 +12,16 @@ class DonutTitleAndPrice extends StatelessWidget {
           'Delicious Donut',
           style: TextStyle(
             fontSize: 24,
-            fontWeight: FontWeight.bold,
+
             color: Color(0xffe26784),
+            fontFamily: 'Nunito',
+            fontVariations: [FontVariation('wght', 900)],
           ),
         ),
         SizedBox(height: 8),
         Text(
           r'Price: $3.99',
-          style: TextStyle(
-            fontSize: 18,
-            color: Colors.grey,
-          ),
+          style: TextStyle(fontSize: 18, color: Colors.grey),
         ),
       ],
     );

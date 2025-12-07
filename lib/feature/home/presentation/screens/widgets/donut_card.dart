@@ -71,6 +71,8 @@ class DonutCard extends StatelessWidget {
                             color: Colors.white,
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
+                            fontFamily: 'Nunito',
+                            fontVariations: [FontVariation('wght', 700)],
                           ),
                         ),
                       ),
@@ -105,6 +107,8 @@ class DonutCard extends StatelessWidget {
                         style: TextStyle(
                           color: salePrice != null ? Colors.grey : Colors.black,
                           fontSize: 14,
+                          fontFamily: 'Nunito',
+                          fontVariations: [FontVariation('wght', 800)],
                           decoration: salePrice != null
                               ? TextDecoration.lineThrough
                               : null,

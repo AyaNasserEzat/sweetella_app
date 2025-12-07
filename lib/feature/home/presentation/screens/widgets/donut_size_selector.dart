@@ -11,7 +11,8 @@ class DonutSizeSelector extends StatelessWidget {
       children: [
         Text(
           "Select Size",
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,     fontFamily: 'Nunito',
+            fontVariations: [FontVariation('wght', 900)],),
         ),
         const SizedBox(height: 12),
         Row(

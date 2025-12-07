@@ -13,6 +13,8 @@ class DonutDescription extends StatelessWidget {
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
+            fontFamily: 'Nunito',
+            fontVariations: [FontVariation('wght', 900)],
           ),
         ),
         SizedBox(height: 8),

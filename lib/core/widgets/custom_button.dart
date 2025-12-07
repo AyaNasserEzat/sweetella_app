@@ -4,12 +4,13 @@ import 'package:sweetella/core/utils/app_colors.dart';
 class CustomButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String text;
-  const CustomButton({super.key, required this.onPressed, required this.text});
+  final double width;
+  const CustomButton({super.key, required this.onPressed, required this.text,  this.width=double.infinity});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: double.infinity,
+      width: width,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primaryColor,

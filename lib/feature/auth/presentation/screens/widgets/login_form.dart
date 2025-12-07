@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sweetella/core/utils/app_colors.dart';
 import 'package:sweetella/core/widgets/custom_text_field.dart';
-import 'package:sweetella/feature/auth/presentation/screens/widgets/aleardy_have_an_account.dart';
 import 'package:sweetella/core/widgets/custom_button.dart';
 import 'package:sweetella/feature/auth/presentation/screens/widgets/dont_have_an_account.dart';
 import 'package:sweetella/feature/auth/presentation/screens/widgets/white_card.dart';

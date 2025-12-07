@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:sweetella/feature/auth/presentation/screens/widgets/sign_up_form.dart';
 import 'widgets/bottom_image.dart';
 import 'widgets/primary_color_container.dart';
-import 'widgets/login_form.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
