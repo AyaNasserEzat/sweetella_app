@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sweetella/core/utils/app_colors.dart';
+import 'package:sweetella/core/utils/app_text_styles.dart';
 import 'package:sweetella/core/widgets/custom_text_field.dart';
 import 'package:sweetella/core/widgets/custom_button.dart';
 import 'package:sweetella/feature/auth/presentation/screens/widgets/dont_have_an_account.dart';
@@ -16,13 +16,7 @@ class LoginForm extends StatelessWidget {
         children: [
           const Text(
             "Sign In",
-            style: TextStyle(
-              fontSize: 24,
-              color: AppColors.primaryColor,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Nunito',
-              fontVariations: [FontVariation('wght', 900)],
-            ),
+            style: AppTextStyles.text24BoldPink
           ),
           const CustomTextField(
             labelText: "Email",

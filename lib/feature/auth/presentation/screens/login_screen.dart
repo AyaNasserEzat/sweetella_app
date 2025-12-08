@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sweetella/core/utils/app_colors.dart';
 import 'widgets/bottom_image.dart';
 import 'widgets/primary_color_container.dart';
 import 'widgets/login_form.dart';
@@ -9,7 +10,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xfffbe9e7),
+      backgroundColor: AppColors.backgroundColor,
       body: Stack(
         alignment: Alignment.topCenter,
         children:  [

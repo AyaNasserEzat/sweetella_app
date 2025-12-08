@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:sweetella/core/utils/app_colors.dart';
+import 'package:sweetella/core/utils/app_text_styles.dart';
 
 Widget categoryChip(String title, bool selected) {
   return Container(
@@ -16,10 +17,7 @@ Widget categoryChip(String title, bool selected) {
         Image.asset('assets/images/cake_category.png',color:selected? Colors.white:Colors.pink),
         Text(
           title,
-          style: TextStyle(
-            color: selected ? Colors.white : Colors.black,
-            fontWeight: FontWeight.w600,
-          ),
+          style: selected?AppTextStyles.text18SmiBoldwhite:AppTextStyles.text18SmiyBoldDarkGray,
         ),
       ],
     ),

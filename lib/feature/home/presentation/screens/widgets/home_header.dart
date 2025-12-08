@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sweetella/core/utils/app_colors.dart';
+import 'package:sweetella/core/utils/app_text_styles.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key});
@@ -15,33 +15,15 @@ class HomeHeader extends StatelessWidget {
             RichText(
               text: TextSpan(
                 text: "What Would You\n",
-                style: const TextStyle(
-                  fontSize: 20,
-                  color: Color(0xff484848),
-                  fontWeight: FontWeight.w900,
-                  fontFamily: 'Nunito',
-                  fontVariations: [FontVariation('wght', 900)],
-                ),
+                style: AppTextStyles.text20BoldDarkGray,
                 children: [
                   TextSpan(
                     text: "like to order\n",
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: AppColors.primaryColor,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Nunito',
-                      fontVariations: [FontVariation('wght', 900)],
-                    ),
+                    style: AppTextStyles.text24BoldPink,
                   ),
                   const TextSpan(
                     text: "today?",
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Color(0xff484848),
-                      fontWeight: FontWeight.bold,
-                      fontVariations: [FontVariation('wght', 900)],
-                      fontFamily: 'Nunito',
-                    ),
+                    style: AppTextStyles.text20BoldDarkGray,
                   ),
                 ],
               ),
