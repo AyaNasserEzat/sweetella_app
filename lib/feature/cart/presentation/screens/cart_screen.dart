@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sweetella/feature/auth/presentation/screens/widgets/app_bar.dart';
 import 'package:sweetella/feature/cart/data/models/cart_model.dart';
+import 'package:sweetella/feature/cart/presentation/screens/checkout_screen.dart';
 import 'package:sweetella/feature/cart/presentation/screens/widgets/cart_item_widget.dart';
 import 'package:sweetella/feature/cart/presentation/screens/widgets/cart_summary_widget.dart';
 
@@ -81,7 +82,17 @@ class _CartScreenState extends State<CartScreen> {
             // ✅ TOTAL + CHECKOUT
             CartSummaryWidget(
               totalPrice: totalPrice,
-              onCheckout: () {},
+              onCheckout: () {
+               Navigator.push(
+                 context,
+                 MaterialPageRoute(
+                   builder: (context) => CheckoutScreen(
+                     cartItems: cartItems,
+                     totalPrice: totalPrice,
+                   ),
+                 ),
+               );
+             },
             ),
           ],
         ),
