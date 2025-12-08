@@ -16,7 +16,7 @@ class DonutApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(scaffoldBackgroundColor: AppColors.white),
       title: 'Sweetella Donuts',
-      home: const MainScreen(),
+      home: const LoginScreen(),
     );
   }
 }

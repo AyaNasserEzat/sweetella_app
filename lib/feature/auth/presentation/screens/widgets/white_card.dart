@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class WhiteCard extends StatelessWidget {
-  const WhiteCard({super.key, required this.child,this.height = 330});
+  const WhiteCard({super.key, required this.child,this.height = 350});
   final Widget child;
   final double height;
   @override

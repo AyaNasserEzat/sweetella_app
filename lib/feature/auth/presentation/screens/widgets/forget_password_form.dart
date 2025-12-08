@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:sweetella/core/utils/app_text_styles.dart';
 import 'package:sweetella/core/widgets/custom_text_field.dart';
 import 'package:sweetella/core/widgets/custom_button.dart';
-import 'package:sweetella/feature/auth/presentation/screens/widgets/dont_have_an_account.dart';
-import 'package:sweetella/feature/auth/presentation/screens/widgets/forgot_password.dart';
 import 'package:sweetella/feature/auth/presentation/screens/widgets/white_card.dart';
 import 'package:sweetella/feature/home/presentation/screens/bottom_nav_bar.dart';
 
-class LoginForm extends StatelessWidget {
-  const LoginForm({super.key});
+class ForgetPasswordForm extends StatelessWidget {
+  const ForgetPasswordForm({super.key});
 
   @override
   Widget build(BuildContext context) {
     return WhiteCard(
+      height: 230,
       child: Column(
-        spacing: 5,
+        spacing: 10,
         children: [
-          const Text("Sign In", style: AppTextStyles.text24BoldPink),
+          const Text("Forget Password", style: AppTextStyles.text24BoldPink),
+          SizedBox(height: 5),
           const CustomTextField(
             labelText: "Email",
             hintText: "Email",
@@ -25,16 +25,6 @@ class LoginForm extends StatelessWidget {
 
           const SizedBox(height: 15),
 
-          // Password
-          const CustomTextField(
-            labelText: "Password",
-            hintText: "Password",
-            prefixIcon: Icons.lock_outline,
-            obscureText: true,
-          ),
-
-          const ForgotPassword(),
-          const SizedBox(height: 4),
           CustomButton(
             onPressed: () {
               Navigator.push(
@@ -46,10 +36,8 @@ class LoginForm extends StatelessWidget {
                 ),
               );
             },
-            text: "Sign In",
+            text: "Rest Password",
           ),
-          const SizedBox(height: 6),
-          DontHaveAnAccount(),
         ],
       ),
     );

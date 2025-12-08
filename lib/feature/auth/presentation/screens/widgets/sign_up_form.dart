@@ -3,6 +3,7 @@ import 'package:sweetella/core/utils/app_colors.dart';
 import 'package:sweetella/core/widgets/custom_text_field.dart';
 import 'package:sweetella/feature/auth/presentation/screens/widgets/aleardy_have_an_account.dart';
 import 'package:sweetella/core/widgets/custom_button.dart';
+import 'package:sweetella/feature/auth/presentation/screens/widgets/forgot_password.dart';
 import 'package:sweetella/feature/auth/presentation/screens/widgets/white_card.dart';
 
 class SignUpForm extends StatelessWidget {
@@ -11,7 +12,7 @@ class SignUpForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WhiteCard(
-      height: 390,
+      height: 410,
       child: Column(
         spacing: 5,
         children: [
@@ -25,7 +26,7 @@ class SignUpForm extends StatelessWidget {
               fontVariations: [FontVariation('wght', 900)],
             ),
           ),
-           const CustomTextField(
+          const CustomTextField(
             labelText: "Name",
             hintText: "Name",
             prefixIcon: Icons.person_outline,
@@ -48,9 +49,10 @@ class SignUpForm extends StatelessWidget {
             obscureText: true,
           ),
 
-          const SizedBox(height: 20),
+          ForgotPassword(),
+          const SizedBox(height: 4),
           CustomButton(onPressed: () {}, text: "Sign Up"),
-          const SizedBox(height: 12),
+          const SizedBox(height: 6),
           AleardyHaveAnAccount(),
         ],
       ),
