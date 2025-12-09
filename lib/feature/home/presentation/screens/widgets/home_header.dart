@@ -6,34 +6,44 @@ class HomeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final imageSize = screenWidth * 0.1; // 10% of screen width
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            RichText(
-              text: TextSpan(
-                text: "What Would You\n",
-                style: AppTextStyles.text20BoldDarkGray,
-                children: [
-                  TextSpan(
-                    text: "like to order\n",
-                    style: AppTextStyles.text24BoldPink,
-                  ),
-                  const TextSpan(
-                    text: "today?",
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: RichText(
+                  text: TextSpan(
+                    text: "What Would You\n",
                     style: AppTextStyles.text20BoldDarkGray,
+                    children: [
+                      TextSpan(
+                        text: "like to order\n",
+                        style: AppTextStyles.text24BoldPink,
+                      ),
+                      const TextSpan(
+                        text: "today?",
+                        style: AppTextStyles.text20BoldDarkGray,
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
-
-            const SizedBox(height: 2),
-          ],
+              const SizedBox(height: 2),
+            ],
+          ),
         ),
-
-        Image.asset('assets/images/donuts_image.png', height: 45, width: 45),
+        SizedBox(
+          height: imageSize,
+          width: imageSize,
+          child: Image.asset('assets/images/doughnut.png', fit: BoxFit.contain),
+        ),
       ],
     );
   }

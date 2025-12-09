@@ -10,13 +10,16 @@ class DonutsHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final horizontalPadding = screenWidth * 0.05; // 5% of screen width
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        padding: const EdgeInsets.only(
-          left: 20,
+        padding: EdgeInsets.only(
+          left: horizontalPadding,
           top: 35,
-          right: 20,
+          right: horizontalPadding,
           bottom: 80,
         ),
         child: Column(

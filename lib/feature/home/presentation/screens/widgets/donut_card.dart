@@ -27,46 +27,59 @@ class DonutCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => DonutsDetailsScreen()),
-            );
-          },
-          child: Container(
-            decoration: BoxDecoration(
-              color: backgroundColor.withAlpha(160),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final cardWidth = constraints.maxWidth;
+        final cardHeight = constraints.maxHeight;
+        final imageHeight = cardWidth * 0.4; // Scale image height with card width
+        final paddingValue = cardWidth * 0.04; // 4% of card width for padding
+        final spacing = cardHeight * 0.03; // 3% of card height for spacing
+
+        return Stack(
+          children: [
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => DonutsDetailsScreen()),
+                );
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: backgroundColor.withAlpha(160),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(paddingValue),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (salePrice != null) SaleContainer(),
-                      Spacer(),
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(CupertinoIcons.heart),
+                      Row(
+                        children: [
+                          if (salePrice != null) SaleContainer(),
+                          Spacer(),
+                          IconButton(
+                            onPressed: () {},
+                            icon: Icon(CupertinoIcons.heart),
+                          ),
+                        ],
                       ),
+                      Center(child: Image.asset(image, height: imageHeight)),
+                      SizedBox(height: spacing),
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(title, style: AppTextStyles.text16BoldBlack),
+                      ),
+                      SizedBox(height: spacing * 0.5),
+                      RowOfPriceAndSalePrice(salePrice: salePrice, price: price),
                     ],
                   ),
-                  Center(child: Image.asset(image, height: 80)),
-                  const SizedBox(height: 8),
-                  Text(title, style: AppTextStyles.text16BoldBlack),
-                  const SizedBox(height: 4),
-                  RowOfPriceAndSalePrice(salePrice: salePrice, price: price),
-                ],
+                ),
               ),
             ),
-          ),
-        ),
-      ],
+          ],
+        );
+      },
     );
   }
 }

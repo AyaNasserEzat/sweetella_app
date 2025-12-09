@@ -17,20 +17,28 @@ class RowOfPriceAndSalePrice extends StatelessWidget {
     return Row(
       spacing: 4,
       children: [
-        if (salePrice != null)
-          Text(
-            "$salePrice"
-            r"$",
-            style: AppTextStyles.priceTextGreen,
+        Flexible(
+          fit: FlexFit.tight,
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (salePrice != null)
+                  Text(
+                    "$salePrice\$",
+                    style: AppTextStyles.priceTextGreen,
+                  ),
+                Text(
+                  salePrice != null ? " $price\$" : "$price\$",
+                  style: salePrice != null
+                      ? AppTextStyles.text18GreyLineThrough
+                      : AppTextStyles.text16BoldBlack,
+                ),
+              ],
+            ),
           ),
-        Text(
-          " $price"
-          r"$",
-          style: salePrice != null
-              ? AppTextStyles.text18GreyLineThrough
-              : AppTextStyles.text16BoldBlack,
         ),
-        Spacer(),
         const Icon(
           CupertinoIcons.cart_badge_plus,
           color: AppColors.primaryColor,

@@ -13,8 +13,8 @@ class DountsGridView extends StatelessWidget {
       padding: EdgeInsets.zero,
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
+      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+        maxCrossAxisExtent: 200,
         mainAxisSpacing: 10,
         crossAxisSpacing: 14,
         childAspectRatio: .72 /1,
@@ -67,3 +67,4 @@ class DountsGridView extends StatelessWidget {
     );
   }
 }
+
