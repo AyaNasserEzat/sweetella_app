@@ -18,7 +18,7 @@ class PrimaryColorContainer extends StatelessWidget {
         children: [
           SizedBox(height: 20),
           const Text("Sweetella", style: AppTextStyles.text32BoldWhite),
-          Image.asset("assets/images/donuts_image.png", width: 120),
+          Image.asset("assets/images/doughnut.png", width: 120),
         ],
       ),
     );

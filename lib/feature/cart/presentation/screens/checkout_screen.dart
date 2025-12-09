@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sweetella/core/utils/app_colors.dart';
+import 'package:sweetella/core/utils/app_text_styles.dart';
 import 'package:sweetella/core/widgets/custom_button.dart';
 import 'package:sweetella/feature/auth/presentation/screens/widgets/bottom_image.dart';
 import 'package:sweetella/feature/auth/presentation/screens/widgets/primary_color_container.dart';
@@ -96,9 +97,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
-        title: const Text('Checkout'),
+        title: const Text('Checkout',style: AppTextStyles.text32BoldWhite,),
+        centerTitle: true,
         backgroundColor: AppColors.primaryColor,
+        leading: IconButton(onPressed: (){}, icon: Icon(Icons.arrow_back_ios, color: AppColors.white,),  ),
       ),
+      
       body: Stack(
         children: [
           const PrimaryColorContainer(),
