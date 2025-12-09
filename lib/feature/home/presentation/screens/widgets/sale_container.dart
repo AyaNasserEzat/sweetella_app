@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sweetella/core/utils/app_text_styles.dart';
 
 class SaleContainer extends StatelessWidget {
-  const SaleContainer({super.key});
+  const 
+  SaleContainer({super.key});
 
   @override
   Widget build(BuildContext context) {
