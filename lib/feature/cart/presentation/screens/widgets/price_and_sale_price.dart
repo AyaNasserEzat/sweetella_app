@@ -4,10 +4,7 @@ import 'package:sweetella/core/utils/app_text_styles.dart';
 import 'package:sweetella/feature/cart/data/models/cart_model.dart';
 
 class PriceAndSalPrice extends StatelessWidget {
-  const PriceAndSalPrice({
-    super.key,
-    required this.item,
-  });
+  const PriceAndSalPrice({super.key, required this.item});
 
   final CartItem item;
 
@@ -23,9 +20,14 @@ class PriceAndSalPrice extends StatelessWidget {
               spacing: 3,
               children: [
                 if (item.salePrice != null)
-                  Text("${item.salePrice}\$", style: AppTextStyles.priceTextGreen),
+                  Text(
+                    "${item.salePrice}\$",
+                    style: AppTextStyles.priceTextGreen,
+                  ),
                 Text(
-                  item.salePrice != null ? " ${item.price}\$" : "${item.price}\$",
+                  item.salePrice != null
+                      ? " ${item.price}\$"
+                      : "${item.price}\$",
                   style: item.salePrice != null
                       ? AppTextStyles.text18GreyLineThrough
                       : AppTextStyles.text16BoldBlack,
@@ -34,39 +36,7 @@ class PriceAndSalPrice extends StatelessWidget {
             ),
           ),
         ),
-       
       ],
     );
-    // Row(
-    //   spacing: 10,
-    //   children: [
-    //     if (item.salePrice != null)
-    //       Text(
-    //         "${item.salePrice}"
-    //         r"$",
-    //         style: const TextStyle(
-    //           color: Colors.green,
-    //           fontSize: 14,
-    //           fontWeight: FontWeight.bold,
-    //         ),
-    //       ),
-    //     Text(
-    //       "${item.price}"
-    //       r"$",
-    //       style: TextStyle(
-    //         color: item.salePrice != null
-    //             ? Colors.grey
-    //             : Colors.black,
-    //         fontSize: 14,
-    //         fontFamily: 'Nunito',
-    //         fontVariations: [FontVariation('wght', 800)],
-    //         decoration: item.salePrice != null
-    //             ? TextDecoration.lineThrough
-    //             : null,
-    //       ),
-    //     ),
-    //   ],
-    // );
-  
   }
 }

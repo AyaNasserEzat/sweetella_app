@@ -43,15 +43,82 @@ class _CartScreenState extends State<CartScreen> {
     return total;
   }
 
+  void _onCheckout() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            CheckoutScreen(cartItems: cartItems, totalPrice: totalPrice),
+      ),
+    );
+  }
+
+  Widget _buildCartList() {
+    return ListView.builder(
+      padding: EdgeInsets.zero,
+      itemCount: cartItems.length,
+      itemBuilder: (context, index) {
+        return CartItemWidget(
+          item: cartItems[index],
+          onAdd: () {
+            setState(() {
+              cartItems[index].quantity++;
+            });
+          },
+          onRemove: () {
+            setState(() {
+              if (cartItems[index].quantity > 1) {
+                cartItems[index].quantity--;
+              }
+            });
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildWideLayout() {
+    return Column(
+      spacing: 10,
+      children: [
+        AppBarTitle(title: 'My Cart'),
+        Expanded(
+          child: Row(
+            spacing: 20,
+            children: [
+              Expanded(flex: 2, child: _buildCartList()),
+              Expanded(
+                flex: 1,
+                child: CartSummaryWidget(
+                  totalPrice: totalPrice,
+                  onCheckout: _onCheckout,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildNormalLayout() {
+    return Column(
+      spacing: 10,
+      children: [
+        AppBarTitle(title: 'My Cart'),
+        Expanded(child: _buildCartList()),
+        CartSummaryWidget(totalPrice: totalPrice, onCheckout: _onCheckout),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final horizontalPadding = screenWidth * 0.04; // 4% of screen width
+    final horizontalPadding = screenWidth * 0.04;
 
     return Scaffold(
       backgroundColor: const Color(0xffF6F6F6),
-
-      // ✅ CART LIST
       body: Padding(
         padding: EdgeInsets.only(
           left: horizontalPadding,
@@ -61,110 +128,9 @@ class _CartScreenState extends State<CartScreen> {
         ),
         child: LayoutBuilder(
           builder: (context, constraints) {
-            final isWide = constraints.maxWidth > 600;
-            if (isWide) {
-              // Horizontal layout for big screens
-              return Column(
-                spacing: 10,
-                children: [
-                  AppBarTitle(title: 'My Cart'),
-                  Expanded(
-                    child: Row(
-                      spacing: 20,
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: ListView.builder(
-                            padding: EdgeInsets.zero,
-                            itemCount: cartItems.length,
-                            itemBuilder: (context, index) {
-                              return CartItemWidget(
-                                item: cartItems[index],
-                                onAdd: () {
-                                  setState(() {
-                                    cartItems[index].quantity++;
-                                  });
-                                },
-                                onRemove: () {
-                                  setState(() {
-                                    if (cartItems[index].quantity > 1) {
-                                      cartItems[index].quantity--;
-                                    }
-                                  });
-                                },
-                              );
-                            },
-                          ),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: CartSummaryWidget(
-                            totalPrice: totalPrice,
-                            onCheckout: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => CheckoutScreen(
-                                    cartItems: cartItems,
-                                    totalPrice: totalPrice,
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              );
-            } else {
-              // Vertical layout for normal screens
-              return Column(
-                spacing: 10,
-                children: [
-                  AppBarTitle(title: 'My Cart'),
-                  Expanded(
-                    child: ListView.builder(
-                      padding: EdgeInsets.zero,
-                      itemCount: cartItems.length,
-                      itemBuilder: (context, index) {
-                        return CartItemWidget(
-                          item: cartItems[index],
-                          onAdd: () {
-                            setState(() {
-                              cartItems[index].quantity++;
-                            });
-                          },
-                          onRemove: () {
-                            setState(() {
-                              if (cartItems[index].quantity > 1) {
-                                cartItems[index].quantity--;
-                              }
-                            });
-                          },
-                        );
-                      },
-                    ),
-                  ),
-
-                  CartSummaryWidget(
-                    totalPrice: totalPrice,
-                    onCheckout: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CheckoutScreen(
-                            cartItems: cartItems,
-                            totalPrice: totalPrice,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ],
-              );
-            }
+            return constraints.maxWidth > 600
+                ? _buildWideLayout()
+                : _buildNormalLayout();
           },
         ),
       ),
