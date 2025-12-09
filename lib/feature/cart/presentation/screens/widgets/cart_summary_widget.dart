@@ -14,10 +14,16 @@ class CartSummaryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final paddingValue = screenWidth * 0.04; // 4% of screen width
+    final titleFontSize = screenWidth * 0.06; // 6% for Total
+    final subTitleFontSize = screenWidth * 0.045; // 4.5% for Sub Total
+    final priceFontSize = screenWidth * 0.05; // 5% for prices
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 70.0),
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(paddingValue),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(24),
@@ -29,22 +35,30 @@ class CartSummaryWidget extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  "Total",
-                  style: TextStyle(
-                    color: AppColors.primaryColor,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Nunito',
-                    fontVariations: [FontVariation('wght', 800)],
+                Expanded(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Total",
+                      style: TextStyle(
+                        color: AppColors.primaryColor,
+                        fontSize: titleFontSize,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Nunito',
+                        fontVariations: [const FontVariation('wght', 800)],
+                      ),
+                    ),
                   ),
                 ),
-                const Spacer(),
-                Text(
-                  "\$${totalPrice.toStringAsFixed(2)}",
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    "\$${totalPrice.toStringAsFixed(2)}",
+                    style: TextStyle(
+                      fontSize: priceFontSize,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ],
@@ -52,22 +66,30 @@ class CartSummaryWidget extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "Sub Total",
-                  style: TextStyle(
-                    color: AppColors.greyDark,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Nunito',
-                    fontVariations: [FontVariation('wght', 600)],
+                Expanded(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Sub Total",
+                      style: TextStyle(
+                        color: AppColors.greyDark,
+                        fontSize: subTitleFontSize,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Nunito',
+                        fontVariations: [const FontVariation('wght', 600)],
+                      ),
+                    ),
                   ),
                 ),
-                const Spacer(),
-                const Text(
-                  "\$33",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: const Text(
+                    "\$33",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ],

@@ -53,54 +53,121 @@ class _CartScreenState extends State<CartScreen> {
 
       // ✅ CART LIST
       body: Padding(
-        padding: EdgeInsets.only(left: horizontalPadding, right: horizontalPadding, top: 30, bottom: 10),
-        child: Column(
-          spacing: 10,
-          children: [
-            AppBarTitle(title: 'My Cart',),
-            Expanded(
-              child: ListView.builder(
-              padding: EdgeInsets.zero,
-                itemCount: cartItems.length,
-                itemBuilder: (context, index) {
-                  return CartItemWidget(
-                    item: cartItems[index],
-                    onAdd: () {
-                      setState(() {
-                        cartItems[index].quantity++;
-                      });
-                    },
-                    onRemove: () {
-                      setState(() {
-                        if (cartItems[index].quantity > 1) {
-                          cartItems[index].quantity--;
-                        }
-                      });
-                    },
-                  );
-                },
-              ),
-            ),
+        padding: EdgeInsets.only(
+          left: horizontalPadding,
+          right: horizontalPadding,
+          top: 30,
+          bottom: 10,
+        ),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final isWide = constraints.maxWidth > 600;
+            if (isWide) {
+              // Horizontal layout for big screens
+              return Column(
+                spacing: 10,
+                children: [
+                  AppBarTitle(title: 'My Cart'),
+                  Expanded(
+                    child: Row(
+                      spacing: 20,
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: ListView.builder(
+                            padding: EdgeInsets.zero,
+                            itemCount: cartItems.length,
+                            itemBuilder: (context, index) {
+                              return CartItemWidget(
+                                item: cartItems[index],
+                                onAdd: () {
+                                  setState(() {
+                                    cartItems[index].quantity++;
+                                  });
+                                },
+                                onRemove: () {
+                                  setState(() {
+                                    if (cartItems[index].quantity > 1) {
+                                      cartItems[index].quantity--;
+                                    }
+                                  });
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: CartSummaryWidget(
+                            totalPrice: totalPrice,
+                            onCheckout: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CheckoutScreen(
+                                    cartItems: cartItems,
+                                    totalPrice: totalPrice,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            } else {
+              // Vertical layout for normal screens
+              return Column(
+                spacing: 10,
+                children: [
+                  AppBarTitle(title: 'My Cart'),
+                  Expanded(
+                    child: ListView.builder(
+                      padding: EdgeInsets.zero,
+                      itemCount: cartItems.length,
+                      itemBuilder: (context, index) {
+                        return CartItemWidget(
+                          item: cartItems[index],
+                          onAdd: () {
+                            setState(() {
+                              cartItems[index].quantity++;
+                            });
+                          },
+                          onRemove: () {
+                            setState(() {
+                              if (cartItems[index].quantity > 1) {
+                                cartItems[index].quantity--;
+                              }
+                            });
+                          },
+                        );
+                      },
+                    ),
+                  ),
 
-            // ✅ TOTAL + CHECKOUT
-            CartSummaryWidget(
-              totalPrice: totalPrice,
-              onCheckout: () {
-               Navigator.push(
-                 context,
-                 MaterialPageRoute(
-                   builder: (context) => CheckoutScreen(
-                     cartItems: cartItems,
-                     totalPrice: totalPrice,
-                   ),
-                 ),
-               );
-             },
-            ),
-          ],
+                  CartSummaryWidget(
+                    totalPrice: totalPrice,
+                    onCheckout: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CheckoutScreen(
+                            cartItems: cartItems,
+                            totalPrice: totalPrice,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              );
+            }
+          },
         ),
       ),
     );
   }
 }
-
