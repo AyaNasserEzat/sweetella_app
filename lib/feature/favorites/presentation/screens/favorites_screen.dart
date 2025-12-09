@@ -49,18 +49,21 @@ class FavoritesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final horizontalPadding = screenWidth * 0.04; // 4% of screen width
+
     return Scaffold(
       body: SingleChildScrollView(
-        padding: const EdgeInsets.only(top: 35, bottom: 80),
+        padding: EdgeInsets.only(top: 35, bottom: 80),
         child: Column(
           children: [
             AppBarTitle(title: 'My Favorites'),
             GridView.builder(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(horizontalPadding),
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 200,
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 8,
                 childAspectRatio: 0.72,

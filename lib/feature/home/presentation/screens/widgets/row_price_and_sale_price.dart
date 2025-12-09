@@ -15,20 +15,16 @@ class RowOfPriceAndSalePrice extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      spacing: 4,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Flexible(
-          fit: FlexFit.tight,
           child: FittedBox(
             fit: BoxFit.scaleDown,
             child: Row(
-              mainAxisSize: MainAxisSize.min,
+              spacing: 3,
               children: [
                 if (salePrice != null)
-                  Text(
-                    "$salePrice\$",
-                    style: AppTextStyles.priceTextGreen,
-                  ),
+                  Text("$salePrice\$", style: AppTextStyles.priceTextGreen),
                 Text(
                   salePrice != null ? " $price\$" : "$price\$",
                   style: salePrice != null

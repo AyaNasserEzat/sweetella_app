@@ -19,8 +19,15 @@ class CartItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final paddingValue = screenWidth * 0.03; // 3% of screen width
+    final imageSize = screenWidth * 0.12; // 12% of screen width for smaller screens
+    final spacing = screenWidth * 0.02; // 2% for spacing
+    final nameFontSize = screenWidth * 0.04; // 4% for name
+    final sizeFontSize = screenWidth * 0.035; // 3.5% for size
+
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: EdgeInsets.all(paddingValue),
       margin: const EdgeInsets.only(bottom: 14),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -28,35 +35,44 @@ class CartItemWidget extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Image.asset(item.image, width: 60, height: 60, fit: BoxFit.contain),
-          const SizedBox(width: 12),
+          Image.asset(item.image, width: imageSize, height: imageSize, fit: BoxFit.contain),
+          SizedBox(width: spacing),
           //  NAME & PRICE
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 6,
-            children: [
-              Text(
-                item.name,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontFamily: 'Nunito',
-                  fontVariations: [FontVariation('wght', 800)],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              spacing: 4,
+              children: [
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    item.name,
+                    style: TextStyle(
+                      fontSize: nameFontSize,
+                      fontFamily: 'Nunito',
+                      fontVariations: [const FontVariation('wght', 800)],
+                    ),
+                  ),
                 ),
-              ),
-
-              Text(
-                "Size: ${item.size}",
-                style: const TextStyle(
-                  color: Colors.grey,
-                  fontFamily: 'Nunito',
-                  fontVariations: [FontVariation('wght', 600)],
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Size: ${item.size}",
+                    style: TextStyle(
+                      fontSize: sizeFontSize,
+                      color: Colors.grey,
+                      fontFamily: 'Nunito',
+                      fontVariations: [const FontVariation('wght', 600)],
+                    ),
+                  ),
                 ),
-              ),
-
-              PriceAndSalPrice(item: item),
-            ],
+                PriceAndSalPrice(item: item),
+              ],
+            ),
           ),
-          const Spacer(),
+          SizedBox(width: spacing),
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
@@ -67,7 +83,7 @@ class CartItemWidget extends StatelessWidget {
                   color: AppColors.primaryColor,
                 ),
               ),
-              SizedBox(height: 15),
+              SizedBox(height: screenWidth * 0.03),
               RowPlusOrMinus(),
             ],
           ),

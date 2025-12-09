@@ -45,12 +45,15 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final horizontalPadding = screenWidth * 0.04; // 4% of screen width
+
     return Scaffold(
       backgroundColor: const Color(0xffF6F6F6),
 
       // ✅ CART LIST
       body: Padding(
-        padding: const EdgeInsets.only(left: 16, right: 16, top: 30, bottom: 10),
+        padding: EdgeInsets.only(left: horizontalPadding, right: horizontalPadding, top: 30, bottom: 10),
         child: Column(
           spacing: 10,
           children: [
