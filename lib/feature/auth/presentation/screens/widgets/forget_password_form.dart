@@ -11,7 +11,6 @@ class ForgetPasswordForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WhiteCard(
-      height: 230,
       child: Column(
         spacing: 10,
         children: [

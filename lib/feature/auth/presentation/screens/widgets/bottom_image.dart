@@ -5,13 +5,15 @@ class BottomImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
     return Positioned(
-      bottom: -70, // Adjusted to make half the image appear
-      right: -70,
+      bottom: -screenHeight * 0.07, // Adjusted to make half the image appear
+      right: -screenWidth * 0.15,
       child: Image.asset(
         'assets/images/donuts_image.png',
-        height: 200,
-        width: 200,
+        height: screenHeight * 0.2,
+        width: screenWidth * 0.4,
       ),
     );
   }

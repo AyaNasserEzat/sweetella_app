@@ -7,8 +7,10 @@ class PrimaryColorContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
     return Container(
-      height: 250,
+      height: screenHeight * 0.4,
       width: double.infinity,
       decoration: const BoxDecoration(
         color: AppColors.primaryColor,
@@ -16,9 +18,13 @@ class PrimaryColorContainer extends StatelessWidget {
       ),
       child: Column(
         children: [
-          SizedBox(height: 20),
+          SizedBox(height: screenHeight * 0.02),
           const Text("Sweetella", style: AppTextStyles.text32BoldWhite),
-          Image.asset("assets/images/doughnut.png", width: 120),
+          Image.asset(
+            "assets/images/doughnut.png",
+            height: screenHeight * 0.2,
+            width: screenWidth * 0.3,
+          ),
         ],
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sweetella/core/utils/app_colors.dart';
+import 'package:sweetella/core/utils/app_text_styles.dart';
 import 'package:sweetella/feature/auth/presentation/screens/sign_up_screen.dart';
 
 class DontHaveAnAccount extends StatelessWidget {
@@ -7,17 +8,14 @@ class DontHaveAnAccount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final fontSize = screenWidth * 0.031; // Responsive font size
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text(
+        Text(
           "don't have an account? ",
-          style: TextStyle(
-            fontSize: 14,
-            color: Colors.black54,
-            fontFamily: 'Nunito',
-            fontVariations: [FontVariation('wght', 600)],
-          ),
+          style: AppTextStyles.text16BoldBlack.copyWith(fontSize: fontSize,color: Colors.black54),
         ),
         GestureDetector(
           onTap: () {
@@ -30,14 +28,14 @@ class DontHaveAnAccount extends StatelessWidget {
               ),
             );
           },
-          child: const Text(
+          child: Text(
             "Sign Up",
             style: TextStyle(
-              fontSize: 14,
+              fontSize: fontSize,
               color: AppColors.primaryColor,
               fontWeight: FontWeight.bold,
               fontFamily: 'Nunito',
-              fontVariations: [FontVariation('wght', 900)],
+              fontVariations: [const FontVariation('wght', 900)],
             ),
           ),
         ),
