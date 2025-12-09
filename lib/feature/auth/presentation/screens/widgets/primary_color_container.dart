@@ -18,12 +18,12 @@ class PrimaryColorContainer extends StatelessWidget {
       ),
       child: Column(
         children: [
-          SizedBox(height: screenHeight * 0.02),
+          SizedBox(height: screenHeight * 0.05),
           const Text("Sweetella", style: AppTextStyles.text32BoldWhite),
           Image.asset(
             "assets/images/doughnut.png",
-            height: screenHeight * 0.2,
-            width: screenWidth * 0.3,
+            height: screenHeight * 0.15,
+            width: screenWidth * 0.35,
           ),
         ],
       ),

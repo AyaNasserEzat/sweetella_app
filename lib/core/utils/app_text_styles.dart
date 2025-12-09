@@ -36,7 +36,7 @@ class AppTextStyles {
     fontVariations: [FontVariation('wght', 900)],
   );
   static const text14BoldPink = TextStyle(
-    fontSize: 20,
+    fontSize: 16,
     color: AppColors.primaryColor,
     fontWeight: FontWeight.bold,
     fontFamily: 'Nunito',
