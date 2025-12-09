@@ -35,6 +35,13 @@ class AppTextStyles {
     fontFamily: 'Nunito',
     fontVariations: [FontVariation('wght', 900)],
   );
+  static const text14BoldPink = TextStyle(
+    fontSize: 20,
+    color: AppColors.primaryColor,
+    fontWeight: FontWeight.bold,
+    fontFamily: 'Nunito',
+    fontVariations: [FontVariation('wght', 800)],
+  );
   static const text18BoldDarkGray = TextStyle(
     fontSize: 18,
     color: AppColors.greyDark,
@@ -50,6 +57,12 @@ class AppTextStyles {
    static const text18SmiyBoldDarkGray = TextStyle(
     fontSize: 18,
     color: AppColors.greyDark,
+    fontFamily: 'Nunito',
+    fontVariations: [FontVariation('wght', 700)],
+  );
+   static  TextStyle text16SmiyBoldblack54 = TextStyle(
+    fontSize: 16,
+    color: Colors.black54,
     fontFamily: 'Nunito',
     fontVariations: [FontVariation('wght', 700)],
   );
