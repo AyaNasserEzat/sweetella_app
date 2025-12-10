@@ -9,6 +9,7 @@ class AuthRepoImpl {
 
   AuthRepoImpl(this.firebaseServices);
 
+
   Future<Either<Failure, UserCredential>> signIn({
     required String email,
     required String password,
@@ -19,7 +20,7 @@ class AuthRepoImpl {
         password: password,
       );
       return right(result);
-    } on FirebaseExcption catch (e) {
+    } on AppException catch (e) {
       return left(Failure(e.message));
     }
   }
@@ -36,7 +37,7 @@ class AuthRepoImpl {
         name: name,
       );
       return right(result);
-    } on FirebaseExcption catch (e) {
+    } on  AppException catch (e) {
       return left(Failure(e.message));
     }
   }
@@ -45,7 +46,7 @@ class AuthRepoImpl {
     try {
       await firebaseServices.resetPassword(email: email);
       return right('reset password successfully');
-    } on FirebaseExcption catch (e) {
+    } on AppException catch (e) {
       return left(Failure(e.toString()));
     }
   }
@@ -54,7 +55,7 @@ class AuthRepoImpl {
     try {
       await firebaseServices.signOut();
       return right('sign out successfully');
-    } on FirebaseExcption catch (e) {
+    } on AppException catch (e) {
       return left(Failure(e.toString()));
     }
   }

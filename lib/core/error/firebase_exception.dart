@@ -1,40 +1,54 @@
-class FirebaseExcption implements Exception {
-  String message;
-  FirebaseExcption(this.message);
+class AppException implements Exception {
+  final String message;
+  AppException(this.message);
+  @override
+  String toString() => message;
 }
 
-class InvalidEmailOrPasswordException extends FirebaseExcption {
+class InvalidEmailOrPasswordException extends AppException {
   InvalidEmailOrPasswordException(super.message);
 }
 
-class WeakPasswordException extends FirebaseExcption {
+class WeakPasswordException extends AppException {
   WeakPasswordException(super.message);
 }
 
-class InvalidEmailException extends FirebaseExcption {
+class InvalidEmailException extends AppException {
   InvalidEmailException(super.message);
 }
 
-class UserDisabledException extends FirebaseExcption {
+class UserDisabledException extends AppException {
   UserDisabledException(super.message);
 }
 
-class WrongPasswordException extends FirebaseExcption {
+class WrongPasswordException extends AppException {
   WrongPasswordException(super.message);
 }
 
-class UserNotFoundException extends FirebaseExcption {
+class UserNotFoundException extends AppException {
   UserNotFoundException(super.message);
 }
 
-class EmailAlreadyInUseException extends FirebaseExcption {
+class EmailAlreadyInUseException extends AppException {
   EmailAlreadyInUseException(super.message);
 }
 
-class OperationNotAllowedException extends FirebaseExcption {
+class OperationNotAllowedException extends AppException {
   OperationNotAllowedException(super.message);
 }
 
-class UnknownFirebaseException extends FirebaseExcption {
-  UnknownFirebaseException(super.message);
+class PermissionDeniedException extends AppException {
+  PermissionDeniedException(super.message);
+}
+
+class NetworkException extends AppException {
+  NetworkException(super.message);
+}
+
+class TimeoutAppException extends AppException {
+  TimeoutAppException(super.message);
+}
+
+class UnknownAppException extends AppException {
+  UnknownAppException(super.message);
 }
