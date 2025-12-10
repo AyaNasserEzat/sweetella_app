@@ -35,9 +35,9 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> signUp() async {
     emit(SignUpLoading());
     final result = await authRepo.signUp(
-      email: signUPasswordController.text.trim(),
-      password: signInPasswordController.text.trim(),
-      name: signInEmailController.text.trim(),
+      email: signUEmailController.text.trim(),
+      password: signUPasswordController.text.trim(),
+      name: nameController.text.trim(),
     );
     result.fold(
       (failure) => emit(SignUpError(failure.message)),

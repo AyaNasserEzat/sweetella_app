@@ -71,17 +71,18 @@ class FavoritesScreen extends StatelessWidget {
               itemCount: favoriteDonuts.length,
               itemBuilder: (context, index) {
                 final donut = favoriteDonuts[index];
-                return DonutCard(
-                  title: donut["title"] as String,
-                  price: donut["price"] as String,
-                  salePrice: donut["salePrice"] as String?,
-                  image: donut["image"] as String,
-                  backgroundColor: donut["backgroundColor"] as Color,
-                  showSaleBadge: donut["salePrice"] != null,
-                  onAddToCart: () {
-                    // Add to cart functionality
-                  },
-                );
+                return Container();
+                //  DonutCard(
+                //   title: donut["title"] as String,
+                //   price: donut["price"] as String,
+                //   salePrice: donut["salePrice"] as String?,
+                //   image: donut["image"] as String,
+                //   backgroundColor: donut["backgroundColor"] as Color,
+                //   showSaleBadge: donut["salePrice"] != null,
+                //   onAddToCart: () {
+                //     // Add to cart functionality
+                //   },
+                // );
               },
             ),
           ],

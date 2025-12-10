@@ -31,7 +31,7 @@ class SignUpForm extends StatelessWidget {
 
           const SizedBox(height: 15),
           CustomTextField(
-            controller: authCubit.signUPasswordController,
+            controller: authCubit.signUEmailController,
             labelText: "Email",
             hintText: "Email",
             prefixIcon: Icons.email_outlined,

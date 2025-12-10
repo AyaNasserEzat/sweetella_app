@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sweetella/core/di/service_locator.dart';
 import 'package:sweetella/core/utils/app_text_styles.dart';
+import 'package:sweetella/feature/home/presentation/screens/cubit/product_cubit.dart';
 import 'package:sweetella/feature/home/presentation/screens/widgets/category_list_view.dart';
 import 'package:sweetella/feature/home/presentation/screens/widgets/donuts_grid_view.dart';
 import 'package:sweetella/feature/home/presentation/screens/widgets/home_header.dart';
@@ -13,36 +16,39 @@ class DonutsHomeScreen extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final horizontalPadding = screenWidth * 0.05; // 5% of screen width
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        padding: EdgeInsets.only(
-          left: horizontalPadding,
-          top: 35,
-          right: horizontalPadding,
-          bottom: 80,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // ---------------- HEADER ----------------
-            HomeHeader(),
-            const SizedBox(height: 25),
-            // ---------------- SEARCH BAR ----------------
-            SearchTextFormField(),
+    return BlocProvider(
+      create: (context) => sl<ProductCubit>()..getProducts(),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SingleChildScrollView(
+          padding: EdgeInsets.only(
+            left: horizontalPadding,
+            top: 35,
+            right: horizontalPadding,
+            bottom: 80,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // ---------------- HEADER ----------------
+              HomeHeader(),
+              const SizedBox(height: 25),
+              // ---------------- SEARCH BAR ----------------
+              SearchTextFormField(),
 
-            const SizedBox(height: 25),
+              const SizedBox(height: 25),
 
-            // ---------------- CATEGORIES ----------------
-            Text("Categories", style: AppTextStyles.text18BoldDarkGray),
-            const SizedBox(height: 12),
+              // ---------------- CATEGORIES ----------------
+              Text("Categories", style: AppTextStyles.text18BoldDarkGray),
+              const SizedBox(height: 12),
 
-            GategoryListView(),
-            // ---------------- GridView ----------------
-            const SizedBox(height: 30),
+              GategoryListView(),
+              // ---------------- GridView ----------------
+              const SizedBox(height: 30),
 
-            DountsGridView(),
-          ],
+              DountsGridView(),
+            ],
+          ),
         ),
       ),
     );

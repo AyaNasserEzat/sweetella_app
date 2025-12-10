@@ -9,8 +9,8 @@ class RowOfPriceAndSalePrice extends StatelessWidget {
     required this.price,
   });
 
-  final String? salePrice;
-  final String price;
+  final int salePrice;
+  final int price;
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +23,11 @@ class RowOfPriceAndSalePrice extends StatelessWidget {
             child: Row(
               spacing: 3,
               children: [
-                if (salePrice != null)
+                if (salePrice != 0)
                   Text("$salePrice\$", style: AppTextStyles.priceTextGreen),
                 Text(
-                  salePrice != null ? " $price\$" : "$price\$",
-                  style: salePrice != null
+                  salePrice != 0 ? " $price\$" : "$price\$",
+                  style: salePrice != 0
                       ? AppTextStyles.text18GreyLineThrough
                       : AppTextStyles.text16BoldBlack,
                 ),
