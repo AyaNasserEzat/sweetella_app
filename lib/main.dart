@@ -4,12 +4,14 @@ import 'package:sweetella/core/utils/app_colors.dart';
 import 'package:sweetella/feature/auth/presentation/screens/login_screen.dart';
 import 'package:sweetella/feature/home/presentation/screens/bottom_nav_bar.dart';
 import 'package:sweetella/firebase_options.dart';
+import 'package:sweetella/core/di/service_locator.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  setupServiceLocator();
   runApp(const DonutApp());
 }
 
