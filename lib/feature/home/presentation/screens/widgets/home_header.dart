@@ -6,9 +6,8 @@ class HomeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final imageSize = screenWidth * 0.1; // 10% of screen width
-
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final imageSize = screenWidth * 0.13;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

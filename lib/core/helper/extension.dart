@@ -18,3 +18,8 @@ extension Navigation on BuildContext {
 
   void pop() => Navigator.of(this).pop();
 }
+
+extension MediaQueryExt on BuildContext {
+  double get h => MediaQuery.of(this).size.height;
+  double get w => MediaQuery.of(this).size.width;
+}

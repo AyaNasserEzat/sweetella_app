@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:sweetella/core/helper/extension.dart';
 
 class BottomImage extends StatelessWidget {
   const BottomImage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
     return Positioned(
-      bottom: -screenHeight * 0.07, // Adjusted to make half the image appear
-      right: -screenWidth * 0.15,
+      bottom: -context.h * 0.07, //  to make half the image appear
+      right: -context.w * 0.15,
       child: Image.asset(
         'assets/images/donuts_image.png',
-        height: screenHeight * 0.2,
-        width: screenWidth * 0.4,
+        height: context.h * 0.2,
+        width: context.w * 0.4,
       ),
     );
   }

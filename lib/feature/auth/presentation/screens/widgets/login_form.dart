@@ -35,6 +35,8 @@ class LoginForm extends StatelessWidget {
             hintText: "Password",
             prefixIcon: Icons.lock_outline,
             obscureText: true,
+            isPassword: true,
+            suffixIcon: Icon(Icons.remove_red_eye_outlined),
           ),
 
           const ForgotPassword(),

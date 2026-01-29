@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sweetella/core/helper/extension.dart';
 import 'package:sweetella/feature/home/presentation/screens/widgets/add_to_cart_button.dart';
 import 'package:sweetella/feature/home/presentation/screens/widgets/donut_title_and_price.dart';
 import 'package:sweetella/feature/home/presentation/screens/widgets/icon_favorite.dart';
@@ -24,7 +25,7 @@ class DonutsDetailsScreen extends StatelessWidget {
                   Image.asset('assets/images/donuts_image.png', height: 200),
                   const SizedBox(height: 16),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.6,
+                    height: context.h * 0.6,
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.only(
@@ -37,7 +38,7 @@ class DonutsDetailsScreen extends StatelessWidget {
                         padding: const EdgeInsets.all(12.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          spacing: 16,
+                          spacing: 10,
                           children: [
                             DonutTitleAndPrice(),
                             Reviews(),

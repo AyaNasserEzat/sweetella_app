@@ -1,3 +1,4 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart' show Firebase;
 import 'package:flutter/material.dart';
 import 'package:sweetella/core/utils/app_colors.dart';
@@ -6,13 +7,13 @@ import 'package:sweetella/feature/home/presentation/screens/bottom_nav_bar.dart'
 import 'package:sweetella/firebase_options.dart';
 import 'package:sweetella/core/di/service_locator.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   setupServiceLocator();
-  runApp(const DonutApp());
+  runApp(DevicePreview(
+    enabled: true,
+    builder: (context) => DonutApp()));
 }
 
 class DonutApp extends StatelessWidget {
@@ -24,7 +25,7 @@ class DonutApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(scaffoldBackgroundColor: AppColors.white),
       title: 'Sweetella Donuts',
-      home: const MainScreen(),
+      home: const LoginScreen(),
     );
   }
 }
