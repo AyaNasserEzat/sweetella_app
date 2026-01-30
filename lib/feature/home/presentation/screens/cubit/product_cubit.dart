@@ -15,4 +15,13 @@ class ProductCubit extends Cubit<ProductState> {
       (products) => emit(ProductSuccess(products)),
     );
   }
+
+  Future<void> getAllCategories() async {
+    emit(GetAllCategoriesLoading());
+    final result = await productRepo.getAllCategories();
+    result.fold(
+      (failure) => emit(GetAllCategoriesError(failure.message)),
+      (categories) => emit(GetAllCategoriesSuccess(categories)),
+    );
+  }
 }

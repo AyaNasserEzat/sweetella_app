@@ -16,6 +16,14 @@ class ProductModel {
     required this.imageUrl,
     this.salePrice = 0,
   });
+  factory ProductModel.empty() => ProductModel(
+        id: '',
+        name: 'loading...',
+        description: '',
+        price: 100,
+        imageUrl: '',
+        salePrice: 0,
+  );
 
   ///map json oriented document snapshot from firebase to user model
   factory ProductModel.fromSnapshot(
@@ -34,14 +42,7 @@ class ProductModel {
         salePrice: data['salePrice'] ?? 0,
       );
     } else {
-      return ProductModel(
-        id: document.id,
-        name: '',
-        price: 0,
-        description: '',
-        imageUrl: '',
-        salePrice: 0,
-      );
+      return ProductModel.empty();
     }
   }
 
