@@ -18,25 +18,29 @@ class CategoryItem extends StatelessWidget {
       margin: const EdgeInsets.only(right: 12),
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 3),
       decoration: BoxDecoration(
-        color: selected && categoryModel.imageUrl.isNotEmpty? AppColors.primaryColor : AppColors.grey,
+        color: selected && categoryModel.imageUrl.isNotEmpty
+            ? AppColors.primaryColor
+            : AppColors.grey,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
         spacing: 10,
         children: [
           categoryModel.imageUrl.isNotEmpty
-              ?  CachedNetworkImage(
-                    imageUrl: categoryModel.imageUrl,
-                    height: 40,
-                    width: 40,
-                    fit: BoxFit.cover,
-                    color: selected ? Colors.white : Colors.pink,
-                    errorWidget: (context, url, error) => const Icon(
-                      Icons.image_not_supported_rounded,
-                      //color: Colors.grey,
-                    ),
-                 
-              ):Container(width: 50,),
+              ? CachedNetworkImage(
+                  imageUrl: categoryModel.imageUrl,
+                  height: 40,
+                  width: 40,
+                  fit: BoxFit.cover,
+                  color: selected ? Colors.white : Colors.pink,
+                  placeholder: (context, url) =>
+                      Container(color: Color(0xFFebebf4)),
+                  errorWidget: (context, url, error) => const Icon(
+                    Icons.image_not_supported_rounded,
+                    //color: Colors.grey,
+                  ),
+                )
+              : Container(width: 40),
           Text(
             categoryModel.name,
             style: selected

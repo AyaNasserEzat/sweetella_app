@@ -57,19 +57,24 @@ class ProductItem extends StatelessWidget {
                   Center(
                     child: productModel.imageUrl.isEmpty
                         ? Container(
-                            height: 100,
+                            height: 110,
                             decoration: BoxDecoration(
                               color: const Color(0xFFebebf4),
                               borderRadius: BorderRadius.circular(12),
                             ),
                           )
-                        : CachedNetworkImage(
-                            imageUrl: productModel.imageUrl,
-                            height: 140,
+                        : CachedNetworkImage(imageUrl: productModel.imageUrl,
+                        placeholder: (context, url) => Container(
+                          height: 110,
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFebebf4),
+                            borderRadius: BorderRadius.circular(12),
                           ),
+                        ),
+                        ),
                   ),
 
-                  SizedBox(height: 5),
+                  SizedBox(height: 8),
                   FittedBox(
                     fit: BoxFit.scaleDown,
                     child: Text(
