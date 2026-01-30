@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sweetella/core/utils/app_text_styles.dart';
 import 'package:sweetella/feature/home/data/models/product_model.dart';
-import 'package:sweetella/feature/home/presentation/screens/donuts_details_screen.dart';
+import 'package:sweetella/feature/home/presentation/screens/product_details_screen.dart';
 import 'package:sweetella/feature/home/presentation/screens/widgets/row_price_and_sale_price.dart';
 import 'package:sweetella/feature/home/presentation/screens/widgets/sale_container.dart';
 
@@ -24,7 +24,7 @@ class ProductItem extends StatelessWidget {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => DonutsDetailsScreen()),
+              MaterialPageRoute(builder: (context) => ProductDetailsScreen(productModel: productModel,)),
             );
           },
           child: Container(

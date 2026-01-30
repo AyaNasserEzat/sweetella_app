@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class DonutDescription extends StatelessWidget {
-  const DonutDescription({super.key});
-
+class ProductDescription extends StatelessWidget {
+  const ProductDescription({super.key,required this.description});
+final String description;
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: const [
+      children:  [
         Text(
           'Description',
           style: TextStyle(
@@ -19,10 +19,10 @@ class DonutDescription extends StatelessWidget {
         ),
         SizedBox(height: 8),
         Text(
+          description,
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
-          'This donut is made with the finest ingredients and topped with a delicious glaze. Perfect for any time of the day!',
-          style: TextStyle(fontSize: 16),
+          
         ),
       ],
     );

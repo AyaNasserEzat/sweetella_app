@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:sweetella/core/helper/extension.dart';
 
 class IconFavorite extends StatelessWidget {
   const IconFavorite({
@@ -9,8 +10,8 @@ class IconFavorite extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: 280,
-      right: MediaQuery.of(context).size.width / 4 - 60,
+      top: 265,
+      right: context.w / 4 - 70,
       child: Container(
         width: 50,
         height: 50,

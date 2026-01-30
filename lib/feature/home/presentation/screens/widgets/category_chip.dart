@@ -34,7 +34,7 @@ class CategoryItem extends StatelessWidget {
                   fit: BoxFit.cover,
                   color: selected ? Colors.white : Colors.pink,
                   placeholder: (context, url) =>
-                      Container(color: Color(0xFFebebf4)),
+                      Container(decoration: BoxDecoration(color: Color(0xFFebebf4),borderRadius: BorderRadius.circular(20)),),
                   errorWidget: (context, url, error) => const Icon(
                     Icons.image_not_supported_rounded,
                     //color: Colors.grey,
