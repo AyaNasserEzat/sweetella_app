@@ -1,7 +1,7 @@
 
 import 'package:flutter/widgets.dart';
 import 'package:sweetella/feature/home/data/models/product_model.dart';
-import 'package:sweetella/feature/home/presentation/screens/widgets/donut_card.dart';
+import 'package:sweetella/feature/home/presentation/screens/widgets/product_item.dart';
 
 class ProductsGridView extends StatelessWidget {
   const ProductsGridView({
@@ -19,11 +19,11 @@ final List<ProductModel> products;
         maxCrossAxisExtent: 200,
         mainAxisSpacing: 10,
         crossAxisSpacing: 14,
-        childAspectRatio: .72 / 1,
+        childAspectRatio: .6,
       ),
       itemCount: products.length,
       itemBuilder: (context, index) {
-        return DonutCard(
+        return ProductItem(
           productModel: products[index],
           //  backgroundColor: backgroundColors[index],
         );

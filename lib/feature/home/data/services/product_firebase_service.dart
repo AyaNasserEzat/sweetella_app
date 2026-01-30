@@ -5,9 +5,9 @@ import 'package:sweetella/feature/home/data/models/product_model.dart';
 
 class ProductFirebaseService {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  Future<List<ProductModel>> getProducts() async {
+  Future<List<ProductModel>> getProducts({required String categoryId}) async {
     try {
-      final snapshot = await firestore.collection('Products').get();
+      final snapshot = await firestore.collection('Products').where('categoryId',isEqualTo: categoryId).get();
       final list = snapshot.docs
           .map((document) => ProductModel.fromSnapshot(document))
           .toList();

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sweetella/feature/auth/presentation/screens/widgets/app_bar.dart';
-import 'package:sweetella/feature/home/presentation/screens/widgets/donut_card.dart';
+import 'package:sweetella/feature/home/presentation/screens/widgets/product_item.dart';
 
 class FavoritesScreen extends StatelessWidget {
   final List<Map<String, dynamic>> favoriteDonuts = [

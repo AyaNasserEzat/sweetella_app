@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sweetella/feature/home/data/models/category_model.dart';
+import 'package:sweetella/feature/home/presentation/screens/cubit/product_cubit.dart';
 import 'package:sweetella/feature/home/presentation/screens/widgets/category_chip.dart';
 
 class GategoryListView extends StatefulWidget {
@@ -12,6 +14,14 @@ class GategoryListView extends StatefulWidget {
 
 class _GategoryListViewState extends State<GategoryListView> {
   int selected = 0;
+
+  @override
+  void initState() {
+    final cubit = context.read<ProductCubit>();
+    cubit.getProducts(categoryId: widget.categories[0].id);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -24,6 +34,9 @@ class _GategoryListViewState extends State<GategoryListView> {
             onTap: () {
               setState(() {
                 selected = index;
+                BlocProvider.of<ProductCubit>(
+                  context,
+                ).getProducts(categoryId: widget.categories[index].id);
               });
             },
             child: CategoryItem(

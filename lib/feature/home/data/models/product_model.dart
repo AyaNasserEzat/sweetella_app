@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class ProductModel {
   final String id;
   final String name;
+  final String categoryId;
   final String description;
   final int price;
   final int salePrice;
@@ -11,6 +12,7 @@ class ProductModel {
   ProductModel({
     required this.id,
     required this.name,
+    required this.categoryId,
     required this.description,
     required this.price,
     required this.imageUrl,
@@ -19,6 +21,7 @@ class ProductModel {
   factory ProductModel.empty() => ProductModel(
         id: '',
         name: 'loading...',
+        categoryId: '',
         description: '',
         price: 100,
         imageUrl: '',
@@ -35,7 +38,8 @@ class ProductModel {
       //Map JSON record to the model
       return ProductModel(
         id: document.id,
-        price: document['price'] ?? 0, //(document["price"] as num).toDouble(),
+        categoryId: document['categoryId'],
+        price: document['price'] ?? 0,
         name: data['name'] ?? '',
         description: data['description'] ?? '',
         imageUrl: data['imageUrl'] ?? '',
@@ -49,6 +53,7 @@ class ProductModel {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
+      'categoryId':categoryId,
       'name': name,
       'description': description,
       'price': price,

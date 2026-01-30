@@ -8,9 +8,9 @@ import 'package:sweetella/feature/home/data/services/product_firebase_service.da
 class ProductRepoImp {
   final ProductFirebaseService productFirebaseService;
   ProductRepoImp(this.productFirebaseService);
-  Future<Either<Failure, List<ProductModel>>> getProducts() async {
+  Future<Either<Failure, List<ProductModel>>> getProducts({required String categoryId}) async {
     try {
-      final res = await productFirebaseService.getProducts();
+      final res = await productFirebaseService.getProducts(categoryId: categoryId);
       return right(res);
     } on AppException catch (e) {
       return left(Failure(e.message));

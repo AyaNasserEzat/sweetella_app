@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sweetella/feature/home/data/models/category_model.dart';
 import '../../../data/repositories/product_repo_imp.dart';
 import 'product_state.dart';
 
@@ -7,9 +8,10 @@ class ProductCubit extends Cubit<ProductState> {
 
   ProductCubit(this.productRepo) : super(ProductInitial());
 
-  Future<void> getProducts() async {
+  List<CategoryModel> allCategories = [];
+  Future<void> getProducts({required String categoryId}) async {
     emit(ProductLoading());
-    final result = await productRepo.getProducts();
+    final result = await productRepo.getProducts(categoryId: categoryId);
     result.fold(
       (failure) => emit(ProductError(failure.message)),
       (products) => emit(ProductSuccess(products)),
@@ -19,9 +21,11 @@ class ProductCubit extends Cubit<ProductState> {
   Future<void> getAllCategories() async {
     emit(GetAllCategoriesLoading());
     final result = await productRepo.getAllCategories();
-    result.fold(
-      (failure) => emit(GetAllCategoriesError(failure.message)),
-      (categories) => emit(GetAllCategoriesSuccess(categories)),
-    );
+    result.fold((failure) => emit(GetAllCategoriesError(failure.message)), (
+      categories,
+    ) {
+      allCategories = categories;
+      emit(GetAllCategoriesSuccess(categories));
+    });
   }
 }
