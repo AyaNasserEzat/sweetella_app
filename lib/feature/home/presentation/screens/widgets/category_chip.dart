@@ -32,7 +32,7 @@ class CategoryItem extends StatelessWidget {
                   height: 40,
                   width: 40,
                   fit: BoxFit.cover,
-                  color: selected ? Colors.white : Colors.pink,
+                  color: selected ? Colors.white : AppColors.primaryColor,
                   placeholder: (context, url) =>
                       Container(decoration: BoxDecoration(color: Color(0xFFebebf4),borderRadius: BorderRadius.circular(20)),),
                   errorWidget: (context, url, error) => const Icon(

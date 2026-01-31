@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sweetella/core/utils/app_colors.dart';
 
 class BuildSizeOption extends StatelessWidget {
   final String size;
@@ -29,7 +30,7 @@ class BuildSizeOption extends StatelessWidget {
             ),
           ],
           border: Border.all(
-            color: isSelected ? Color(0xffe26784) : Colors.grey,
+            color: isSelected ? AppColors.primaryColor : Colors.grey,
             width: 1.5,
           ),
         ),

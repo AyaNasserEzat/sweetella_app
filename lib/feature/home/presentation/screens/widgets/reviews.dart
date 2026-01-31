@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:sweetella/core/utils/app_colors.dart';
 
 class Reviews extends StatelessWidget {
   const Reviews({
@@ -14,7 +15,7 @@ class Reviews extends StatelessWidget {
           children: List.generate(5, (index) {
             return Icon(
               Icons.star,
-              color: index < 4 ? Color(0xffe26784) : Colors.grey,
+              color: index < 4 ? AppColors.primaryColor : Colors.grey,
             );
           }),
         ),
