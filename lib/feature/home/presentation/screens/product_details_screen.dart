@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:sweetella/feature/home/data/models/product_model.dart';
 import 'package:sweetella/feature/home/presentation/screens/widgets/add_to_cart_button.dart';
@@ -22,7 +23,20 @@ class ProductDetailsScreen extends StatelessWidget {
               SliverToBoxAdapter(
                 child: Padding(
                   padding: const EdgeInsets.only(top: 90),
-                  child: Image.network(productModel.imageUrl, height: 200),
+                  child: SizedBox(
+                    height: 200,
+                    child: CachedNetworkImage(
+                      imageUrl: productModel.imageUrl,
+                      placeholder: (context, url) => Container(
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFebebf4),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      errorWidget: (context, url, error) =>
+                          Icon(Icons.image_not_supported),
+                    ),
+                  ),
                 ),
               ),
 

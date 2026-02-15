@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sweetella/core/utils/app_text_styles.dart';
+import 'package:sweetella/feature/favorites/presentation/screens/widgets/favorite_button.dart';
 import 'package:sweetella/feature/home/data/models/product_model.dart';
 import 'package:sweetella/feature/home/presentation/screens/product_details_screen.dart';
 import 'package:sweetella/feature/home/presentation/screens/widgets/row_price_and_sale_price.dart';
@@ -24,7 +25,10 @@ class ProductItem extends StatelessWidget {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ProductDetailsScreen(productModel: productModel,)),
+              MaterialPageRoute(
+                builder: (context) =>
+                    ProductDetailsScreen(productModel: productModel),
+              ),
             );
           },
           child: Container(
@@ -48,10 +52,7 @@ class ProductItem extends StatelessWidget {
                     children: [
                       if (productModel.salePrice != 0) SaleContainer(),
                       Spacer(),
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(CupertinoIcons.heart),
-                      ),
+                      FavoriteButton(productId: productModel.id),
                     ],
                   ),
                   Center(
@@ -63,15 +64,18 @@ class ProductItem extends StatelessWidget {
                               borderRadius: BorderRadius.circular(12),
                             ),
                           )
-                        : CachedNetworkImage(imageUrl: productModel.imageUrl,
-                        placeholder: (context, url) => Container(
-                          height: 110,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFebebf4),
-                            borderRadius: BorderRadius.circular(12),
+                        : CachedNetworkImage(
+                            imageUrl: productModel.imageUrl,
+                            placeholder: (context, url) => Container(
+                              height: 110,
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFebebf4),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.image_not_supported),
                           ),
-                        ),
-                        ),
                   ),
 
                   SizedBox(height: 8),
