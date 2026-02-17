@@ -25,9 +25,9 @@ class LoginForm extends StatelessWidget {
             hintText: "Email",
             prefixIcon: Icons.email_outlined,
           ),
-
+      
           const SizedBox(height: 15),
-
+      
           // Password
           CustomTextField(
             controller: authCubit.signInPasswordController,
@@ -38,7 +38,7 @@ class LoginForm extends StatelessWidget {
             isPassword: true,
             suffixIcon: Icon(Icons.remove_red_eye_outlined),
           ),
-
+      
           const ForgotPassword(),
           const SizedBox(height: 4),
           CustomButton(
