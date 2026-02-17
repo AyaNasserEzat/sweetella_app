@@ -60,20 +60,4 @@ class FavortiesRemoteDataSourceImp implements FavoritesRemoteDataSource {
       rethrow;
     }
   }
-
-  @override
-  Future<bool> isFavorite({required String productId}) async {
-    try {
-      final snapshot = await firestore
-          .collection('users')
-          .doc(uid)
-          .collection('favorites')
-          .doc(productId)
-          .get();
-      return snapshot.exists;
-    } catch (e) {
-      ExceptionHandler.handle(e);
-      rethrow;
-    }
-  }
 }

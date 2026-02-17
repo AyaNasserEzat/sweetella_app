@@ -4,6 +4,7 @@ import 'package:sweetella/core/helper/extension.dart';
 import 'package:sweetella/feature/auth/presentation/screens/widgets/app_bar.dart';
 import 'package:sweetella/feature/favorites/presentation/cubits/favorites_cubit.dart';
 import 'package:sweetella/feature/favorites/presentation/cubits/favories_state.dart';
+import 'package:sweetella/feature/home/data/models/product_model.dart';
 import 'package:sweetella/feature/home/presentation/screens/cubit/product_cubit.dart';
 import 'package:sweetella/feature/home/presentation/screens/widgets/products_grid_view.dart';
 
@@ -15,11 +16,19 @@ class FavoriteScreenBody extends StatefulWidget {
 }
 
 class _FavoriteScreenBodyState extends State<FavoriteScreenBody> {
+  List<ProductModel> favoriteProducts = [];
   @override
   void initState() {
-    context.read<FavoritesCubit>().getFavorites();
-    context.read<ProductCubit>().getAllProducts();
     super.initState();
+    final productCubit = context.read<ProductCubit>();
+    final favoritesCubit = context.read<FavoritesCubit>();
+    favoritesCubit.getFavorites();
+    productCubit.getAllProducts().then((_) {
+      final favoriteIds = favoritesCubit.favoriteIds;
+      favoriteProducts = productCubit.allproducts
+          .where((product) => favoriteIds.contains(product.id))
+          .toList();
+    });
   }
 
   @override
@@ -52,14 +61,14 @@ class _FavoriteScreenBodyState extends State<FavoriteScreenBody> {
                 }
 
                 if (favState is FavoriesLoaded) {
-                  final allProducts = context.read<ProductCubit>().allproducts;
-                  final favoriteIds = context
-                      .read<FavoritesCubit>()
-                      .favoriteIds;
+                  // final allProducts = context.read<ProductCubit>().allproducts;
+                  // final favoriteIds = context
+                  //     .read<FavoritesCubit>()
+                  //     .favoriteIds;
 
-                  final favoriteProducts = allProducts
-                      .where((product) => favoriteIds.contains(product.id))
-                      .toList();
+                  // final favoriteProducts = allProducts
+                  //     .where((product) => favoriteIds.contains(product.id))
+                  //     .toList();
 
                   if (favoriteProducts.isEmpty) {
                     return const Center(

@@ -4,5 +4,4 @@ abstract class FavoritesRemoteDataSource {
   Future<void> addToFavorites({required String productId});
   Future<void> removeFromFavorites({required String productId});
   Future<List<FavoritesModel>> getFavorites();
-  Future<bool> isFavorite({required String productId});
 }
