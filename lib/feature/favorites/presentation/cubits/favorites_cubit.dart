@@ -1,14 +1,14 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sweetella/feature/favorites/data/repositories/favorites_firebase_repo.dart';
 import 'package:sweetella/feature/favorites/presentation/cubits/favories_state.dart';
+import 'package:sweetella/feature/home/data/models/product_model.dart';
 
 class FavoritesCubit extends Cubit<FavoriesState> {
   final FavoritesRepo favoritesRepo;
 
-  FavoritesCubit({required this.favoritesRepo, })
-    : super(FavoriesInitial());
+  FavoritesCubit({required this.favoritesRepo}) : super(FavoriesInitial());
   Set<String> favoriteIds = {};
-  Future<void> getFavorites() async {
+  Future<void> getFavoritesIds() async {
     emit(FavoriesLoading());
     final result = await favoritesRepo.getFavorites();
     result.fold((failure) => emit(FavoriesError(message: failure.message)), (
@@ -17,6 +17,10 @@ class FavoritesCubit extends Cubit<FavoriesState> {
       favoriteIds = favorites.map((e) => e.productId).toSet();
       emit(FavoriesLoaded(favorites: favorites));
     });
+  }
+
+  List<ProductModel> getFavorites(List<ProductModel> allProducts) {
+   return allProducts.where((product) => favoriteIds.contains(product.id)).toList();
   }
 
   Future<void> addToFavorites({required String productId}) async {

@@ -15,7 +15,7 @@ class DonutsHomeScreen extends StatelessWidget {
         BlocProvider(
           create: (context) => sl<ProductCubit>()..getAllCategories(),
         ),
-        BlocProvider(create: (context) => sl<FavoritesCubit>()..getFavorites()),
+        BlocProvider(create: (context) => sl<FavoritesCubit>()..getFavoritesIds()),
       ],
       child: HomeScreenBody(),
     );
