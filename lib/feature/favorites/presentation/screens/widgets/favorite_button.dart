@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sweetella/core/utils/app_colors.dart';
 import 'package:sweetella/feature/favorites/presentation/cubits/favories_state.dart';
 import 'package:sweetella/feature/favorites/presentation/cubits/favorites_cubit.dart';
 class FavoriteButton extends StatelessWidget {
@@ -19,7 +20,7 @@ class FavoriteButton extends StatelessWidget {
         return IconButton(
           icon: Icon(
             isFav ? Icons.favorite : Icons.favorite_border,
-            color: Colors.red,
+            color: AppColors.primaryColor,
           ),
           onPressed: () {
             context
