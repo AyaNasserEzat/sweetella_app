@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sweetella/core/helper/extension.dart';
+import 'package:sweetella/core/widgets/empty_gridview.dart';
 import 'package:sweetella/feature/auth/presentation/screens/widgets/app_bar.dart';
 import 'package:sweetella/feature/favorites/presentation/cubits/favorites_cubit.dart';
 import 'package:sweetella/feature/favorites/presentation/cubits/favories_state.dart';
+import 'package:sweetella/feature/favorites/presentation/screens/widgets/grid_view_favorties.dart';
 import 'package:sweetella/feature/home/presentation/screens/cubit/product_cubit.dart';
-import 'package:sweetella/feature/home/presentation/screens/widgets/products_grid_view.dart';
 
 class FavoriteScreenBody extends StatefulWidget {
   const FavoriteScreenBody({super.key});
@@ -44,7 +45,7 @@ class _FavoriteScreenBodyState extends State<FavoriteScreenBody> {
 
               builder: (context, favState) {
                 if (favState is FavoriesLoading) {
-                  return const Center(child: CircularProgressIndicator());
+                  return EmptyGridView();
                 }
 
                 if (favState is FavoriesError) {
@@ -65,10 +66,10 @@ class _FavoriteScreenBodyState extends State<FavoriteScreenBody> {
                       ),
                     );
                   } else {
-                    return ProductsGridView(products: favoriteProducts);
+                    return GridViewFavorties(products: favoriteProducts);
                   }
                 }
-                return const Center(child: Text('Something went wrong'));
+                return const SizedBox();
               },
             ),
           ],

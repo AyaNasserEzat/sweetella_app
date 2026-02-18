@@ -9,18 +9,23 @@ class FavoritesCubit extends Cubit<FavoriesState> {
   FavoritesCubit({required this.favoritesRepo}) : super(FavoriesInitial());
   Set<String> favoriteIds = {};
   Future<void> getFavoritesIds() async {
-    emit(FavoriesLoading());
+   
     final result = await favoritesRepo.getFavorites();
-    result.fold((failure) => emit(FavoriesError(message: failure.message)), (
-      favorites,
-    ) {
-      favoriteIds = favorites.map((e) => e.productId).toSet();
-      emit(FavoriesLoaded(favorites: favorites));
-    });
+    result.fold(
+      (failure) {
+        emit(FavoriesError(message: failure.message));
+      },
+      (favorites) {
+        favoriteIds = favorites.map((e) => e.productId).toSet();
+        emit(FavoriesLoaded(favorites: favorites));
+      },
+    );
   }
 
   List<ProductModel> getFavorites(List<ProductModel> allProducts) {
-   return allProducts.where((product) => favoriteIds.contains(product.id)).toList();
+    return allProducts
+        .where((product) => favoriteIds.contains(product.id))
+        .toList();
   }
 
   Future<void> addToFavorites({required String productId}) async {
@@ -32,6 +37,7 @@ class FavoritesCubit extends Cubit<FavoriesState> {
       (message) {
         favoriteIds.add(productId);
         emit(AddToFavoritesSucessfullyState(message: message));
+        getFavoritesIds();
       },
     );
   }
@@ -47,6 +53,7 @@ class FavoritesCubit extends Cubit<FavoriesState> {
       (message) {
         favoriteIds.remove(productId);
         emit(RemoveFromFavoritesSucessfullyState(message: message));
+        getFavoritesIds();
       },
     );
   }
