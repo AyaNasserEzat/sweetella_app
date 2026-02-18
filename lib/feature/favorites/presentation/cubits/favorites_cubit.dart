@@ -8,8 +8,10 @@ class FavoritesCubit extends Cubit<FavoriesState> {
 
   FavoritesCubit({required this.favoritesRepo}) : super(FavoriesInitial());
   Set<String> favoriteIds = {};
-  Future<void> getFavoritesIds() async {
-   
+  Future<void> getFavoritesIds({bool showLoading = true}) async {
+    if (showLoading) {
+      emit(FavoriesLoading());
+    }
     final result = await favoritesRepo.getFavorites();
     result.fold(
       (failure) {
@@ -53,7 +55,7 @@ class FavoritesCubit extends Cubit<FavoriesState> {
       (message) {
         favoriteIds.remove(productId);
         emit(RemoveFromFavoritesSucessfullyState(message: message));
-        getFavoritesIds();
+        getFavoritesIds(showLoading: false);
       },
     );
   }
