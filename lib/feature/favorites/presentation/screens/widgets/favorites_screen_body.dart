@@ -47,6 +47,7 @@ class _FavoriteScreenBodyState extends State<FavoriteScreenBody> {
               AppBarTitle(title: "Favorites"),
               BlocBuilder<ProductCubit, ProductState>(
                 builder: (context, productState) {
+                  print(productState);
                   if (productState is ProductLoading) {
                     return EmptyGridView();
                   }
@@ -58,6 +59,8 @@ class _FavoriteScreenBodyState extends State<FavoriteScreenBody> {
                           current is FavoriesLoaded ||
                           current is FavoriesError,
                       builder: (context, favState) {
+                        print(favState);
+
                         if (favState is FavoriesLoading) {
                           return EmptyGridView();
                         }

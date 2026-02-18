@@ -7,8 +7,8 @@ class FavoriesInitial extends FavoriesState {}
 class FavoriesLoading extends FavoriesState {}
 
 class FavoriesLoaded extends FavoriesState {
-  final List<FavoritesModel> favorites;
-  FavoriesLoaded({required this.favorites});
+  final Set<String> favoritesIds;
+  FavoriesLoaded({required this.favoritesIds});
 }
 
 class FavoriesError extends FavoriesState {

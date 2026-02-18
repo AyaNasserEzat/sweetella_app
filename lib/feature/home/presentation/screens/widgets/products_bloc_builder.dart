@@ -16,6 +16,7 @@ class ProductsBlocBuilder extends StatelessWidget {
           current is ProductSuccess ||
           current is ProductError,
       builder: (context, state) {
+        print(state);
         if (state is ProductLoading) {
           return EmptyGridView();
         } else if (state is ProductSuccess) {

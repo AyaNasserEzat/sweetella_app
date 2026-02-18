@@ -11,6 +11,7 @@ class ProductsGridView extends StatelessWidget {
 final List<ProductModel> products;
   @override
   Widget build(BuildContext context) {
+    print("build product item ${products.length}");
     return GridView.builder(
       padding: EdgeInsets.zero,
       shrinkWrap: true,

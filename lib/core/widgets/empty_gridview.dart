@@ -13,6 +13,6 @@ class EmptyGridView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Skeletonizer(
       enabled:true,
-      child: ProductsGridView(products: List.generate(10, (index) => ProductModel.empty()),));
+      child: ProductsGridView(products: List.generate(5, (index) => ProductModel.empty()),));
   }
 }
