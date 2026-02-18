@@ -37,8 +37,10 @@ class FavoritesCubit extends Cubit<FavoriesState> {
         emit(FavoriesError(message: failure.message));
       },
       (message) {
-        favoriteIds.add(productId);
+        favoriteIds = {...favoriteIds, productId};
         emit(FavoriesLoaded(favoritesIds: favoriteIds));
+        // favoriteIds.add(productId);
+        // emit(FavoriesLoaded(favoritesIds: favoriteIds));
         //emit(AddToFavoritesSucessfullyState(message: message));
         //getFavoritesIds();
       },
@@ -54,9 +56,11 @@ class FavoritesCubit extends Cubit<FavoriesState> {
         emit(FavoriesError(message: failure.message));
       },
       (message) {
-        favoriteIds.remove(productId);
+        favoriteIds = favoriteIds.where((id) => id != productId).toSet();
         emit(FavoriesLoaded(favoritesIds: favoriteIds));
-       // emit(RemoveFromFavoritesSucessfullyState(message: message));
+        // favoriteIds.remove(productId);
+        // emit(FavoriesLoaded(favoritesIds: favoriteIds));
+        // emit(RemoveFromFavoritesSucessfullyState(message: message));
         //getFavoritesIds(showLoading: false);
       },
     );

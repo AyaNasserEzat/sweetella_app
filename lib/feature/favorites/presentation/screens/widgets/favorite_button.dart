@@ -11,7 +11,7 @@ class FavoriteButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('build all favorite button');
+   // print('build all favorite button');
     return BlocSelector<FavoritesCubit, FavoriesState, bool>(
       selector: (state) {
          print(state);

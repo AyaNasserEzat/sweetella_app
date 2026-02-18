@@ -1,20 +1,42 @@
 import 'package:sweetella/feature/favorites/data/models/favorites_model.dart';
 
-abstract class FavoriesState {}
+import 'package:equatable/equatable.dart';
 
-class FavoriesInitial extends FavoriesState {}
+abstract class FavoriesState extends Equatable {
+  const FavoriesState();
 
-class FavoriesLoading extends FavoriesState {}
+  @override
+  List<Object?> get props => [];
+}
+
+
+class FavoriesInitial extends FavoriesState {
+  const FavoriesInitial();
+}
+class FavoriesLoading extends FavoriesState {
+  const FavoriesLoading();
+}
+
 
 class FavoriesLoaded extends FavoriesState {
   final Set<String> favoritesIds;
-  FavoriesLoaded({required this.favoritesIds});
+
+  const FavoriesLoaded({required this.favoritesIds});
+
+  @override
+  List<Object?> get props => [favoritesIds];
 }
+
 
 class FavoriesError extends FavoriesState {
   final String message;
-  FavoriesError({required this.message});
+
+  const FavoriesError({required this.message});
+
+  @override
+  List<Object?> get props => [message];
 }
+
 
 class AddToFavoritesSucessfullyState extends FavoriesState {
   final String message;
