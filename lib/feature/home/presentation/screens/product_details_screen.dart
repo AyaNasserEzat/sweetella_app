@@ -58,7 +58,9 @@ class ProductDetailsScreen extends StatelessWidget {
                       DonutTitleAndPrice(productModel: productModel),
                       Reviews(),
                       ProductDescription(description: productModel.description),
-                      const DonutSizeSelector(),
+                      productModel.sizes == null
+                          ? Container()
+                          : DonutSizeSelector(productModel: productModel),
                       const Spacer(),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
