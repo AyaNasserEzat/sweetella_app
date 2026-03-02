@@ -20,6 +20,7 @@ class LoginForm extends StatelessWidget {
         children: [
           const Text("Sign In", style: AppTextStyles.text24BoldPink),
           CustomTextField(
+            textInputAction: TextInputAction.next,
             controller: authCubit.signInEmailController,
             labelText: "Email",
             hintText: "Email",
@@ -30,6 +31,7 @@ class LoginForm extends StatelessWidget {
       
           // Password
           CustomTextField(
+            textInputAction: TextInputAction.done,
             controller: authCubit.signInPasswordController,
             labelText: "Password",
             hintText: "Password",

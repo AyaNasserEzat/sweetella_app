@@ -9,6 +9,7 @@ class CustomTextField extends StatefulWidget {
   final TextEditingController? controller;
   final Widget? suffixIcon;
   final bool? isPassword;
+  final TextInputAction? textInputAction;
 
   const CustomTextField({
     super.key,
@@ -19,6 +20,7 @@ class CustomTextField extends StatefulWidget {
     this.suffixIcon,
     this.isPassword = false,
     this.controller,
+    this.textInputAction=TextInputAction.next,
   });
 
   @override
@@ -30,6 +32,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      textInputAction: widget.textInputAction,
       controller: widget.controller,
       obscureText:widget.isPassword == true ? isHidden : widget.obscureText,
       decoration: InputDecoration(
