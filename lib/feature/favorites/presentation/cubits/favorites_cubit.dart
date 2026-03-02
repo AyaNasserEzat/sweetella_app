@@ -8,10 +8,9 @@ class FavoritesCubit extends Cubit<FavoriesState> {
 
   FavoritesCubit({required this.favoritesRepo}) : super(FavoriesInitial());
   Set<String> favoriteIds = {};
-  Future<void> getFavoritesIds({bool showLoading = true}) async {
-    if (showLoading) {
-      emit(FavoriesLoading());
-    }
+  Future<void> getFavoritesIds() async {
+    emit(FavoriesLoading());
+
     final result = await favoritesRepo.getFavorites();
     result.fold(
       (failure) {
