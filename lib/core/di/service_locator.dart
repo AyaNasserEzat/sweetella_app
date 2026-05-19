@@ -1,4 +1,9 @@
 import 'package:get_it/get_it.dart';
+import 'package:sweetella/feature/cart/data/data_sources/cart_remote_data_source.dart';
+import 'package:sweetella/feature/cart/data/data_sources/cart_remote_data_source_imp.dart';
+import 'package:sweetella/feature/cart/data/repositories/cart_firebase_repo_imp.dart';
+import 'package:sweetella/feature/cart/data/repositories/cart_repo.dart';
+import 'package:sweetella/feature/cart/presentation/cubits/cart_cubit.dart';
 import 'package:sweetella/feature/favorites/data/data_sources/favories_remote_data_source.dart';
 import 'package:sweetella/feature/favorites/data/data_sources/favorties_remote_data_source_imp.dart';
 import 'package:sweetella/feature/favorites/data/repositories/favorit_firebase_repo_imp.dart';
@@ -43,4 +48,18 @@ void setupServiceLocator() {
   );
   //favorites cubit
   sl.registerFactory(() => FavoritesCubit(favoritesRepo: sl(),));
+
+
+    // cart data source
+  sl.registerLazySingleton<CartRemoteDataSource>(
+    () => CartRemoteDataSourceImp(),
+  );
+
+  // cart Repositories
+  sl.registerLazySingleton<CartRepo>(
+    () => CartFirebaseRepoImp(cartRemoteDataSource: sl()),
+  );
+  //cart cubit
+  sl.registerFactory(() => CartCubit(cartRepo: sl(),));
+  
 }

@@ -5,7 +5,7 @@ import 'package:sweetella/feature/cart/presentation/screens/widgets/cart_list_wi
 import 'package:sweetella/feature/cart/presentation/screens/widgets/cart_summary_widget.dart';
 
 class CartWideLayout extends StatelessWidget {
-  final List<CartItem> cartItems;
+  final List<CartItemModel> cartItems;
   final double totalPrice;
   final Function(int) onAdd;
   final Function(int) onRemove;

@@ -3,7 +3,7 @@ import 'package:sweetella/feature/cart/data/models/cart_model.dart';
 import 'package:sweetella/feature/cart/presentation/screens/widgets/cart_item_widget.dart';
 
 class CartListWidget extends StatelessWidget {
-  final List<CartItem> cartItems;
+  final List<CartItemModel> cartItems;
   final Function(int) onAdd;
   final Function(int) onRemove;
 

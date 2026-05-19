@@ -20,7 +20,7 @@ final List<ProductModel> products;
         maxCrossAxisExtent: 200,
         mainAxisSpacing: 10,
         crossAxisSpacing: 14,
-        childAspectRatio: .6,
+        childAspectRatio: .55,
       ),
       itemCount: products.length,
       itemBuilder: (context, index) {

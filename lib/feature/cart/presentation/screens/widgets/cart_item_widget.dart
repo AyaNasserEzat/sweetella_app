@@ -1,12 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sweetella/core/helper/extension.dart';
 import 'package:sweetella/core/utils/app_colors.dart';
 import 'package:sweetella/feature/cart/data/models/cart_model.dart';
-import 'package:sweetella/feature/cart/presentation/screens/widgets/price_and_sale_price.dart';
 import 'package:sweetella/feature/cart/presentation/screens/widgets/row_plus_or_minus.dart';
 
 class CartItemWidget extends StatelessWidget {
-  final CartItem item;
+  final CartItemModel item;
   final VoidCallback onAdd;
   final VoidCallback onRemove;
 
@@ -19,9 +20,10 @@ class CartItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
+    final screenWidth = context.w;
     final paddingValue = screenWidth * 0.03; // 3% of screen width
-    final imageSize = screenWidth * 0.12; // 12% of screen width for smaller screens
+    final imageSize =
+        screenWidth * 0.12; // 12% of screen width for smaller screens
     final spacing = screenWidth * 0.02; // 2% for spacing
     final nameFontSize = screenWidth * 0.04; // 4% for name
     final sizeFontSize = screenWidth * 0.035; // 3.5% for size
@@ -35,7 +37,25 @@ class CartItemWidget extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Image.asset(item.image, width: imageSize, height: imageSize, fit: BoxFit.contain),
+          SizedBox(
+            height: imageSize,
+            width: imageSize,
+            child: CachedNetworkImage(
+              imageUrl: item.imageUrl,
+              placeholder: (context, url) => Container(
+                height: imageSize,
+                width: imageSize,
+
+                decoration: BoxDecoration(
+                  color: const Color(0xFFebebf4),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              errorWidget: (context, url, error) =>
+                  Icon(Icons.image_not_supported),
+            ),
+          ),
+          //Image.asset(item.imageUrl, width: imageSize, height: imageSize, fit: BoxFit.contain),
           SizedBox(width: spacing),
           //  NAME & PRICE
           Expanded(
@@ -47,7 +67,7 @@ class CartItemWidget extends StatelessWidget {
                   fit: BoxFit.scaleDown,
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    item.name,
+                    item.productName,
                     style: TextStyle(
                       fontSize: nameFontSize,
                       fontFamily: 'Nunito',
@@ -68,7 +88,7 @@ class CartItemWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                PriceAndSalPrice(item: item),
+                //(item: item),
               ],
             ),
           ),

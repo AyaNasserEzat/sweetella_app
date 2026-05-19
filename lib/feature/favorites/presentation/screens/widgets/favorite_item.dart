@@ -91,8 +91,7 @@ class FavoriteItem extends StatelessWidget {
                   ),
                   SizedBox(height: 5),
                   RowOfPriceAndSalePrice(
-                    salePrice: productModel.salePrice,
-                    price: productModel.price,
+                    productModel: productModel,
                   ),
                 ],
               ),
