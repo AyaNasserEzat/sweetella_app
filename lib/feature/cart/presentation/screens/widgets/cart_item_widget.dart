@@ -1,21 +1,21 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sweetella/core/helper/extension.dart';
 import 'package:sweetella/core/utils/app_colors.dart';
 import 'package:sweetella/feature/cart/data/models/cart_model.dart';
+import 'package:sweetella/feature/cart/presentation/cubits/cart_cubit.dart';
 import 'package:sweetella/feature/cart/presentation/screens/widgets/row_plus_or_minus.dart';
 
 class CartItemWidget extends StatelessWidget {
   final CartItemModel item;
-  final VoidCallback onAdd;
-  final VoidCallback onRemove;
+
 
   const CartItemWidget({
     super.key,
     required this.item,
-    required this.onAdd,
-    required this.onRemove,
+  
   });
 
   @override
@@ -96,14 +96,21 @@ class CartItemWidget extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              IconButton(
-                onPressed: () {
-                  onRemove;
-                },
-                icon: Icon(
-                  CupertinoIcons.cart_badge_minus,
-                  color: AppColors.primaryColor,
-                ),
+              // BlocBuilder<CartCubit, CartState>(
+              //   builder: (context, state) {
+              //     return 
+                  IconButton(
+                    onPressed: () {
+                      context.read<CartCubit>().removeFromCart(item);
+                     // context.read<CartCubit>().getCartItems();
+                    },
+
+                    icon: Icon(
+                      CupertinoIcons.cart_badge_minus,
+                      color: AppColors.primaryColor,
+                    ),
+                //   );
+                // },
               ),
               SizedBox(height: screenWidth * 0.03),
               RowPlusOrMinus(),

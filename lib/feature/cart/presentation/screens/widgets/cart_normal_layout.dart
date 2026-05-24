@@ -33,8 +33,7 @@ class CartNormalLayout extends StatelessWidget {
             itemBuilder: (context, index) {
               return CartItemWidget(
                 item: cartItems[index],
-                onAdd: () => onAdd(1),
-                onRemove: () => onRemove(1),
+               
               );
             },
           ),

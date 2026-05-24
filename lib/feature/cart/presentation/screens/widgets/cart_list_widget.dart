@@ -4,14 +4,12 @@ import 'package:sweetella/feature/cart/presentation/screens/widgets/cart_item_wi
 
 class CartListWidget extends StatelessWidget {
   final List<CartItemModel> cartItems;
-  final Function(int) onAdd;
-  final Function(int) onRemove;
+
 
   const CartListWidget({
     super.key,
     required this.cartItems,
-    required this.onAdd,
-    required this.onRemove,
+  
   });
 
   @override
@@ -20,11 +18,7 @@ class CartListWidget extends StatelessWidget {
       padding: EdgeInsets.zero,
       itemCount: cartItems.length,
       itemBuilder: (context, index) {
-        return CartItemWidget(
-          item: cartItems[index],
-          onAdd: () => onAdd(index),
-          onRemove: () => onRemove(index),
-        );
+        return CartItemWidget(item: cartItems[index]);
       },
     );
   }

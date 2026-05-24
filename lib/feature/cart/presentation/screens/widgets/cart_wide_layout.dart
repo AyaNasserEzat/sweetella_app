@@ -34,8 +34,7 @@ class CartWideLayout extends StatelessWidget {
                 flex: 2,
                 child: CartListWidget(
                   cartItems: cartItems,
-                  onAdd: onAdd,
-                  onRemove: onRemove,
+             
                 ),
               ),
               Expanded(

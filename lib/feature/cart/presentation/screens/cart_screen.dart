@@ -42,19 +42,8 @@ class CartScreen extends StatelessWidget {
                           final item = cartItems[index];
                           return CartItemWidget(
                             item: item,
-                            onAdd: () {
-                              context.read<CartCubit>().updateCartItemQuantity(
-                                item.productId,
-                                item.quantity + 1,
-                              );
-                            },
-                            onRemove: () {
-                              if (item.quantity > 1) {
-                                context.read<CartCubit>().removeFromCart(
-                                  item,
-                                );
-                              }
-                            },
+                       
+                           
                           );
                         },
                       ),
