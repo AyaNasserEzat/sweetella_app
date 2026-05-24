@@ -24,13 +24,13 @@ class CartRemoteDataSourceImp implements CartRemoteDataSource {
   }
 
   @override
-  Future<void> removeFromCart({required String cartItemId}) async {
+  Future<void> removeFromCart({required CartItemModel item}) async {
     try {
       await firestore
           .collection('users')
           .doc(uid)
           .collection('cart')
-          .doc(cartItemId)
+          .doc(item.productId)
           .delete();
     } catch (e) {
       ExceptionHandler.handle(e);

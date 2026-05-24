@@ -20,9 +20,9 @@ class CartFirebaseRepoImp implements CartRepo {
   }
 
   @override
-  Future<Either<Failure, String>> removeFromCart({required String cartItemId}) async {
+  Future<Either<Failure, String>> removeFromCart({required CartItemModel item}) async {
     try {
-      await cartRemoteDataSource.removeFromCart(cartItemId: cartItemId);
+      await cartRemoteDataSource.removeFromCart(item: item);
       return right('remove from cart successfully');
     } on AppException catch (e) {
       return left(Failure(e.message));

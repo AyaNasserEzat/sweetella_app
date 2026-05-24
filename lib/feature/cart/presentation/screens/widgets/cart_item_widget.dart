@@ -97,7 +97,9 @@ class CartItemWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  onRemove;
+                },
                 icon: Icon(
                   CupertinoIcons.cart_badge_minus,
                   color: AppColors.primaryColor,

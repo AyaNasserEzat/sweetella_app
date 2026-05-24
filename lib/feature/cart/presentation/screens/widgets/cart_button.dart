@@ -24,7 +24,7 @@ class CartButton extends StatelessWidget {
           ),
           onPressed: () {
             if (isInCart) {
-              context.read<CartCubit>().removeFromCart(item.productId);
+              context.read<CartCubit>().toogleAddOrRemove(item);
             } else {
               context.read<CartCubit>().addToCart(item);
             }

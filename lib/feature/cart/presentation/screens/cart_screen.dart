@@ -50,12 +50,9 @@ class CartScreen extends StatelessWidget {
                             },
                             onRemove: () {
                               if (item.quantity > 1) {
-                                context
-                                    .read<CartCubit>()
-                                    .updateCartItemQuantity(
-                                      item.productId,
-                                      item.quantity - 1,
-                                    );
+                                context.read<CartCubit>().removeFromCart(
+                                  item,
+                                );
                               }
                             },
                           );

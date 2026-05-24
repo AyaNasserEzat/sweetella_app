@@ -27,21 +27,33 @@ class CartCubit extends Cubit<CartState> {
     result.fold(
       (failure) => emit(CartError(message: failure.message)),
       (message) async {
+       cartItems.add(item);
         emit(CartLoaded(cartItems: cartItems, ));
-        await getCartItems();
+       
       },
     );
   }
 
-  Future<void> removeFromCart(String cartItemId) async {
-    final result = await cartRepo.removeFromCart(cartItemId: cartItemId);
+  Future<void> removeFromCart(CartItemModel cartItemModel) async {
+    final result = await cartRepo.removeFromCart(item: cartItemModel);
     result.fold(
       (failure) => emit(CartError(message: failure.message)),
       (message) async {
-        await getCartItems();
+         cartItems.removeWhere(
+        (item) => item.productId == cartItemModel.productId,
+      );
+        emit(CartLoaded(cartItems: cartItems, ));
+      
       },
     );
   }
+Future<void> toogleAddOrRemove(CartItemModel cartItemModel) async {
+  if (isInCart(cartItemModel)) {
+    await removeFromCart(cartItemModel);
+  } else {
+    await addToCart(cartItemModel);
+  }
+}
 
   Future<void> updateCartItemQuantity(String cartItemId, int quantity) async {
     final result = await cartRepo.updateCartItemQuantity(cartItemId: cartItemId, quantity: quantity);
@@ -53,7 +65,7 @@ class CartCubit extends Cubit<CartState> {
     );
   }
 
-  bool isInCart(String productId) {
-    return cartItems.any((item) => item.productId == productId);
+  bool isInCart(CartItemModel cartItemModel) {
+    return cartItems.any((item) => item.productId == cartItemModel.productId);
   }
 }
