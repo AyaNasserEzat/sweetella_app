@@ -7,30 +7,29 @@ import 'package:sweetella/feature/cart/presentation/cubits/cart_cubit.dart';
 class AddToCartBtn extends StatelessWidget {
   final CartItemModel product;
 
-  const AddToCartBtn({
-    super.key,
-    required this.product,
-  });
+  const AddToCartBtn({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
     final isInCart = context.select<CartCubit, bool>(
-      (cubit) => cubit.cartItems.any(
-        (item) => item.productId == product.productId,
-      ),
+      (cubit) =>
+          cubit.cartItems.any((item) => item.productId == product.productId),
     );
 
-    return IconButton(
-      icon: Icon(
-        isInCart
-            ? Icons.shopping_cart
-            : Icons.shopping_cart_outlined,
-        color: AppColors.primaryColor,
-      ),
-      onPressed: () {
-        context
-            .read<CartCubit>()
-            .toogleAddOrRemove(product);
+    return BlocBuilder<CartCubit, CartState>(
+      builder: (context, state) {
+        if (state is AddToCartLoading || state is RemoveFromCartLoading) {
+          return CircularProgressIndicator();
+        }
+        return IconButton(
+          icon: Icon(
+            isInCart ? Icons.shopping_cart : Icons.shopping_cart_outlined,
+            color: AppColors.primaryColor,
+          ),
+          onPressed: () {
+            context.read<CartCubit>().toogleAddOrRemove(product);
+          },
+        );
       },
     );
   }

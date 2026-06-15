@@ -12,3 +12,28 @@ class CartError extends CartState {
   final String message;
   CartError({required this.message});
 }
+
+
+class AddToCartLoading extends CartState {}
+class AddToCartSucess extends CartState {
+  CartItemModel item;
+  AddToCartSucess({required this.item});
+}
+
+class AddToCartError extends CartState {
+  String message;
+  AddToCartError({required this.message});
+}
+
+
+
+class RemoveFromCartLoading extends CartState {}
+class RemoveFromCartSucess extends CartState {
+  CartItemModel item;
+  RemoveFromCartSucess({required this.item});
+}
+
+class RemoveFromCartError extends CartState {
+  String message;
+  RemoveFromCartError({required this.message});
+}

@@ -22,27 +22,29 @@ class CartCubit extends Cubit<CartState> {
     );
   }
 
-  Future<void> addToCart(CartItemModel item) async {
-    final result = await cartRepo.addToCart(item: item);
+  Future<void> addToCart(CartItemModel cartItemModel) async {
+    emit(AddToCartLoading());
+    final result = await cartRepo.addToCart(item: cartItemModel);
     result.fold(
-      (failure) => emit(CartError(message: failure.message)),
+      (failure) => emit(AddToCartError(message: failure.message)),
       (message) async {
-       cartItems.add(item);
-        emit(CartLoaded(cartItems: cartItems, ));
+       cartItems.add(cartItemModel);
+        emit(AddToCartSucess(item: cartItemModel, ));
        
       },
     );
   }
 
   Future<void> removeFromCart(CartItemModel cartItemModel) async {
+    emit(RemoveFromCartLoading());
     final result = await cartRepo.removeFromCart(item: cartItemModel);
     result.fold(
-      (failure) => emit(CartError(message: failure.message)),
+      (failure) => emit(RemoveFromCartError(message: failure.message)),
       (message) async {
          cartItems.removeWhere(
         (item) => item.productId == cartItemModel.productId,
       );
-        emit(CartLoaded(cartItems: cartItems, ));
+        emit(RemoveFromCartSucess(item: cartItemModel, ));
       
       },
     );
