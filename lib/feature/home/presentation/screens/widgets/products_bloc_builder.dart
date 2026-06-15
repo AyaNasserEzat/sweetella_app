@@ -11,7 +11,8 @@ class ProductsBlocBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<CartCubit, CartState>(
+    return
+     BlocListener<CartCubit, CartState>(
       listener: (context, state) {
         if (state is AddToCartSucess) {
           ScaffoldMessenger.of(context).showSnackBar(

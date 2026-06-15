@@ -14,7 +14,10 @@ class CartError extends CartState {
 }
 
 
-class AddToCartLoading extends CartState {}
+class AddToCartLoading extends CartState {
+  String productId;
+  AddToCartLoading({required this.productId});
+}
 class AddToCartSucess extends CartState {
   CartItemModel item;
   AddToCartSucess({required this.item});
@@ -27,7 +30,10 @@ class AddToCartError extends CartState {
 
 
 
-class RemoveFromCartLoading extends CartState {}
+class RemoveFromCartLoading extends CartState {
+  String productId;
+  RemoveFromCartLoading({required this.productId});
+}
 class RemoveFromCartSucess extends CartState {
   CartItemModel item;
   RemoveFromCartSucess({required this.item});

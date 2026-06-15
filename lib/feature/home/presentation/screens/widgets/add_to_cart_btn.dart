@@ -18,18 +18,22 @@ class AddToCartBtn extends StatelessWidget {
 
     return BlocBuilder<CartCubit, CartState>(
       builder: (context, state) {
-        if (state is AddToCartLoading || state is RemoveFromCartLoading) {
+        if ((state is AddToCartLoading &&
+                state.productId == product.productId) ||
+            (state is RemoveFromCartLoading &&
+                state.productId == product.productId)) {
           return CircularProgressIndicator();
+        } else {
+          return IconButton(
+            icon: Icon(
+              isInCart ? Icons.shopping_cart : Icons.shopping_cart_outlined,
+              color: AppColors.primaryColor,
+            ),
+            onPressed: () {
+              context.read<CartCubit>().toogleAddOrRemove(product);
+            },
+          );
         }
-        return IconButton(
-          icon: Icon(
-            isInCart ? Icons.shopping_cart : Icons.shopping_cart_outlined,
-            color: AppColors.primaryColor,
-          ),
-          onPressed: () {
-            context.read<CartCubit>().toogleAddOrRemove(product);
-          },
-        );
       },
     );
   }

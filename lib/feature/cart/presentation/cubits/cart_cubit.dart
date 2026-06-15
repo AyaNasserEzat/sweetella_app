@@ -23,7 +23,7 @@ class CartCubit extends Cubit<CartState> {
   }
 
   Future<void> addToCart(CartItemModel cartItemModel) async {
-    emit(AddToCartLoading());
+    emit(AddToCartLoading(productId: cartItemModel.productId));
     final result = await cartRepo.addToCart(item: cartItemModel);
     result.fold(
       (failure) => emit(AddToCartError(message: failure.message)),
@@ -36,7 +36,7 @@ class CartCubit extends Cubit<CartState> {
   }
 
   Future<void> removeFromCart(CartItemModel cartItemModel) async {
-    emit(RemoveFromCartLoading());
+    emit(RemoveFromCartLoading(productId: cartItemModel.productId));
     final result = await cartRepo.removeFromCart(item: cartItemModel);
     result.fold(
       (failure) => emit(RemoveFromCartError(message: failure.message)),
