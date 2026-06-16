@@ -20,25 +20,26 @@ class _CartPulseLoadingState extends State<CartPulseLoading>
     controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 500),
-      lowerBound: 1,
-      upperBound: 1.2,
     )..repeat(reverse: true);
   }
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: controller,
-      builder: (_, __) {
-        return Transform.scale(
-          scale: controller.value,
-          child: Icon(
-            Icons.add_shopping_cart
-            ,
-            color: AppColors.primaryColor,
-          ),
-        );
-      },
+    return SizedBox(
+      width: 40,
+      height: 40,
+      child: Center(
+        child: AnimatedBuilder(
+          animation: controller,
+          builder: (_, __) {
+            return Icon(
+              Icons.add_shopping_cart,
+              size: 22 + (controller.value * 6), // 22 → 28 → 22
+              color: AppColors.primaryColor,
+            );
+          },
+        ),
+      ),
     );
   }
 
