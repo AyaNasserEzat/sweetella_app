@@ -11,36 +11,28 @@ class AddToCartBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('build add to cart button ${product.productId}'); 
     final isInCart = context.select<CartCubit, bool>(
       (cubit) =>
           cubit.cartItems.any((item) => item.productId == product.productId),
     );
+    final isloading = context.select<CartCubit, bool>(
+      (cubit) =>
+          (cubit.state is AddToCartLoading &&
+              (cubit.state as AddToCartLoading).productId ==
+                  product.productId) ||
+          (cubit.state is RemoveFromCartLoading &&
+              (cubit.state as RemoveFromCartLoading).productId ==
+                  product.productId),
+    );
 
-    return BlocBuilder<CartCubit, CartState>(
-      buildWhen: (previous, current) {
-        // نتحقق من معرف المنتج في الحالة السابقة والحالية
-        final prevId = previous is AddToCartLoading ? previous.productId : (previous is RemoveFromCartLoading ? previous.productId : null);
-        final currId = current is AddToCartLoading ? current.productId : (current is RemoveFromCartLoading ? current.productId : null);
-        
-        // يعيد البناء فقط إذا تغيرت قائمة السلة، أو إذا كان التحميل يخص هذا المنتج
-        return   
-               prevId == product.productId || 
-               currId == product.productId;
-      },
-      builder: (context, state) {
-        
-        if ((state is AddToCartLoading &&
-                state.productId == product.productId) ||
-            (state is RemoveFromCartLoading &&
-                state.productId == product.productId)) {
-          return CircularProgressIndicator();
-        }
-        else if(state is AddToCartError){
-          return Text('error');
-        }
-        else {
-          print('build icon button cart ');
-          return IconButton(
+    return isloading
+        ? const SizedBox(
+            width: 24,
+            height: 24,
+            child: CircularProgressIndicator(strokeWidth: 2),
+          )
+        : IconButton(
             icon: Icon(
               isInCart ? Icons.shopping_cart : Icons.shopping_cart_outlined,
               color: AppColors.primaryColor,
@@ -49,50 +41,5 @@ class AddToCartBtn extends StatelessWidget {
               context.read<CartCubit>().toogleAddOrRemove(product);
             },
           );
-        }
-      },
-    );
   }
 }
-
-// class AddToCartBtn extends StatelessWidget {
-//   final CartItemModel product;
-
-//   const AddToCartBtn({super.key, required this.product});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocSelector<CartCubit, CartState, bool>(
-//       selector: (state) {
-//         return context.read<CartCubit>().cartItems.any(
-//           (item) => item.productId == product.productId,
-//         );
-//       },
-      
-
-//       builder: (context, state) {
-        
-//         print('build icon button cart ');
-//         if ((state is AddToCartLoading &&
-//                 state.productId == product.productId) ||
-//             (state is RemoveFromCartLoading &&
-//                 state.productId == product.productId)) {
-//           return const SizedBox(
-//             width: 24,
-//             height: 24,
-//             child: CircularProgressIndicator(strokeWidth: 2),
-//           );
-//         }
-
-//         return IconButton(
-//           icon: Icon(
-//             isInCart ? Icons.shopping_cart : Icons.shopping_cart_outlined,
-//           ),
-//           onPressed: () {
-//             context.read<CartCubit>().toogleAddOrRemove(product);
-//           },
-//         );
-//       },
-//     );
-//   }
-// }
