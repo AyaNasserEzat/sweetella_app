@@ -4,6 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:sweetella/core/utils/app_colors.dart';
 import 'package:sweetella/feature/cart/data/models/cart_model.dart';
 import 'package:sweetella/feature/cart/presentation/cubits/cart_cubit.dart';
+import 'package:sweetella/feature/home/presentation/screens/widgets/cart_pluse_loading.dart';
 
 class AddToCartBtn extends StatelessWidget {
   final CartItemModel product;
@@ -27,20 +28,8 @@ class AddToCartBtn extends StatelessWidget {
                   product.productId),
     );
 
-    return isloading
-    ? TweenAnimationBuilder<double>(
-        tween: Tween(begin: 0, end: 1),
-        duration: const Duration(seconds: 1),
-        builder: (context, value, child) {
-          return Transform.rotate(
-            angle: value * 6.28,
-            child: Icon(
-              Icons.shopping_cart,
-              color: AppColors.primaryColor,
-            ),
-          );
-        },
-      )
+  return isloading
+    ? const CartPulseLoading()
     : IconButton(
         icon: Icon(
           isInCart
