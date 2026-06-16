@@ -26,8 +26,8 @@ class RowOfPriceAndSalePrice extends StatelessWidget {
                   ),
                 Text(
                   productModel.salePrice != 0
-                      ? " $productModel.price\$"
-                      : "$productModel.price\$",
+                      ? "${productModel.price}\$"
+                      : "${productModel.price}\$",
                   style: productModel.salePrice != 0
                       ? AppTextStyles.text18GreyLineThrough
                       : AppTextStyles.text16BoldBlack,

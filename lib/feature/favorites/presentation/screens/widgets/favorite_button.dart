@@ -11,21 +11,16 @@ class FavoriteButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   // print('build all favorite button');
     return BlocSelector<FavoritesCubit, FavoriesState, bool>(
       selector: (state) {
-         print(state);
+        // print(state);
         if (state is FavoriesLoaded) {
           return state.favoritesIds.contains(productId);
         }
         return false;
-        // return
-        // context
-        //     .read<FavoritesCubit>()
-        //     .isFavorite(productId: productId);
       },
       builder: (context, isFav) {
-        print('build icon button ${productId}');
+        print('build icon button favorite ${productId}');
         return IconButton(
           icon: Icon(
             isFav ? Icons.favorite : Icons.favorite_border,
@@ -40,6 +35,7 @@ class FavoriteButton extends StatelessWidget {
   }
 }
 
+///build all button when clicl on one
 // class FavoriteButton extends StatelessWidget {
 //   final String productId;
 
@@ -47,14 +43,13 @@ class FavoriteButton extends StatelessWidget {
 
 //   @override
 //   Widget build(BuildContext context) {
-//print('build all favorite button');
 //     return BlocBuilder<FavoritesCubit, FavoriesState>(
 //       builder: (context, state) {
-//         print('build icon button ${productId}');
+//         print('build icon button favorite ${productId}');
 //         print(state);
-//         final isFav = BlocProvider.of<FavoritesCubit>(context).isFavorite(
-//           productId: productId,
-//         );
+//         final isFav = BlocProvider.of<FavoritesCubit>(
+//           context,
+//         ).isFavorite(productId: productId);
 
 //         return IconButton(
 //           icon: Icon(
@@ -62,7 +57,9 @@ class FavoriteButton extends StatelessWidget {
 //             color: Colors.red,
 //           ),
 //           onPressed: () {
-//             BlocProvider.of<FavoritesCubit>(context).toogleFavorite(productId: productId);
+//             BlocProvider.of<FavoritesCubit>(
+//               context,
+//             ).toogleFavorite(productId: productId);
 //           },
 //         );
 //       },

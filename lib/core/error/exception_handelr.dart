@@ -20,6 +20,8 @@ class ExceptionHandler {
           throw WeakPasswordException('Weak password');
         case 'email-already-in-use':
           throw EmailAlreadyInUseException('Email already used');
+        case 'network-request-failed':
+          throw NetworkException("no internet connection , check your internet");
         default:
           throw UnknownAppException(e.message ?? 'Unknown auth error');
       }
