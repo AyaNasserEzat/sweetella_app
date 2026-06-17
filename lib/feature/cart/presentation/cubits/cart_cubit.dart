@@ -13,59 +13,64 @@ class CartCubit extends Cubit<CartState> {
   Future<void> getCartItems() async {
     emit(CartLoading());
     final result = await cartRepo.getCartItems();
-    result.fold(
-      (failure) => emit(CartError(message: failure.message)),
-      (items) {
-        cartItems = items;
-        emit(CartLoaded(cartItems: cartItems));
-      },
-    );
+    result.fold((failure) => emit(CartError(message: failure.message)), (
+      items,
+    ) {
+      cartItems = items;
+      emit(CartLoaded(cartItems: cartItems));
+    });
   }
 
   Future<void> addToCart(CartItemModel cartItemModel) async {
-    emit(AddToCartLoading(productId: cartItemModel.productId));
+    // Optimistic update
+    cartItems.add(cartItemModel);
+    emit(CartLoaded(cartItems: List.from(cartItems)));
+
     final result = await cartRepo.addToCart(item: cartItemModel);
-    result.fold(
-      (failure) => emit(AddToCartError(message: failure.message)),
-      (message) async {
-       cartItems.add(cartItemModel);
-        emit(AddToCartSucess(item: cartItemModel, ));
-       
-      },
-    );
+
+    result.fold((failure) {
+      // Rollback
+      cartItems.removeWhere(
+        (item) => item.productId == cartItemModel.productId,
+      );
+      emit(CartError(message: failure.message));
+      emit(CartLoaded(cartItems: List.from(cartItems)));
+    }, (_) {});
   }
 
   Future<void> removeFromCart(CartItemModel cartItemModel) async {
-    emit(RemoveFromCartLoading(productId: cartItemModel.productId));
+    // Optimistic update
+    cartItems.removeWhere((item) => item.productId == cartItemModel.productId);
+    emit(CartLoaded(cartItems: List.from(cartItems)));
+
     final result = await cartRepo.removeFromCart(item: cartItemModel);
-    result.fold(
-      (failure) => emit(RemoveFromCartError(message: failure.message)),
-      (message) async {
-         cartItems.removeWhere(
-        (item) => item.productId == cartItemModel.productId,
-      );
-        emit(RemoveFromCartSucess(item: cartItemModel, ));
-        emit(CartLoaded(cartItems: List.from(cartItems)));
-      
-      },
-    );
+
+    result.fold((failure) {
+      // Rollback
+      cartItems.add(cartItemModel);
+      emit(CartError(message: failure.message));
+      emit(CartLoaded(cartItems: List.from(cartItems)));
+    }, (_) async {});
   }
-Future<void> toogleAddOrRemove(CartItemModel cartItemModel) async {
-  if (isInCart(cartItemModel)) {
-    await removeFromCart(cartItemModel);
-  } else {
-    await addToCart(cartItemModel);
+
+  Future<void> toogleAddOrRemove(CartItemModel cartItemModel) async {
+    if (isInCart(cartItemModel)) {
+      await removeFromCart(cartItemModel);
+    } else {
+      await addToCart(cartItemModel);
+    }
   }
-}
 
   Future<void> updateCartItemQuantity(String cartItemId, int quantity) async {
-    final result = await cartRepo.updateCartItemQuantity(cartItemId: cartItemId, quantity: quantity);
-    result.fold(
-      (failure) => emit(CartError(message: failure.message)),
-      (message) async {
-        await getCartItems();
-      },
+    final result = await cartRepo.updateCartItemQuantity(
+      cartItemId: cartItemId,
+      quantity: quantity,
     );
+    result.fold((failure) => emit(CartError(message: failure.message)), (
+      message,
+    ) async {
+      await getCartItems();
+    });
   }
 
   bool isInCart(CartItemModel cartItemModel) {

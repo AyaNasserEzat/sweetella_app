@@ -1,5 +1,3 @@
-import 'package:sweetella/feature/favorites/data/models/favorites_model.dart';
-
 import 'package:equatable/equatable.dart';
 
 abstract class FavoriesState extends Equatable {
@@ -37,20 +35,3 @@ class FavoriesError extends FavoriesState {
   List<Object?> get props => [message];
 }
 
-
-class AddToFavoritesSucessfullyState extends FavoriesState {
-  final String message;
-  AddToFavoritesSucessfullyState({required this.message});
-}
-class AddToFavoritesErrorState extends FavoriesState {
-  final String message;
-  AddToFavoritesErrorState({required this.message});
-}
-class RemoveFromFavoritesSucessfullyState extends FavoriesState {
-  final String message;
-  RemoveFromFavoritesSucessfullyState({required this.message});
-}
-class RemoveFromFavoritesErrorState extends FavoriesState {
-  final String message;
-  RemoveFromFavoritesErrorState({required this.message});
-}

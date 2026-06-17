@@ -17,32 +17,12 @@ class ProductsBlocBuilder extends StatelessWidget {
       listeners: [
         BlocListener<CartCubit, CartState>(
           listener: (context, state) {
-            if (state is AddToCartSucess) {
+            if (state is CartError) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text(
-                    '//${state.item.productName} added to cart sucessffully',
-                  ),
+                  content: Text(state.message),
+                  backgroundColor: Colors.red, // لون أحمر للتنبيه بالخطأ
                 ),
-              );
-            }
-            if (state is AddToCartError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('faild to add item')),
-              );
-            }
-            if (state is RemoveFromCartSucess) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    '${state.item.productName} removed from cart sucessffully',
-                  ),
-                ),
-              );
-            }
-            if (state is RemoveFromCartError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('faild to remove item')),
               );
             }
           },
