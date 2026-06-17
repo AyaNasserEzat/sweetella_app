@@ -30,39 +30,34 @@ class FavoritesCubit extends Cubit<FavoriesState> {
   }
 
   Future<void> addToFavorites({required String productId}) async {
+    // Optimistic update
+
+    favoriteIds = {...favoriteIds, productId};
+    emit(FavoriesLoaded(favoritesIds: favoriteIds));
     final result = await favoritesRepo.addToFavorites(productId: productId);
-    result.fold(
-      (failure) {
-        emit(FavoriesError(message: failure.message));
-      },
-      (message) {
-        favoriteIds = {...favoriteIds, productId};
-        emit(FavoriesLoaded(favoritesIds: favoriteIds));
-        // favoriteIds.add(productId);
-        // emit(FavoriesLoaded(favoritesIds: favoriteIds));
-        //emit(AddToFavoritesSucessfullyState(message: message));
-        //getFavoritesIds();
-      },
-    );
+    result.fold((failure) {
+      // Rollback
+      favoriteIds = favoriteIds.where((id) => id != productId).toSet();
+      emit(FavoriesLoaded(favoritesIds: favoriteIds));
+
+      emit(FavoriesError(message: failure.message));
+    }, (_) {});
   }
 
   Future<void> removeFromFavorites({required String productId}) async {
+    // Optimistic update
+    favoriteIds = favoriteIds.where((id) => id != productId).toSet();
+    emit(FavoriesLoaded(favoritesIds: favoriteIds));
+
     final result = await favoritesRepo.removeFromFavorites(
       productId: productId,
     );
-    result.fold(
-      (failure) {
-        emit(FavoriesError(message: failure.message));
-      },
-      (message) {
-        favoriteIds = favoriteIds.where((id) => id != productId).toSet();
-        emit(FavoriesLoaded(favoritesIds: favoriteIds));
-        // favoriteIds.remove(productId);
-        // emit(FavoriesLoaded(favoritesIds: favoriteIds));
-        // emit(RemoveFromFavoritesSucessfullyState(message: message));
-        //getFavoritesIds(showLoading: false);
-      },
-    );
+    result.fold((failure) {
+      // Rollback
+      favoriteIds = {...favoriteIds, productId};
+      emit(FavoriesLoaded(favoritesIds: favoriteIds));
+      emit(FavoriesError(message: failure.message));
+    }, (_) {});
   }
 
   bool isFavorite({required String productId}) =>

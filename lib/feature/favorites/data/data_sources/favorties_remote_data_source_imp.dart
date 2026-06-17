@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sweetella/core/error/exception_handelr.dart';
@@ -20,7 +22,10 @@ class FavortiesRemoteDataSourceImp implements FavoritesRemoteDataSource {
           .set({
             'productId': productId,
             'createdAt': FieldValue.serverTimestamp(),
-          });
+          })
+          .timeout(const Duration(seconds: 5));
+    } on TimeoutException {
+      throw AppException('Request timed out. Please try again.');
     } on AppException catch (e) {
       ExceptionHandler.handle(e);
       rethrow;

@@ -54,7 +54,7 @@ class _FavoriteScreenBodyState extends State<FavoriteScreenBody> {
                   }
 
                   if (productState is ProductSuccess) {
-                    return BlocBuilder<FavoritesCubit, FavoriesState>(
+                    return BlocConsumer<FavoritesCubit, FavoriesState>(
                       buildWhen: (previous, current) =>
                           current is FavoriesLoading ||
                           current is FavoriesLoaded ||
@@ -84,6 +84,16 @@ class _FavoriteScreenBodyState extends State<FavoriteScreenBody> {
                         }
 
                         return const SizedBox();
+                      },
+                      listenWhen: (previous, current) =>
+                          current is FavoriesError,
+                      listener: (BuildContext context, FavoriesState state) {
+                        print("LISTENER: $state");
+                        if (state is FavoriesError) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(state.message)),
+                          );
+                        }
                       },
                     );
                   }

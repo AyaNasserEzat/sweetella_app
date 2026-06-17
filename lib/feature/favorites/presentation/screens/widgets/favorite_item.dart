@@ -15,6 +15,7 @@ class FavoriteItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('build favorite item ${productModel.id}');
     return Stack(
       children: [
         GestureDetector(
