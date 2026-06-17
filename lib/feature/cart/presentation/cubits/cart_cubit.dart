@@ -45,6 +45,7 @@ class CartCubit extends Cubit<CartState> {
         (item) => item.productId == cartItemModel.productId,
       );
         emit(RemoveFromCartSucess(item: cartItemModel, ));
+        emit(CartLoaded(cartItems: List.from(cartItems)));
       
       },
     );

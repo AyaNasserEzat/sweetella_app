@@ -33,7 +33,7 @@ class _CartPulseLoadingState extends State<CartPulseLoading>
           animation: controller,
           builder: (_, __) {
             return Icon(
-              Icons.add_shopping_cart,
+              Icons.shopping_cart,
               size: 22 + (controller.value * 6), // 22 → 28 → 22
               color: AppColors.primaryColor,
             );

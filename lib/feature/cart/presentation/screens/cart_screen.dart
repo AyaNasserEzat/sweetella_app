@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sweetella/core/di/service_locator.dart';
+import 'package:sweetella/core/widgets/custom_circle_progress_indecator.dart';
+import 'package:sweetella/core/widgets/empty_widget.dart';
 import 'package:sweetella/feature/cart/presentation/cubits/cart_cubit.dart';
 import 'package:sweetella/feature/cart/presentation/screens/widgets/cart_item_widget.dart';
 import 'package:sweetella/feature/cart/presentation/screens/widgets/cart_summary_widget.dart';
@@ -24,11 +26,20 @@ class CartScreen extends StatelessWidget {
             bottom: 10,
           ),
           child: BlocBuilder<CartCubit, CartState>(
+            buildWhen: (previous, current) =>
+                current is CartLoading ||
+                current is CartLoaded ||
+                current is CartError,
             builder: (context, state) {
               if (state is CartLoading) {
-                return const Center(child: CircularProgressIndicator());
+                return CustomCircleProgressIndcator();
               } else if (state is CartLoaded) {
                 final cartItems = state.cartItems;
+                if (cartItems.isEmpty) {
+                  return const EmptyWidget(
+                    imageUrl: 'assets/images/empty_cart.png',
+                  );
+                }
                 final totalPrice = cartItems.fold<double>(
                   0,
                   (sum, item) => sum + item.price * item.quantity,
@@ -40,11 +51,7 @@ class CartScreen extends StatelessWidget {
                         itemCount: cartItems.length,
                         itemBuilder: (context, index) {
                           final item = cartItems[index];
-                          return CartItemWidget(
-                            item: item,
-                       
-                           
-                          );
+                          return CartItemWidget(item: item);
                         },
                       ),
                     ),

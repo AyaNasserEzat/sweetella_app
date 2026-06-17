@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sweetella/core/helper/extension.dart';
 import 'package:sweetella/core/widgets/empty_gridview.dart';
+import 'package:sweetella/core/widgets/empty_widget.dart';
 import 'package:sweetella/feature/auth/presentation/screens/widgets/app_bar.dart';
 import 'package:sweetella/feature/favorites/presentation/cubits/favorites_cubit.dart';
 import 'package:sweetella/feature/favorites/presentation/cubits/favories_state.dart';
@@ -71,7 +72,9 @@ class _FavoriteScreenBodyState extends State<FavoriteScreenBody> {
                               .getFavorites(productState.products);
 
                           if (favoriteProducts.isEmpty) {
-                            return const Text('No favorites yet');
+                            return const EmptyWidget(
+                              imageUrl: 'assets/images/empty_wishlist.png',
+                            );
                           }
 
                           return GridViewFavorties(products: favoriteProducts);
