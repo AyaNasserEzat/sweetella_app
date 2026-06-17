@@ -25,7 +25,7 @@ class FavortiesRemoteDataSourceImp implements FavoritesRemoteDataSource {
           })
           .timeout(const Duration(seconds: 5));
     } on TimeoutException {
-      throw AppException('Request timed out. Please try again.');
+      throw AppException('faild to add item.check your internet connection and please try again.');
     } on AppException catch (e) {
       ExceptionHandler.handle(e);
       rethrow;

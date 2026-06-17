@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class FavoritesModel {
   final String id;
   final String productId;
-  final DateTime createdAt;
+  final DateTime? createdAt;
   FavoritesModel({
     required this.id,
     required this.productId,
@@ -13,10 +13,11 @@ class FavoritesModel {
   factory FavoritesModel.fromSnapshot(
     DocumentSnapshot<Map<String, dynamic>> document,
   ) {
+    final timestamp = document.data()?['createdAt'] as Timestamp?;
     return FavoritesModel(
       id: document.id,
       productId: document['productId'],
-      createdAt: (document['createdAt'] as Timestamp).toDate(),
+      createdAt: timestamp?.toDate(),
     );
   }
 
