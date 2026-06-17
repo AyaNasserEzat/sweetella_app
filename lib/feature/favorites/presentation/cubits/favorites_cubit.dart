@@ -37,10 +37,12 @@ class FavoritesCubit extends Cubit<FavoriesState> {
     final result = await favoritesRepo.addToFavorites(productId: productId);
     result.fold((failure) {
       // Rollback
+      
       favoriteIds = favoriteIds.where((id) => id != productId).toSet();
+      emit(FavoriesError(message: failure.message));
       emit(FavoriesLoaded(favoritesIds: favoriteIds));
 
-      emit(FavoriesError(message: failure.message));
+      
     }, (_) {});
   }
 
@@ -55,8 +57,9 @@ class FavoritesCubit extends Cubit<FavoriesState> {
     result.fold((failure) {
       // Rollback
       favoriteIds = {...favoriteIds, productId};
-      emit(FavoriesLoaded(favoritesIds: favoriteIds));
       emit(FavoriesError(message: failure.message));
+      emit(FavoriesLoaded(favoritesIds: favoriteIds));
+      
     }, (_) {});
   }
 
