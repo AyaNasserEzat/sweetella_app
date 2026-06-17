@@ -72,8 +72,11 @@ class _FavoriteScreenBodyState extends State<FavoriteScreenBody> {
                               .getFavorites(productState.products);
 
                           if (favoriteProducts.isEmpty) {
-                            return const EmptyWidget(
-                              imageUrl: 'assets/images/empty_wishlist.png',
+                            return SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.7,
+                              child: const EmptyWidget(
+                                imageUrl: 'assets/images/empty_favorits.png',
+                              ),
                             );
                           }
 
