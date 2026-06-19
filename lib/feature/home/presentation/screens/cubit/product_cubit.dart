@@ -11,6 +11,11 @@ class ProductCubit extends Cubit<ProductState> {
 
   List<CategoryModel> allCategories = [];
   List<ProductModel> allproducts = [];
+  int selectedCategoryIndex = 0;
+  void changeSelectedCategoryIndex(int index) {
+    selectedCategoryIndex = index;
+    emit(ChangeSelectedCategoryIndexState());
+  }
 
   Future<void> getAllProducts() async {
     emit(ProductLoading());

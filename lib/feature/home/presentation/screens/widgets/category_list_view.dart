@@ -1,8 +1,9 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sweetella/feature/home/data/models/category_model.dart';
 import 'package:sweetella/feature/home/presentation/screens/cubit/product_cubit.dart';
-import 'package:sweetella/feature/home/presentation/screens/widgets/category_chip.dart';
+import 'package:sweetella/feature/home/presentation/screens/widgets/category_item.dart';
 
 class GategoryListView extends StatefulWidget {
   const GategoryListView({super.key, required this.categories});
@@ -13,7 +14,6 @@ class GategoryListView extends StatefulWidget {
 }
 
 class _GategoryListViewState extends State<GategoryListView> {
-  int selected = 0;
 
   @override
   void initState() {
@@ -32,16 +32,16 @@ class _GategoryListViewState extends State<GategoryListView> {
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
             onTap: () {
-              setState(() {
-                selected = index;
-                BlocProvider.of<ProductCubit>(
-                  context,
-                ).getProducts(categoryId: widget.categories[index].id);
-              });
+              BlocProvider.of<ProductCubit>(
+                context,
+              ).changeSelectedCategoryIndex(index);
+              BlocProvider.of<ProductCubit>(
+                context,
+              ).getProducts(categoryId: widget.categories[index].id);
             },
             child: CategoryItem(
               categoryModel: widget.categories[index],
-              selected: selected == index,
+              index: index,
             ),
           );
         },
@@ -49,3 +49,4 @@ class _GategoryListViewState extends State<GategoryListView> {
     );
   }
 }
+

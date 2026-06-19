@@ -9,6 +9,9 @@ abstract class ProductState extends Equatable {
   List<Object?> get props => [];
 }
 
+// ignore: must_be_immutable
+class ChangeSelectedCategoryIndexState extends ProductState {}
+
 class ProductInitial extends ProductState {
   const ProductInitial();
 }
@@ -34,7 +37,6 @@ class ProductError extends ProductState {
   @override
   List<Object?> get props => [message];
 }
-
 
 class GetAllCategoriesLoading extends ProductState {}
 
