@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sweetella/core/widgets/empty_gridview.dart';
+import 'package:sweetella/core/widgets/empty_widget.dart';
 import 'package:sweetella/feature/home/presentation/screens/widgets/products_grid_view.dart';
 import 'package:sweetella/feature/search/presentation/bloc/search_bloc.dart';
 import 'package:sweetella/feature/search/presentation/bloc/search_state.dart';
@@ -30,7 +31,7 @@ class SearchScreenBody extends StatelessWidget {
 
             if (state is SearchSuccess) {
               if (state.products.isEmpty) {
-                return Center(child: Text("No results found"));
+                return EmptyWidget(imageUrl: 'assets/images/empty_search.png');
               } else {
                 return ProductsGridView(products: state.products);
               }
