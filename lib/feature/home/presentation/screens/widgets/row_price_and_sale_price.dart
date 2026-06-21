@@ -21,7 +21,7 @@ class RowOfPriceAndSalePrice extends StatelessWidget {
               children: [
                 if (productModel.salePrice != 0)
                   Text(
-                    "$productModel.salePrice\$",
+                    "${productModel.salePrice}\$",
                     style: AppTextStyles.priceTextGreen,
                   ),
                 Text(
