@@ -12,6 +12,11 @@ import 'package:sweetella/feature/favorites/presentation/cubits/favorites_cubit.
 import 'package:sweetella/feature/home/data/repositories/product_repo_imp.dart';
 import 'package:sweetella/feature/home/data/services/product_firebase_service.dart';
 import 'package:sweetella/feature/home/presentation/screens/cubit/product_cubit.dart';
+import 'package:sweetella/feature/profile/data/data_source/profile_remote_data_source.dart';
+import 'package:sweetella/feature/profile/data/data_source/profile_remote_data_source_imp.dart';
+import 'package:sweetella/feature/profile/data/repos/profile_repo.dart';
+import 'package:sweetella/feature/profile/data/repos/profile_repo_imp.dart';
+import 'package:sweetella/feature/profile/presentation/cubits/profile_cubit.dart';
 import 'package:sweetella/feature/search/data/data_source/search_remote_data_source.dart';
 import 'package:sweetella/feature/search/data/data_source/search_remote_data_source_imp.dart';
 import 'package:sweetella/feature/search/data/repos/search_repo.dart';
@@ -75,4 +80,15 @@ void setupServiceLocator() {
   sl.registerLazySingleton<SearchRepository>(() => SearchRepoImp(sl()));
   //search bloc
   sl.registerFactory(() => SearchBloc(sl()));
+
+  // profile data source
+  sl.registerLazySingleton<ProfileRemoteDataSource>(
+    () => ProfileRemoteDataSourceImp(),
+  );
+
+  //profile repo
+  sl.registerLazySingleton<ProfileRepo>(() => ProfileRepoImp(sl()));
+
+  //profile Cubit
+  sl.registerFactory(() => ProfileCubit(sl()));
 }

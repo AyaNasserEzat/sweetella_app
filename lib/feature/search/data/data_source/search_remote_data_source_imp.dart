@@ -11,8 +11,8 @@ class SearchRemoteDataSourceImp extends SearchRemoteDataSource {
     try {
       final snapshot = await firestore
           .collection('Products')
-          .where('name'.toLowerCase(), isGreaterThanOrEqualTo: query)
-          .where('name'.toLowerCase(), isLessThanOrEqualTo: '$query\uf8ff')
+          .where('name', isGreaterThanOrEqualTo: query)
+          .where('name', isLessThanOrEqualTo: '$query\uf8ff')
           .get();
       final list = snapshot.docs
           .map((document) => ProductModel.fromSnapshot(document))

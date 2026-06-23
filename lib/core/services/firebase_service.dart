@@ -22,7 +22,6 @@ class FirebaseServices {
     required String name,
     required String email,
     required String password,
-    String? shippingAdd,
   }) async {
     try {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
@@ -37,9 +36,6 @@ class FirebaseServices {
         'id': uid,
         'name': name,
         'email': email,
-        'shipping_add': shippingAdd,
-        'wishList': [],
-        'userCart': [],
         'createdAt': Timestamp.now(),
       });
       return result;
