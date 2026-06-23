@@ -18,6 +18,10 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     SearchProductsEvent event,
     Emitter<SearchState> emit,
   ) async {
+    if (event.query.trim().isEmpty) {
+      emit(SearchInitial());
+      return;
+    }
     emit(SearchLoading());
     final result = await repo.searchProducts(query: event.query);
     result.fold(
