@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sweetella/core/di/service_locator.dart';
 import 'package:sweetella/core/helper/extension.dart';
+import 'package:sweetella/feature/auth/presentation/screens/widgets/app_bar.dart';
 import 'package:sweetella/feature/cart/presentation/cubits/cart_cubit.dart';
 import 'package:sweetella/feature/favorites/presentation/cubits/favorites_cubit.dart';
 import 'package:sweetella/feature/search/presentation/bloc/search_bloc.dart';
@@ -29,7 +30,12 @@ class SearchScreen extends StatelessWidget {
             right: horizontalPadding,
             bottom: context.h * 0.15,
           ),
-          child: Column(children: [SearchScreenBody()]),
+          child: Column(
+            children: [
+              AppBarTitle(title: "Search Product", haveArrow: true),
+              SearchScreenBody(),
+            ],
+          ),
         ),
       ),
     );
