@@ -4,5 +4,8 @@ abstract class CartRemoteDataSource {
   Future<void> addToCart({required CartItemModel item});
   Future<void> removeFromCart({required CartItemModel item});
   Future<List<CartItemModel>> getCartItems();
-  Future<void> updateCartItemQuantity({required String cartItemId, required int quantity});
+  Future<void> updateCartItemQuantity({
+    required String cartItemId,
+    required int quantity,
+  });
 }

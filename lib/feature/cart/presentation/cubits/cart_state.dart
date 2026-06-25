@@ -15,3 +15,5 @@ class CartError extends CartState {
   final String message;
   CartError({required this.message});
 }
+
+class UpdateCartQuantity extends CartState {}

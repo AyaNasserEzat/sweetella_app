@@ -11,22 +11,16 @@ import 'package:sweetella/feature/cart/presentation/screens/widgets/row_plus_or_
 class CartItemWidget extends StatelessWidget {
   final CartItemModel item;
 
-
-  const CartItemWidget({
-    super.key,
-    required this.item,
-  
-  });
+  const CartItemWidget({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = context.w;
-    final paddingValue = screenWidth * 0.03; // 3% of screen width
-    final imageSize =
-        screenWidth * 0.12; // 12% of screen width for smaller screens
-    final spacing = screenWidth * 0.02; // 2% for spacing
-    final nameFontSize = screenWidth * 0.04; // 4% for name
-    final sizeFontSize = screenWidth * 0.035; // 3.5% for size
+    final paddingValue = screenWidth * 0.03;
+    final imageSize = screenWidth * 0.12;
+    final spacing = screenWidth * 0.02;
+    final nameFontSize = screenWidth * 0.04;
+    final sizeFontSize = screenWidth * 0.035;
 
     return Container(
       padding: EdgeInsets.all(paddingValue),
@@ -96,24 +90,18 @@ class CartItemWidget extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              // BlocBuilder<CartCubit, CartState>(
-              //   builder: (context, state) {
-              //     return 
-                  IconButton(
-                    onPressed: () {
-                      context.read<CartCubit>().removeFromCart(item);
-                     // context.read<CartCubit>().getCartItems();
-                    },
+              IconButton(
+                onPressed: () {
+                  context.read<CartCubit>().removeFromCart(item);
+                },
 
-                    icon: Icon(
-                      CupertinoIcons.cart_badge_minus,
-                      color: AppColors.primaryColor,
-                    ),
-                //   );
-                // },
+                icon: Icon(
+                  CupertinoIcons.cart_badge_minus,
+                  color: AppColors.primaryColor,
+                ),
               ),
               SizedBox(height: screenWidth * 0.03),
-              RowPlusOrMinus(),
+              RowPlusOrMinus(cartItemModel: item),
             ],
           ),
         ],

@@ -61,16 +61,29 @@ class CartCubit extends Cubit<CartState> {
     }
   }
 
-  Future<void> updateCartItemQuantity(String cartItemId, int quantity) async {
+  Future<void> updateCartItemQuantity({
+    required CartItemModel cartItemModel,
+    required int quantity,
+  }) async {
+    final index = cartItems.indexWhere((e) => e.id == cartItemModel.id);
+
+    if (index == -1) return;
+    final updatedCartItem = cartItems[index].copyWith(quantity: quantity);
+
+    cartItems[index] = updatedCartItem;
+
+    emit(CartLoaded(cartItems: cartItems));
+
     final result = await cartRepo.updateCartItemQuantity(
-      cartItemId: cartItemId,
-      quantity: quantity,
+      cartItemId: cartItemModel.productId,
+      quantity: updatedCartItem.quantity,
     );
-    result.fold((failure) => emit(CartError(message: failure.message)), (
-      message,
-    ) async {
-      await getCartItems();
-    });
+
+    result.fold((failure) {
+      //Rollback
+      cartItems[index] = cartItemModel;
+      emit(CartError(message: failure.message));
+    }, (message) async {});
   }
 
   bool isInCart(CartItemModel cartItemModel) {

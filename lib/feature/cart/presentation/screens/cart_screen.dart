@@ -24,7 +24,7 @@ class CartScreen extends StatelessWidget {
             left: horizontalPadding,
             right: horizontalPadding,
             top: 30,
-            bottom: 10,
+            bottom: 50,
           ),
           child: Center(
             child: Column(
@@ -59,7 +59,10 @@ class CartScreen extends StatelessWidget {
                                 itemCount: cartItems.length,
                                 itemBuilder: (context, index) {
                                   final item = cartItems[index];
-                                  return CartItemWidget(item: item);
+                                  return CartItemWidget(
+                                    item: item,
+                                    key: ValueKey(item.id),
+                                  );
                                 },
                               ),
                             ),

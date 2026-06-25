@@ -13,12 +13,13 @@ class CartItem {
     required this.price,
     required this.image,
     required this.quantity,
-    this.salePrice ,
+    this.salePrice,
     this.size = 'Small',
   });
 }
+
 class CartItemModel {
-   String? id; // doc id
+  String? id; // doc id
   final String productId;
   final String productName;
   final String size;
@@ -27,7 +28,7 @@ class CartItemModel {
   final String imageUrl;
 
   CartItemModel({
-     this.id,
+    this.id,
     required this.productId,
     required this.productName,
     required this.size,
@@ -37,7 +38,8 @@ class CartItemModel {
   });
 
   factory CartItemModel.fromSnapshot(
-      DocumentSnapshot<Map<String, dynamic>> doc) {
+    DocumentSnapshot<Map<String, dynamic>> doc,
+  ) {
     final data = doc.data()!;
     return CartItemModel(
       id: doc.id,
@@ -60,5 +62,25 @@ class CartItemModel {
       'imageUrl': imageUrl,
       'addedAt': FieldValue.serverTimestamp(),
     };
+  }
+
+  CartItemModel copyWith({
+    String? id,
+    String? productId,
+    String? productName,
+    String? size,
+    int? price,
+    int? quantity,
+    String? imageUrl,
+  }) {
+    return CartItemModel(
+      id: id ?? this.id,
+      productId: productId ?? this.productId,
+      productName: productName ?? this.productName,
+      size: size ?? this.size,
+      price: price ?? this.price,
+      quantity: quantity ?? this.quantity,
+      imageUrl: imageUrl ?? this.imageUrl,
+    );
   }
 }

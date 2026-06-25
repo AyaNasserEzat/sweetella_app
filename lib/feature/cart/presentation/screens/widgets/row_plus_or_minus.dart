@@ -1,28 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sweetella/feature/cart/data/models/cart_model.dart';
+import 'package:sweetella/feature/cart/presentation/cubits/cart_cubit.dart';
 
-class RowPlusOrMinus extends StatefulWidget {
-  const RowPlusOrMinus({super.key});
+class RowPlusOrMinus extends StatelessWidget {
+  const RowPlusOrMinus({super.key, required this.cartItemModel});
 
-  @override
-  State<RowPlusOrMinus> createState() => _RowPlusOrMinusState();
-}
-
-class _RowPlusOrMinusState extends State<RowPlusOrMinus> {
-  int quantity = 1;
-
-  void incrementQuantity() {
-    setState(() {
-      quantity++;
-    });
-  }
-
-  void decrementQuantity() {
-    if (quantity > 1) {
-      setState(() {
-        quantity--;
-      });
-    }
-  }
+  final CartItemModel cartItemModel;
 
   @override
   Widget build(BuildContext context) {
@@ -44,14 +28,20 @@ class _RowPlusOrMinusState extends State<RowPlusOrMinus> {
           ),
           child: Center(
             child: IconButton(
-              onPressed: decrementQuantity,
+              onPressed: () {
+                if (cartItemModel.quantity <= 1) return;
+                BlocProvider.of<CartCubit>(context).updateCartItemQuantity(
+                  cartItemModel: cartItemModel,
+                  quantity: cartItemModel.quantity - 1,
+                );
+              },
               icon: Icon(Icons.remove, color: Color(0xffe26784)),
             ),
           ),
         ),
         const SizedBox(width: 12),
         Text(
-          '$quantity',
+          '${cartItemModel.quantity}',
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         const SizedBox(width: 12),
@@ -70,7 +60,12 @@ class _RowPlusOrMinusState extends State<RowPlusOrMinus> {
             ],
           ),
           child: IconButton(
-            onPressed: incrementQuantity,
+            onPressed: () {
+              BlocProvider.of<CartCubit>(context).updateCartItemQuantity(
+                cartItemModel: cartItemModel,
+                quantity: cartItemModel.quantity + 1,
+              );
+            },
             icon: Icon(Icons.add, color: Color(0xffe26784)),
           ),
         ),
