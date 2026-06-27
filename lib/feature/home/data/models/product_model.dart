@@ -8,8 +8,7 @@ class ProductModel {
   final int price;
   final int salePrice;
   final String imageUrl;
-  final List<SizeInfoModel>? sizes;
-
+  final List<ProductAttribute> attributes;
   ProductModel({
     required this.id,
     required this.name,
@@ -18,7 +17,7 @@ class ProductModel {
     required this.price,
     required this.imageUrl,
     this.salePrice = 0,
-    this.sizes,
+    required this.attributes,
   });
   factory ProductModel.empty() => ProductModel(
     id: '',
@@ -28,6 +27,7 @@ class ProductModel {
     price: 100,
     imageUrl: '',
     salePrice: 0,
+    attributes: [],
   );
 
   ///map json oriented document snapshot from firebase to user model
@@ -46,13 +46,13 @@ class ProductModel {
         description: data['description'] ?? '',
         imageUrl: data['imageUrl'] ?? '',
         salePrice: data['salePrice'] ?? 0,
-        sizes: data['sizes'] != null
-            ? (data['sizes'] as List)
-                  .map(
-                    (e) => SizeInfoModel.fromJson(e as Map<String, dynamic>),
-                  )
-                  .toList()
-            : null,
+        attributes:
+            (data['attributes'] as List<dynamic>?)
+                ?.map(
+                  (e) => ProductAttribute.fromJson(e as Map<String, dynamic>),
+                )
+                .toList() ??
+            [],
       );
     } else {
       return ProductModel.empty();
@@ -72,26 +72,40 @@ class ProductModel {
   }
 }
 
-class SizeInfoModel {
-  final String size;
-  final int price;
-  final int? salePrice;
-  final int stock;
-  SizeInfoModel({
-    required this.size,
-    required this.price,
-    this.salePrice,
-    required this.stock,
-  });
-  factory SizeInfoModel.fromJson(Map<String, dynamic> json) {
-    return SizeInfoModel(
-      size: json['size'],
-      price: json['price'] ?? 0,
-      stock: json['stock'] ?? 0,
+class ProductAttribute {
+  final String title;
+  final List<AttributeOption> options;
+
+  ProductAttribute({required this.title, required this.options});
+
+  factory ProductAttribute.fromJson(Map<String, dynamic> json) {
+    return ProductAttribute(
+      title: json['title'] ?? '',
+      options:
+          (json['options'] as List<dynamic>?)
+              ?.map((e) => AttributeOption.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
     );
   }
+}
 
-  Map<String, dynamic> toJson() {
-    return {'name': size, 'price': price, 'stock': stock};
+class AttributeOption {
+  final String value;
+  final double priceModifier;
+  final int stock;
+
+  AttributeOption({
+    required this.value,
+    required this.priceModifier,
+    required this.stock,
+  });
+
+  factory AttributeOption.fromJson(Map<String, dynamic> json) {
+    return AttributeOption(
+      value: json['value'] ?? '',
+      priceModifier: (json['price_modifier'] as num?)?.toDouble() ?? 0.0,
+      stock: json['stock'] ?? 0,
+    );
   }
 }

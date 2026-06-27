@@ -5,9 +5,10 @@ import 'package:sweetella/feature/home/presentation/screens/widgets/add_to_cart_
 import 'package:sweetella/feature/home/presentation/screens/widgets/donut_title_and_price.dart';
 import 'package:sweetella/feature/home/presentation/screens/widgets/icon_favorite.dart';
 import 'package:sweetella/feature/home/presentation/screens/widgets/plus_or_minus.dart';
+import 'package:sweetella/feature/home/presentation/screens/widgets/product_attribute_section.dart';
 import 'package:sweetella/feature/home/presentation/screens/widgets/reviews.dart';
 import 'package:sweetella/feature/home/presentation/screens/widgets/product_description.dart';
-import 'package:sweetella/feature/home/presentation/screens/widgets/donut_size_selector.dart';
+import 'package:sweetella/feature/home/presentation/screens/widgets/attribute_selector.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
   const ProductDetailsScreen({super.key, required this.productModel});
@@ -58,9 +59,11 @@ class ProductDetailsScreen extends StatelessWidget {
                       DonutTitleAndPrice(productModel: productModel),
                       Reviews(),
                       ProductDescription(description: productModel.description),
-                      productModel.sizes == null
+                      productModel.attributes.isEmpty
                           ? Container()
-                          : DonutSizeSelector(productModel: productModel),
+                          : ProductAttributesSection(
+                              productModel: productModel,
+                            ),
                       const Spacer(),
                       Padding(
                         padding: const EdgeInsets.all(8.0),

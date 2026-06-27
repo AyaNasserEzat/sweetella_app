@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:sweetella/core/utils/app_colors.dart';
 
-class BuildSizeOption extends StatelessWidget {
+class BuildAttributeOption extends StatelessWidget {
   final String size;
   final bool isSelected;
   final VoidCallback? onTap;
 
-  const BuildSizeOption({
+  const BuildAttributeOption({
     super.key,
     required this.size,
     this.isSelected = false,

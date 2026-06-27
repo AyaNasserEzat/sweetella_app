@@ -82,6 +82,7 @@ class CartCubit extends Cubit<CartState> {
     result.fold((failure) {
       //Rollback
       cartItems[index] = cartItemModel;
+      emit(CartLoaded(cartItems: cartItems));
       emit(CartError(message: failure.message));
     }, (message) async {});
   }
