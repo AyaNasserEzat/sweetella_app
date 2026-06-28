@@ -30,19 +30,18 @@ class AddToCartBtn extends StatelessWidget {
         if (productModel.attributes.isNotEmpty) {
           showAttributesBottomSheet(context, productModel);
         } else {
+          final selectionState = context.read<ProductAttributesCubit>().state;
           final cubit = context.read<ProductAttributesCubit>();
 
-          final selectedAttributes = cubit.getSelectedAttributes(productModel);
-
-          final finalPrice = cubit.calculateFinalPrice(productModel);
+          // 2. Pass the map directly using selectionState.selectedAttributes
           context.read<CartCubit>().addToCart(
             CartItemModel(
               productId: productModel.id,
               productName: productModel.name,
-              price: finalPrice,
-              quantity: 1,
+              price: cubit.calculateFinalPrice(productModel).toInt(),
               imageUrl: productModel.imageUrl,
-              selectedAttributes: selectedAttributes,
+              quantity: 1,
+              selectedAttributes: selectionState.selectedAttributes,
             ),
           );
         }

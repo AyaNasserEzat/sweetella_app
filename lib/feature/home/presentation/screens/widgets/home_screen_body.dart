@@ -5,7 +5,6 @@ import 'package:sweetella/feature/home/presentation/screens/widgets/categories_b
 import 'package:sweetella/feature/home/presentation/screens/widgets/products_bloc_builder.dart';
 import 'package:sweetella/feature/home/presentation/screens/widgets/home_header.dart';
 import 'package:sweetella/feature/home/presentation/screens/widgets/search_container.dart';
-import 'package:sweetella/feature/search/presentation/screens/widgets/search_bar.dart';
 
 class HomeScreenBody extends StatelessWidget {
   const HomeScreenBody({super.key});

@@ -20,7 +20,10 @@ class ProductDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => ProductAttributesCubit()),
+        BlocProvider(
+          create: (_) =>
+              ProductAttributesCubit()..initializeDefaults(productModel),
+        ),
         BlocProvider(create: (context) => sl<CartCubit>()),
       ],
       child: Scaffold(

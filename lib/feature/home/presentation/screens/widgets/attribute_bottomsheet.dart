@@ -5,6 +5,7 @@ import 'package:sweetella/feature/cart/data/models/cart_model.dart';
 import 'package:sweetella/feature/cart/presentation/cubits/cart_cubit.dart';
 import 'package:sweetella/feature/home/data/models/product_model.dart';
 import 'package:sweetella/feature/home/presentation/screens/cubit/product_attribut_selection_cubit.dart';
+import 'package:sweetella/feature/home/presentation/screens/cubit/product_attribut_selection_state.dart';
 import 'package:sweetella/feature/home/presentation/screens/widgets/product_attribute_section.dart';
 
 void showAttributesBottomSheet(BuildContext context, ProductModel product) {
@@ -17,10 +18,13 @@ void showAttributesBottomSheet(BuildContext context, ProductModel product) {
     builder: (bottomSheetContext) {
       return MultiBlocProvider(
         providers: [
-          BlocProvider(create: (context) => ProductAttributesCubit()),
+          BlocProvider(
+            create: (context) =>
+                ProductAttributesCubit()..initializeDefaults(product),
+          ),
           BlocProvider.value(value: context.read<CartCubit>()),
         ],
-        child: BlocBuilder<ProductAttributesCubit, Map<String, int>>(
+        child: BlocBuilder<ProductAttributesCubit, ProductSelectionState>(
           builder: (context, state) {
             final selectionCubit = context.read<ProductAttributesCubit>();
 
@@ -73,8 +77,7 @@ void showAttributesBottomSheet(BuildContext context, ProductModel product) {
                               .toInt(),
                           imageUrl: product.imageUrl,
                           quantity: 1,
-                          selectedAttributes: selectionCubit
-                              .getSelectedAttributes(product),
+                          selectedAttributes: state.selectedAttributes,
                         ),
                       );
                       Navigator.pop(context); // Close sheet on completion

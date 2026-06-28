@@ -1,45 +1,95 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sweetella/feature/home/data/models/product_model.dart';
+import 'package:sweetella/feature/home/presentation/screens/cubit/product_attribut_selection_state.dart';
 
-class ProductAttributesCubit extends Cubit<Map<String, int>> {
-  ProductAttributesCubit() : super({});
+class ProductAttributesCubit extends Cubit<ProductSelectionState> {
+  ProductAttributesCubit()
+    : super(ProductSelectionState(selectedAttributes: {}));
 
-  void selectAttribute({
-    required String attributeTitle,
-    required int selectedIndex,
-  }) {
-    final updated = Map<String, int>.from(state);
-    updated[attributeTitle] = selectedIndex;
-    emit(updated);
-  }
-
-  int getSelectedIndex(String attributeTitle) {
-    return state[attributeTitle] ?? 0;
-  }
-
-  Map<String, String> getSelectedAttributes(ProductModel product) {
-    Map<String, String> result = {};
-
-    for (var attribute in product.attributes) {
-      final selectedIndex = state[attribute.title] ?? 0;
-
-      result[attribute.title] = attribute.options[selectedIndex].value;
+  // Automatically select the first available option for every attribute group
+  void initializeDefaults(ProductModel product) {
+    final Map<String, String> defaults = {};
+    for (var attr in product.attributes) {
+      if (attr.options.isNotEmpty) {
+        defaults[attr.title] = attr.options.first.value;
+      }
     }
-
-    return result;
+    emit(ProductSelectionState(selectedAttributes: defaults));
   }
 
-  int calculateFinalPrice(ProductModel product) {
-    int finalPrice = product.price;
+  // Triggers when a user selects a new item
+  void selectAttribute(String attributeTitle, String optionValue) {
+    final updatedSelections = Map<String, String>.from(
+      state.selectedAttributes,
+    );
+    updatedSelections[attributeTitle] = optionValue;
 
-    for (var attribute in product.attributes) {
-      final selectedIndex = state[attribute.title] ?? 0;
+    emit(ProductSelectionState(selectedAttributes: updatedSelections));
+  }
 
-      final option = attribute.options[selectedIndex];
+  // Dynamic getter that calculates the real-time final price
+  double calculateFinalPrice(ProductModel product) {
+    // Base price defaults to salePrice if it exists, otherwise standard price
+    double basePrice = product.salePrice > 0
+        ? product.salePrice.toDouble()
+        : product.price.toDouble();
+    double totalModifier = 0.0;
 
-      finalPrice += option.priceModifier.toInt();
-    }
+    state.selectedAttributes.forEach((attributeTitle, selectedValue) {
+      // Find the parent attribute category
+      final attribute = product.attributes.firstWhere(
+        (attr) => attr.title == attributeTitle,
+        orElse: () => ProductAttribute(title: '', options: []),
+      );
 
-    return finalPrice;
+      // Find the specific chosen option modifier
+      final option = attribute.options.firstWhere(
+        (opt) => opt.value == selectedValue,
+        orElse: () => AttributeOption(value: '', priceModifier: 0.0, stock: 0),
+      );
+
+      totalModifier += option.priceModifier;
+    });
+
+    return basePrice + totalModifier;
   }
 }
+  // void selectAttribute({
+  //   required String attributeTitle,
+  //   required int selectedIndex,
+  // }) {
+  //   final updated = Map<String, int>.from(state);
+  //   updated[attributeTitle] = selectedIndex;
+  //   emit(updated);
+  // }
+
+  // int getSelectedIndex(String attributeTitle) {
+  //   return state[attributeTitle] ?? 0;
+  // }
+
+  // Map<String, String> getSelectedAttributes(ProductModel product) {
+  //   Map<String, String> result = {};
+
+  //   for (var attribute in product.attributes) {
+  //     final selectedIndex = state[attribute.title] ?? 0;
+
+  //     result[attribute.title] = attribute.options[selectedIndex].value;
+  //   }
+
+  //   return result;
+  // }
+
+  // int calculateFinalPrice(ProductModel product) {
+  //   int finalPrice = product.price;
+
+  //   for (var attribute in product.attributes) {
+  //     final selectedIndex = state[attribute.title] ?? 0;
+
+  //     final option = attribute.options[selectedIndex];
+
+  //     finalPrice += option.priceModifier.toInt();
+  //   }
+
+  //   return finalPrice;
+  // }
+
