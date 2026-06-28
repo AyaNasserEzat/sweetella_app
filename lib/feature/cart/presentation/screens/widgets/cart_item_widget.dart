@@ -69,16 +69,34 @@ class CartItemWidget extends StatelessWidget {
                     ),
                   ),
                 ),
+
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: item.selectedAttributes.entries.map((entry) {
+                      return Text(
+                        '${entry.key}: ${entry.value}',
+                        style: TextStyle(
+                          fontSize: sizeFontSize,
+                          color: Colors.grey,
+                          fontFamily: 'Nunito',
+                          fontVariations: [const FontVariation('wght', 600)],
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
                 FittedBox(
                   fit: BoxFit.scaleDown,
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Size: ${item.size}",
+                    "price ${item.price.toString()}\$",
                     style: TextStyle(
-                      fontSize: sizeFontSize,
-                      color: Colors.grey,
+                      fontSize: nameFontSize,
                       fontFamily: 'Nunito',
-                      fontVariations: [const FontVariation('wght', 600)],
+                      fontVariations: [const FontVariation('wght', 800)],
                     ),
                   ),
                 ),

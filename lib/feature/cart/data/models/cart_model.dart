@@ -2,11 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CartItem {
   final String name;
-  final String? size;
+
   final double price;
   final double? salePrice;
   final String image;
   int quantity;
+  final Map<String, String> selectedAttributes;
 
   CartItem({
     required this.name,
@@ -14,7 +15,7 @@ class CartItem {
     required this.image,
     required this.quantity,
     this.salePrice,
-    this.size = 'Small',
+    required this.selectedAttributes,
   });
 }
 
@@ -22,19 +23,19 @@ class CartItemModel {
   String? id; // doc id
   final String productId;
   final String productName;
-  final String size;
   final int price;
   final int quantity;
   final String imageUrl;
+  final Map<String, String> selectedAttributes;
 
   CartItemModel({
     this.id,
     required this.productId,
     required this.productName,
-    required this.size,
     required this.price,
     this.quantity = 1,
     required this.imageUrl,
+    required this.selectedAttributes,
   });
 
   factory CartItemModel.fromSnapshot(
@@ -45,10 +46,12 @@ class CartItemModel {
       id: doc.id,
       productId: data['productId'],
       productName: data['productName'],
-      size: data['size'],
       price: data['price'],
       quantity: data['quantity'] ?? 1,
       imageUrl: data['imageUrl'],
+      selectedAttributes: Map<String, String>.from(
+        data['selectedAttributes'] ?? {},
+      ),
     );
   }
 
@@ -56,11 +59,11 @@ class CartItemModel {
     return {
       'productId': productId,
       'productName': productName,
-      'size': size,
       'price': price,
       'quantity': quantity,
       'imageUrl': imageUrl,
       'addedAt': FieldValue.serverTimestamp(),
+      'selectedAttributes': selectedAttributes,
     };
   }
 
@@ -68,7 +71,7 @@ class CartItemModel {
     String? id,
     String? productId,
     String? productName,
-    String? size,
+    Map<String, String>? selectedAttributes,
     int? price,
     int? quantity,
     String? imageUrl,
@@ -77,7 +80,7 @@ class CartItemModel {
       id: id ?? this.id,
       productId: productId ?? this.productId,
       productName: productName ?? this.productName,
-      size: size ?? this.size,
+      selectedAttributes: selectedAttributes ?? this.selectedAttributes,
       price: price ?? this.price,
       quantity: quantity ?? this.quantity,
       imageUrl: imageUrl ?? this.imageUrl,

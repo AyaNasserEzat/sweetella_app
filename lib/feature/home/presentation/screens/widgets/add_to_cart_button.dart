@@ -1,32 +1,51 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sweetella/core/utils/app_colors.dart';
+import 'package:sweetella/feature/cart/data/models/cart_model.dart';
+import 'package:sweetella/feature/cart/presentation/cubits/cart_cubit.dart';
+import 'package:sweetella/feature/home/data/models/product_model.dart';
+import 'package:sweetella/feature/home/presentation/screens/cubit/product_attribut_selection_cubit.dart';
 
 class AddToCartButton extends StatelessWidget {
-  const AddToCartButton({
-    super.key,
-  });
-
+  const AddToCartButton({super.key, required this.productModel});
+  final ProductModel productModel;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: 180,
       child: ElevatedButton(
         onPressed: () {
-          // Add to cart functionality
+          final cubit = context.read<ProductAttributesCubit>();
+
+          final selectedAttributes = cubit.getSelectedAttributes(productModel);
+
+          final finalPrice = cubit.calculateFinalPrice(productModel);
+          context.read<CartCubit>().addToCart(
+            // CartItemModel(
+            //   productId: productModel.id,
+            //   productName: productModel.name,
+            //   price: productModel.price,
+            //   imageUrl: productModel.imageUrl,
+            //   quantity: 1,
+            //   selectedAttributes: {},
+            // ),
+            CartItemModel(
+              productId: productModel.id,
+              productName: productModel.name,
+              price: finalPrice,
+              quantity: 1,
+              imageUrl: productModel.imageUrl,
+              selectedAttributes: selectedAttributes,
+            ),
+          );
         },
         style: ElevatedButton.styleFrom(
-          backgroundColor:AppColors.primaryColor,
-          padding: const EdgeInsets.symmetric(
-            vertical: 16,
-          ),
+          backgroundColor: AppColors.primaryColor,
+          padding: const EdgeInsets.symmetric(vertical: 16),
         ),
         child: const Text(
           'Add to Cart',
-          style: TextStyle(
-            fontSize: 18,
-            color: Colors.white,
-          ),
+          style: TextStyle(fontSize: 18, color: Colors.white),
         ),
       ),
     );

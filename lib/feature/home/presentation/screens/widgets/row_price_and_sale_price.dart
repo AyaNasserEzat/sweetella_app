@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:sweetella/core/utils/app_text_styles.dart';
 import 'package:sweetella/feature/cart/data/models/cart_model.dart';
+import 'package:sweetella/feature/home/data/models/product_model.dart';
 import 'package:sweetella/feature/home/presentation/screens/widgets/add_to_cart_btn.dart';
 
 class RowOfPriceAndSalePrice extends StatelessWidget {
   const RowOfPriceAndSalePrice({super.key, required this.productModel});
 
-  final productModel;
+  final ProductModel productModel;
 
   @override
   Widget build(BuildContext context) {
@@ -36,16 +37,7 @@ class RowOfPriceAndSalePrice extends StatelessWidget {
             ),
           ),
         ),
-        AddToCartBtn(
-          product: CartItemModel(
-            productId: productModel.id,
-            productName: productModel.name,
-            price: productModel.price,
-            imageUrl: productModel.imageUrl,
-            quantity: 1,
-            size: 's',
-          ),
-        ),
+        AddToCartBtn(productModel: productModel),
 
         // Icon(
         //   CupertinoIcons.cart_badge_plus,
