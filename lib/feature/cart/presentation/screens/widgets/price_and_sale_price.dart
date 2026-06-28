@@ -6,7 +6,7 @@ import 'package:sweetella/feature/cart/data/models/cart_model.dart';
 class PriceAndSalPrice extends StatelessWidget {
   const PriceAndSalPrice({super.key, required this.item});
 
-  final CartItem item;
+  final CartItemModel item;
 
   @override
   Widget build(BuildContext context) {

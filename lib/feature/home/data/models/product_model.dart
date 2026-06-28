@@ -58,23 +58,6 @@ class ProductModel {
       return ProductModel.empty();
     }
   }
-  int calculateFinalPrice(Map<String, String> selectedAttributes) {
-    int finalPrice = price;
-
-    for (var attribute in attributes) {
-      final selectedValue = selectedAttributes[attribute.title];
-
-      if (selectedValue == null) continue;
-
-      final option = attribute.options.firstWhere(
-        (option) => option.value == selectedValue,
-      );
-
-      finalPrice += option.priceModifier.toInt();
-    }
-
-    return finalPrice;
-  }
 
   Map<String, dynamic> toJson() {
     return {
@@ -85,6 +68,23 @@ class ProductModel {
       'price': price,
       'imageUrl': imageUrl,
       'salePrice': salePrice,
+
+      'attributes': attributes
+          .map(
+            (e) => {
+              'title': e.title,
+              'options': e.options
+                  .map(
+                    (o) => {
+                      'value': o.value,
+                      'price_modifier': o.priceModifier,
+                      'stock': o.stock,
+                    },
+                  )
+                  .toList(),
+            },
+          )
+          .toList(),
     };
   }
 }

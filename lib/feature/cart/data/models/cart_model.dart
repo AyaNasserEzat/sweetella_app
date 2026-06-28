@@ -24,6 +24,7 @@ class CartItemModel {
   final String productId;
   final String productName;
   final int price;
+  final double? salePrice;
   final int quantity;
   final String imageUrl;
   final Map<String, String> selectedAttributes;
@@ -33,6 +34,7 @@ class CartItemModel {
     required this.productId,
     required this.productName,
     required this.price,
+    this.salePrice,
     this.quantity = 1,
     required this.imageUrl,
     required this.selectedAttributes,
@@ -47,6 +49,7 @@ class CartItemModel {
       productId: data['productId'],
       productName: data['productName'],
       price: data['price'],
+      salePrice: data['salePrice'],
       quantity: data['quantity'] ?? 1,
       imageUrl: data['imageUrl'],
       selectedAttributes: Map<String, String>.from(
@@ -60,6 +63,7 @@ class CartItemModel {
       'productId': productId,
       'productName': productName,
       'price': price,
+      'salePrice': salePrice,
       'quantity': quantity,
       'imageUrl': imageUrl,
       'addedAt': FieldValue.serverTimestamp(),
@@ -85,5 +89,17 @@ class CartItemModel {
       quantity: quantity ?? this.quantity,
       imageUrl: imageUrl ?? this.imageUrl,
     );
+  }
+
+  String generateCartItemId(CartItemModel item) {
+    if (item.selectedAttributes.isEmpty) return item.productId;
+
+    // Sort keys so {'size': 'L', 'flavor': 'Vanilla'} always yields the same string as {'flavor': 'Vanilla', 'size': 'L'}
+    final sortedKeys = item.selectedAttributes.keys.toList()..sort();
+    final attributesString = sortedKeys
+        .map((key) => '$key:${item.selectedAttributes[key]}')
+        .join('_');
+
+    return '${item.productId}_$attributesString';
   }
 }

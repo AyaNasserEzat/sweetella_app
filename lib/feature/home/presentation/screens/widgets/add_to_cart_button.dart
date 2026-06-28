@@ -21,14 +21,6 @@ class AddToCartButton extends StatelessWidget {
 
           final finalPrice = cubit.calculateFinalPrice(productModel);
           context.read<CartCubit>().addToCart(
-            // CartItemModel(
-            //   productId: productModel.id,
-            //   productName: productModel.name,
-            //   price: productModel.price,
-            //   imageUrl: productModel.imageUrl,
-            //   quantity: 1,
-            //   selectedAttributes: {},
-            // ),
             CartItemModel(
               productId: productModel.id,
               productName: productModel.name,

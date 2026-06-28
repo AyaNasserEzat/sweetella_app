@@ -11,12 +11,22 @@ class CartRemoteDataSourceImp implements CartRemoteDataSource {
   @override
   Future<void> addToCart({required CartItemModel item}) async {
     try {
-      await firestore
+      final cartItemId = item.generateCartItemId(item);
+      final docRef = firestore
           .collection('users')
           .doc(uid)
           .collection('cart')
-          .doc(item.productId)
-          .set(item.toJson());
+          .doc(cartItemId);
+
+      final docSnapshot = await docRef.get();
+
+      if (docSnapshot.exists) {
+        // If exact same product + attribute combo exists, increment quantity
+        final currentQty = docSnapshot.data()?['quantity'] ?? 0;
+        await docRef.update({'quantity': currentQty + item.quantity});
+      } else {
+        await docRef.set(item.toJson());
+      }
     } catch (e) {
       ExceptionHandler.handle(e);
       rethrow;
@@ -30,7 +40,7 @@ class CartRemoteDataSourceImp implements CartRemoteDataSource {
           .collection('users')
           .doc(uid)
           .collection('cart')
-          .doc(item.productId)
+          .doc(item.generateCartItemId(item))
           .delete();
     } catch (e) {
       ExceptionHandler.handle(e);
@@ -57,7 +67,10 @@ class CartRemoteDataSourceImp implements CartRemoteDataSource {
   }
 
   @override
-  Future<void> updateCartItemQuantity({required String cartItemId, required int quantity}) async {
+  Future<void> updateCartItemQuantity({
+    required String cartItemId,
+    required int quantity,
+  }) async {
     try {
       await firestore
           .collection('users')

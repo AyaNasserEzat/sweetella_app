@@ -4,6 +4,7 @@ import 'package:sweetella/core/utils/app_colors.dart';
 import 'package:sweetella/feature/cart/data/models/cart_model.dart';
 import 'package:sweetella/feature/cart/presentation/cubits/cart_cubit.dart';
 import 'package:sweetella/feature/home/data/models/product_model.dart';
+import 'package:sweetella/feature/home/presentation/screens/cubit/product_attribut_selection_cubit.dart';
 import 'package:sweetella/feature/home/presentation/screens/widgets/attribute_bottomsheet.dart';
 
 class AddToCartBtn extends StatelessWidget {
@@ -26,31 +27,25 @@ class AddToCartBtn extends StatelessWidget {
         color: AppColors.primaryColor,
       ),
       onPressed: () {
-        // if (productModel.attributes.isNotEmpty) {
-        //   showAttributesBottomSheet(context, productModel);
-        // } else
-        // {
-        context.read<CartCubit>().toogleAddOrRemove(
-          CartItemModel(
-            productId: productModel.id,
-            productName: productModel.name,
-            price: productModel.calculateFinalPrice({
-              for (var attr in productModel.attributes)
-                if (attr.options.isNotEmpty)
-                  attr.title: attr.options.first.value,
-            }),
-            imageUrl: productModel.imageUrl,
-            quantity: 1,
-            selectedAttributes: productModel.attributes.isEmpty
-                ? {}
-                : {
-                    for (var attr in productModel.attributes)
-                      if (attr.options.isNotEmpty)
-                        attr.title: attr.options.first.value,
-                  },
-          ),
-        );
-        // }
+        if (productModel.attributes.isNotEmpty) {
+          showAttributesBottomSheet(context, productModel);
+        } else {
+          final cubit = context.read<ProductAttributesCubit>();
+
+          final selectedAttributes = cubit.getSelectedAttributes(productModel);
+
+          final finalPrice = cubit.calculateFinalPrice(productModel);
+          context.read<CartCubit>().addToCart(
+            CartItemModel(
+              productId: productModel.id,
+              productName: productModel.name,
+              price: finalPrice,
+              quantity: 1,
+              imageUrl: productModel.imageUrl,
+              selectedAttributes: selectedAttributes,
+            ),
+          );
+        }
       },
     );
   }

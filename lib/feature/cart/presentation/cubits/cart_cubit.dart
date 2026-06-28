@@ -10,6 +10,9 @@ class CartCubit extends Cubit<CartState> {
 
   List<CartItemModel> cartItems = [];
 
+  // Helper helper to clean up equality checks
+  String _getItemId(CartItemModel item) => item.generateCartItemId(item);
+
   Future<void> getCartItems() async {
     emit(CartLoading());
     final result = await cartRepo.getCartItems();
@@ -17,37 +20,53 @@ class CartCubit extends Cubit<CartState> {
       items,
     ) {
       cartItems = items;
-      emit(CartLoaded(cartItems: cartItems));
+      emit(CartLoaded(cartItems: List.from(cartItems)));
     });
   }
 
   Future<void> addToCart(CartItemModel cartItemModel) async {
-    // Optimistic update
-    cartItems.add(cartItemModel);
+    // Check if the exact attribute combo already exists to update quantity instead of duplicating
+    final existingIndex = cartItems.indexWhere(
+      (item) => _getItemId(item) == _getItemId(cartItemModel),
+    );
+
+    List<CartItemModel> previousState = List.from(cartItems);
+
+    if (existingIndex != -1) {
+      final existingItem = cartItems[existingIndex];
+      cartItems[existingIndex] = existingItem.copyWith(
+        quantity: existingItem.quantity + cartItemModel.quantity,
+      );
+    } else {
+      cartItems.add(cartItemModel);
+    }
+
     emit(CartLoaded(cartItems: List.from(cartItems)));
 
     final result = await cartRepo.addToCart(item: cartItemModel);
 
     result.fold((failure) {
-      // Rollback
-      cartItems.removeWhere(
-        (item) => item.productId == cartItemModel.productId,
-      );
+      // Rollback to exact previous state
+      cartItems = previousState;
       emit(CartError(message: failure.message));
       emit(CartLoaded(cartItems: List.from(cartItems)));
     }, (_) {});
   }
 
   Future<void> removeFromCart(CartItemModel cartItemModel) async {
-    // Optimistic update
-    cartItems.removeWhere((item) => item.productId == cartItemModel.productId);
+    List<CartItemModel> previousState = List.from(cartItems);
+
+    // FIXED: Match by generated unique ID, not just productId
+    cartItems.removeWhere(
+      (item) => _getItemId(item) == _getItemId(cartItemModel),
+    );
     emit(CartLoaded(cartItems: List.from(cartItems)));
 
     final result = await cartRepo.removeFromCart(item: cartItemModel);
 
     result.fold((failure) {
       // Rollback
-      cartItems.add(cartItemModel);
+      cartItems = previousState;
       emit(CartError(message: failure.message));
       emit(CartLoaded(cartItems: List.from(cartItems)));
     }, (_) async {});
@@ -65,29 +84,35 @@ class CartCubit extends Cubit<CartState> {
     required CartItemModel cartItemModel,
     required int quantity,
   }) async {
-    final index = cartItems.indexWhere((e) => e.id == cartItemModel.id);
+    // FIXED: Match by unique combination ID
+    final index = cartItems.indexWhere(
+      (e) => _getItemId(e) == _getItemId(cartItemModel),
+    );
 
     if (index == -1) return;
     final updatedCartItem = cartItems[index].copyWith(quantity: quantity);
 
     cartItems[index] = updatedCartItem;
+    emit(CartLoaded(cartItems: List.from(cartItems)));
 
-    emit(CartLoaded(cartItems: cartItems));
-
+    // FIXED: Pass the true unique cartItemId to your repo layer, NOT the base productId
     final result = await cartRepo.updateCartItemQuantity(
-      cartItemId: cartItemModel.productId,
+      cartItemId: _getItemId(cartItemModel),
       quantity: updatedCartItem.quantity,
     );
 
     result.fold((failure) {
-      //Rollback
+      // Rollback
       cartItems[index] = cartItemModel;
-      emit(CartLoaded(cartItems: cartItems));
+      emit(CartLoaded(cartItems: List.from(cartItems)));
       emit(CartError(message: failure.message));
     }, (message) async {});
   }
 
   bool isInCart(CartItemModel cartItemModel) {
-    return cartItems.any((item) => item.productId == cartItemModel.productId);
+    // FIXED: Match by full unique attribute signature
+    return cartItems.any(
+      (item) => _getItemId(item) == _getItemId(cartItemModel),
+    );
   }
 }
