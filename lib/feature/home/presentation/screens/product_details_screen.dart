@@ -85,6 +85,7 @@ class ProductDetailsScreen extends StatelessWidget {
                               PlusOrMinus(),
                               Spacer(),
                               AddToCartButton(productModel: productModel),
+                              // AddToCartButton(productModel: productModel),
                             ],
                           ),
                         ),
