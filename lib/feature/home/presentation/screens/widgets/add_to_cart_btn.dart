@@ -1,54 +1,3 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:sweetella/core/utils/app_colors.dart';
-// import 'package:sweetella/feature/cart/data/models/cart_model.dart';
-// import 'package:sweetella/feature/cart/presentation/cubits/cart_cubit.dart';
-// import 'package:sweetella/feature/home/data/models/product_model.dart';
-// import 'package:sweetella/feature/home/presentation/screens/cubit/product_attribut_selection_cubit.dart';
-// import 'package:sweetella/feature/home/presentation/screens/widgets/attribute_bottomsheet.dart';
-
-// class AddToCartBtn extends StatelessWidget {
-//   final ProductModel productModel;
-
-//   const AddToCartBtn({super.key, required this.productModel});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     print('build add to cart button ${productModel.id}');
-
-//     final isInCart = context.select<CartCubit, bool>(
-//       (cubit) =>
-//           cubit.cartItems.any((item) => item.productId == productModel.id),
-//     );
-
-//     return IconButton(
-//       icon: Icon(
-//         isInCart ? Icons.shopping_cart : Icons.shopping_cart_outlined,
-//         color: AppColors.primaryColor,
-//       ),
-//       onPressed: () {
-//         if (productModel.attributes.isNotEmpty) {
-//           showAttributesBottomSheet(context, productModel);
-//         } else {
-//           final selectionState = context.read<ProductAttributesCubit>().state;
-//           final cubit = context.read<ProductAttributesCubit>();
-
-//           // 2. Pass the map directly using selectionState.selectedAttributes
-//           context.read<CartCubit>().addToCart(
-//             CartItemModel(
-//               productId: productModel.id,
-//               productName: productModel.name,
-//               price: cubit.calculateFinalPrice(productModel).toInt(),
-//               imageUrl: productModel.imageUrl,
-//               quantity: 1,
-//               selectedAttributes: selectionState.selectedAttributes,
-//             ),
-//           );
-//         }
-//       },
-//     );
-//   }
-// }
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sweetella/core/utils/app_colors.dart';
@@ -110,7 +59,7 @@ class _AddToCartBtnState extends State<AddToCartBtn>
     // Fade/Scale effect for the quantity number popping up
     _textScaleAnimation = CurvedAnimation(
       parent: _controller,
-      curve: Curves.easeInOutBack,
+      curve: Curves.bounceIn,
     );
   }
 
@@ -169,7 +118,8 @@ class _AddToCartBtnState extends State<AddToCartBtn>
         }
       },
       child: Container(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(6),
+
         color:
             Colors.transparent, // Ensures the entire bounding box is clickable
         child: ScaleTransition(
@@ -183,13 +133,13 @@ class _AddToCartBtnState extends State<AddToCartBtn>
                     ? Icons.shopping_cart
                     : Icons.shopping_cart_outlined,
                 color: AppColors.primaryColor,
-                size: 30,
+                size: 35,
               ),
               // 2. Animated Number Inside the Cart
               if (cartQuantity > 0)
                 Positioned(
                   top:
-                      4, // Tweak this value depending on your specific font/icon size
+                      6, // Tweak this value depending on your specific font/icon size
                   child: ScaleTransition(
                     scale: _textScaleAnimation,
                     child: FadeTransition(
