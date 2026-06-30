@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sweetella/core/utils/app_text_styles.dart';
 import 'package:sweetella/feature/favorites/presentation/screens/widgets/favorite_button.dart';
@@ -10,12 +9,7 @@ import 'package:sweetella/feature/home/presentation/screens/widgets/sale_contain
 
 class ProductItem extends StatelessWidget {
   final ProductModel productModel;
-  //final Color backgroundColor;
-  const ProductItem({
-    super.key,
-    required this.productModel,
-    //required this.backgroundColor,
-  });
+  const ProductItem({super.key, required this.productModel});
 
   @override
   Widget build(BuildContext context) {
@@ -86,10 +80,30 @@ class ProductItem extends StatelessWidget {
                       style: AppTextStyles.text16BoldBlack,
                     ),
                   ),
+
+                  productModel.attributes.isNotEmpty
+                      ? FittedBox(
+                          fit: BoxFit.scaleDown,
+                          alignment: Alignment.centerLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: productModel.attributes.map((attr) {
+                              // Get the first option value as the default
+                              final defaultOption = attr.options.isNotEmpty
+                                  ? attr.options.first.value
+                                  : '';
+
+                              return Text(
+                                '${attr.title}: $defaultOption',
+                                style: AppTextStyles.text18Grey,
+                              );
+                            }).toList(),
+                          ),
+                        )
+                      : const SizedBox.shrink(),
+
                   SizedBox(height: 5),
-                  RowOfPriceAndSalePrice(
-                    productModel: productModel,
-                  ),
+                  RowOfPriceAndSalePrice(productModel: productModel),
                 ],
               ),
             ),

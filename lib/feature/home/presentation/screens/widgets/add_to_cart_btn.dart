@@ -5,7 +5,6 @@ import 'package:sweetella/feature/cart/data/models/cart_model.dart';
 import 'package:sweetella/feature/cart/presentation/cubits/cart_cubit.dart';
 import 'package:sweetella/feature/home/data/models/product_model.dart';
 import 'package:sweetella/feature/home/presentation/screens/cubit/product_attribut_selection_cubit.dart';
-import 'package:sweetella/feature/home/presentation/screens/widgets/attribute_bottomsheet.dart';
 
 class AddToCartBtn extends StatefulWidget {
   final ProductModel productModel;
@@ -99,23 +98,24 @@ class _AddToCartBtnState extends State<AddToCartBtn>
 
     return GestureDetector(
       onTap: () {
-        if (widget.productModel.attributes.isNotEmpty) {
-          showAttributesBottomSheet(context, widget.productModel);
-        } else {
-          final selectionState = context.read<ProductAttributesCubit>().state;
-          final cubit = context.read<ProductAttributesCubit>();
+        final defaultsAttribute = context
+            .read<ProductAttributesCubit>()
+            .initializeDefaults(widget.productModel);
+        final selectionState = context.read<ProductAttributesCubit>().state;
+        final cubit = context.read<ProductAttributesCubit>();
 
-          context.read<CartCubit>().addToCart(
-            CartItemModel(
-              productId: widget.productModel.id,
-              productName: widget.productModel.name,
-              price: cubit.calculateFinalPrice(widget.productModel).toInt(),
-              imageUrl: widget.productModel.imageUrl,
-              quantity: 1,
-              selectedAttributes: selectionState.selectedAttributes,
-            ),
-          );
-        }
+        context.read<CartCubit>().addToCart(
+          CartItemModel(
+            productId: widget.productModel.id,
+            productName: widget.productModel.name,
+            price: cubit.calculateFinalPrice(widget.productModel).toInt(),
+            imageUrl: widget.productModel.imageUrl,
+            quantity: 1,
+            selectedAttributes: selectionState.selectedAttributes.isNotEmpty
+                ? selectionState.selectedAttributes
+                : defaultsAttribute,
+          ),
+        );
       },
       child: Container(
         padding: const EdgeInsets.all(6),

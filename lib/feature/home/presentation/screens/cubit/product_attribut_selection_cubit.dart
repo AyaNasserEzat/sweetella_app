@@ -5,16 +5,16 @@ import 'package:sweetella/feature/home/presentation/screens/cubit/product_attrib
 class ProductAttributesCubit extends Cubit<ProductSelectionState> {
   ProductAttributesCubit()
     : super(ProductSelectionState(selectedAttributes: {}));
-
+  final Map<String, String> defaultsAttribute = {};
   // Automatically select the first available option for every attribute group
-  void initializeDefaults(ProductModel product) {
-    final Map<String, String> defaults = {};
+  Map<String, String> initializeDefaults(ProductModel product) {
     for (var attr in product.attributes) {
       if (attr.options.isNotEmpty) {
-        defaults[attr.title] = attr.options.first.value;
+        defaultsAttribute[attr.title] = attr.options.first.value;
       }
     }
-    emit(ProductSelectionState(selectedAttributes: defaults));
+    emit(ProductSelectionState(selectedAttributes: defaultsAttribute));
+    return defaultsAttribute;
   }
 
   // Triggers when a user selects a new item
