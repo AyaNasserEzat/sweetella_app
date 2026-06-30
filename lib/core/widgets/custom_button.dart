@@ -5,7 +5,14 @@ class CustomButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String text;
   final double width;
-  const CustomButton({super.key, required this.onPressed, required this.text,  this.width=double.infinity});
+  final double borderRadius;
+  const CustomButton({
+    super.key,
+    required this.onPressed,
+    required this.text,
+    this.borderRadius = 14,
+    this.width = double.infinity,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +29,11 @@ class CustomButton extends StatelessWidget {
         onPressed: onPressed,
         child: FittedBox(
           fit: BoxFit.scaleDown,
-          child: Text(text, style: TextStyle(fontSize: 18, color: Colors.white))),
+          child: Text(
+            text,
+            style: TextStyle(fontSize: 18, color: Colors.white),
+          ),
+        ),
       ),
     );
   }
