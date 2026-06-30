@@ -18,10 +18,7 @@ class TrackOrderScreen extends StatelessWidget {
           children: [
             AppBarTitle(title: "Track Order"),
             const SizedBox(height: 20),
-            Text(
-              'Order ID: $orderId',
-              style: AppTextStyles.text18BoldDarkGray,
-            ),
+            Text('Order ID: $orderId', style: AppTextStyles.text18BoldDarkGray),
             const SizedBox(height: 20),
             // Order status timeline
             Container(
@@ -67,13 +64,25 @@ class TrackOrderScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Delivery Information', style: AppTextStyles.text18BoldDarkGray),
+                  Text(
+                    'Delivery Information',
+                    style: AppTextStyles.text18BoldDarkGray,
+                  ),
                   const SizedBox(height: 10),
-                  Text('Delivery Address: 123 Main St, City, State', style: AppTextStyles.text18Grey),
+                  Text(
+                    'Delivery Address: 123 Main St, City, State',
+                    style: AppTextStyles.text16Grey,
+                  ),
                   const SizedBox(height: 5),
-                  Text('Estimated Delivery: 2:00 PM - 3:00 PM', style: AppTextStyles.text18Grey),
+                  Text(
+                    'Estimated Delivery: 2:00 PM - 3:00 PM',
+                    style: AppTextStyles.text16Grey,
+                  ),
                   const SizedBox(height: 5),
-                  Text('Delivery Partner: John Doe', style: AppTextStyles.text18Grey),
+                  Text(
+                    'Delivery Partner: John Doe',
+                    style: AppTextStyles.text16Grey,
+                  ),
                 ],
               ),
             ),
@@ -93,7 +102,9 @@ class TrackOrderScreen extends StatelessWidget {
             shape: BoxShape.circle,
             color: isCompleted ? AppColors.primaryColor : AppColors.greyLigt,
           ),
-          child: isCompleted ? const Icon(Icons.check, size: 14, color: Colors.white) : null,
+          child: isCompleted
+              ? const Icon(Icons.check, size: 14, color: Colors.white)
+              : null,
         ),
         const SizedBox(width: 15),
         Expanded(
@@ -101,7 +112,7 @@ class TrackOrderScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(status, style: AppTextStyles.text16BoldBlack),
-              Text(time, style: AppTextStyles.text18Grey),
+              Text(time, style: AppTextStyles.text16Grey),
             ],
           ),
         ),

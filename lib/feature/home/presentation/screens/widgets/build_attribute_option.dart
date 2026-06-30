@@ -1,46 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:sweetella/core/utils/app_colors.dart';
+import 'package:sweetella/core/utils/app_text_styles.dart';
+import 'package:sweetella/feature/home/data/models/product_model.dart';
+import 'package:sweetella/feature/home/presentation/screens/cubit/product_attribut_selection_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class BuildAttributeOption extends StatelessWidget {
-  final String size;
-  final bool isSelected;
-  final VoidCallback? onTap;
-
-  const BuildAttributeOption({
+class BuildAttributsOption extends StatelessWidget {
+  const BuildAttributsOption({
     super.key,
-    required this.size,
-    this.isSelected = false,
-    this.onTap,
+    required this.attributeTitle,
+    required this.optionValue,
+    required this.isSelected,
   });
+
+  final String attributeTitle;
+  final AttributeOption optionValue;
+  final bool isSelected;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () {
+        context.read<ProductAttributesCubit>().selectAttribute(
+          attributeTitle,
+          optionValue.value,
+        );
+      },
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        margin: const EdgeInsets.only(right: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
         decoration: BoxDecoration(
-          color: isSelected ? Color(0xffe26784) : Colors.white,
-          shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black26,
-              blurRadius: 6,
-              offset: Offset(0, 2),
-            ),
-          ],
-          border: Border.all(
-            color: isSelected ? AppColors.primaryColor : Colors.grey,
-            width: 1.5,
-          ),
+          color: isSelected ? AppColors.primaryColor : AppColors.grey,
+          borderRadius: BorderRadius.circular(20),
         ),
         child: Text(
-          size,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: isSelected ? Colors.white : Colors.grey,
-          ),
+          optionValue.value,
+          style: isSelected
+              ? AppTextStyles.text16BoldWhite
+              : AppTextStyles.text16Grey,
         ),
       ),
     );

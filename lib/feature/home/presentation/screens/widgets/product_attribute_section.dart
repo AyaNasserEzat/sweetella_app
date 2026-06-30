@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:sweetella/core/utils/app_text_styles.dart';
 import 'package:sweetella/feature/home/data/models/product_model.dart';
 import 'package:sweetella/feature/home/presentation/screens/widgets/attribute_selector.dart';
 
@@ -16,7 +17,7 @@ class ProductAttributesSection extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(attribute.title),
+              Text(attribute.title, style: AppTextStyles.text20BoldDarkGray),
               const SizedBox(height: 10),
               AttributeSelector(
                 attributeTitle: attribute.title,

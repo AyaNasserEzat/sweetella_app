@@ -95,7 +95,7 @@ class ProductItem extends StatelessWidget {
 
                               return Text(
                                 '${attr.title}: $defaultOption',
-                                style: AppTextStyles.text18Grey,
+                                style: AppTextStyles.text16Grey,
                               );
                             }).toList(),
                           ),

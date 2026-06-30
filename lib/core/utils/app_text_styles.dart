@@ -9,13 +9,20 @@ class AppTextStyles {
     fontFamily: 'Nunito',
     fontVariations: [FontVariation('wght', 900)],
   );
+  static const text16BoldWhite = TextStyle(
+    fontSize: 16,
+    color: AppColors.white,
+    letterSpacing: 1.5,
+    fontFamily: 'Nunito',
+    fontVariations: [FontVariation('wght', 900)],
+  );
   static const text18SmiBoldwhite = TextStyle(
     fontSize: 18,
     color: AppColors.white,
     fontFamily: 'Nunito',
     fontVariations: [FontVariation('wght', 700)],
   );
-   static const text12SmiBoldwhite = TextStyle(
+  static const text12SmiBoldwhite = TextStyle(
     fontSize: 12,
     color: AppColors.white,
     fontFamily: 'Nunito',
@@ -54,13 +61,13 @@ class AppTextStyles {
     fontFamily: 'Nunito',
     fontVariations: [FontVariation('wght', 900)],
   );
-   static const text18SmiyBoldDarkGray = TextStyle(
+  static const text18SmiyBoldDarkGray = TextStyle(
     fontSize: 18,
     color: AppColors.greyDark,
     fontFamily: 'Nunito',
     fontVariations: [FontVariation('wght', 700)],
   );
-   static  TextStyle text16SmiyBoldblack54 = TextStyle(
+  static TextStyle text16SmiyBoldblack54 = TextStyle(
     fontSize: 16,
     color: Colors.black54,
     fontFamily: 'Nunito',
@@ -83,18 +90,21 @@ class AppTextStyles {
 
   static const priceTextGreen = TextStyle(
     fontSize: 16,
-    color: Colors.green,  fontFamily: 'Nunito',
-    fontVariations: [FontVariation('wght', 900)],);
-
-  static const text18Grey = TextStyle(
+    color: Colors.green,
     fontFamily: 'Nunito',
-    fontVariations: [FontVariation('wght', 400)],
+    fontVariations: [FontVariation('wght', 900)],
+  );
+
+  static const text16Grey = TextStyle(
+    fontFamily: 'Nunito',
+    fontSize: 16,
+    fontVariations: [FontVariation('wght', 900)],
     color: Colors.grey,
   );
   static const text18GreyLineThrough = TextStyle(
     fontFamily: 'Nunito',
     fontVariations: [FontVariation('wght', 400)],
     color: Colors.grey,
-    decoration: TextDecoration.lineThrough
+    decoration: TextDecoration.lineThrough,
   );
 }

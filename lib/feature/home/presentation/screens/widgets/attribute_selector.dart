@@ -3,6 +3,7 @@ import 'package:sweetella/feature/home/data/models/product_model.dart';
 import 'package:sweetella/feature/home/presentation/screens/cubit/product_attribut_selection_cubit.dart';
 import 'package:sweetella/feature/home/presentation/screens/cubit/product_attribut_selection_state.dart';
 import 'package:sweetella/feature/home/presentation/screens/widgets/build_attribute_option.dart';
+import 'package:sweetella/feature/home/presentation/screens/widgets/build_attribute_size_option.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AttributeSelector extends StatelessWidget {
@@ -33,20 +34,17 @@ class AttributeSelector extends StatelessWidget {
               // It is selected if its string value matches the cubit state value
               final isSelected = selectedValue == optionValue.value;
 
-              return Padding(
-                padding: const EdgeInsets.only(right: 10),
-                child: BuildAttributeOption(
-                  size: optionValue.value,
-                  isSelected: isSelected,
-                  onTap: () {
-                    // Update selection in your Cubit
-                    context.read<ProductAttributesCubit>().selectAttribute(
-                      attributeTitle,
-                      optionValue.value,
+              return attributeTitle == "Size"
+                  ? BuildAttributeSizeOption(
+                      attributeTitle: attributeTitle,
+                      optionValue: optionValue.value,
+                      isSelected: isSelected,
+                    )
+                  : BuildAttributsOption(
+                      attributeTitle: attributeTitle,
+                      optionValue: optionValue,
+                      isSelected: isSelected,
                     );
-                  },
-                ),
-              );
             },
           );
         },
