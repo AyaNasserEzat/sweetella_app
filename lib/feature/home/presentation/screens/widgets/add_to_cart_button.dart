@@ -6,6 +6,7 @@ import 'package:sweetella/feature/cart/data/models/cart_model.dart';
 import 'package:sweetella/feature/cart/presentation/cubits/cart_cubit.dart';
 import 'package:sweetella/feature/home/data/models/product_model.dart';
 import 'package:sweetella/feature/home/presentation/screens/cubit/product_attribut_selection_cubit.dart';
+import 'package:sweetella/feature/home/presentation/screens/cubit/quantity_cubit.dart';
 
 class AddToCartButton extends StatefulWidget {
   const AddToCartButton({super.key, required this.productModel});
@@ -28,10 +29,11 @@ class _AddToCartButtonState extends State<AddToCartButton> {
         productName: widget.productModel.name,
         price: cubit.calculateFinalPrice(widget.productModel).toInt(),
         imageUrl: widget.productModel.imageUrl,
-        quantity: 1,
+        quantity: context.read<QuantityCubit>().state,
         selectedAttributes: selectionState.selectedAttributes,
       ),
     );
+    context.read<QuantityCubit>().reset();
   }
 
   @override

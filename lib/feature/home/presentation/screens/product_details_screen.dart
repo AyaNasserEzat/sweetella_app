@@ -5,6 +5,7 @@ import 'package:sweetella/core/di/service_locator.dart';
 import 'package:sweetella/feature/cart/presentation/cubits/cart_cubit.dart';
 import 'package:sweetella/feature/home/data/models/product_model.dart';
 import 'package:sweetella/feature/home/presentation/screens/cubit/product_attribut_selection_cubit.dart';
+import 'package:sweetella/feature/home/presentation/screens/cubit/quantity_cubit.dart';
 import 'package:sweetella/feature/home/presentation/screens/widgets/add_to_cart_button.dart';
 import 'package:sweetella/feature/home/presentation/screens/widgets/product_title_and_price.dart';
 import 'package:sweetella/feature/home/presentation/screens/widgets/icon_favorite.dart';
@@ -16,6 +17,7 @@ import 'package:sweetella/feature/home/presentation/screens/widgets/product_desc
 class ProductDetailsScreen extends StatelessWidget {
   const ProductDetailsScreen({super.key, required this.productModel});
   final ProductModel productModel;
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -24,6 +26,7 @@ class ProductDetailsScreen extends StatelessWidget {
           create: (_) =>
               ProductAttributesCubit()..initializeDefaults(productModel),
         ),
+        BlocProvider(create: (_) => QuantityCubit()),
         BlocProvider(create: (context) => sl<CartCubit>()),
       ],
       child: Scaffold(

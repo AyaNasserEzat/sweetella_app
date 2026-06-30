@@ -1,28 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sweetella/feature/home/presentation/screens/cubit/quantity_cubit.dart';
 
-class PlusOrMinus extends StatefulWidget {
+class PlusOrMinus extends StatelessWidget {
   const PlusOrMinus({super.key});
-
-  @override
-  State<PlusOrMinus> createState() => _PlusOrMinusState();
-}
-
-class _PlusOrMinusState extends State<PlusOrMinus> {
-  int quantity = 1;
-
-  void incrementQuantity() {
-    setState(() {
-      quantity++;
-    });
-  }
-
-  void decrementQuantity() {
-    if (quantity > 1) {
-      setState(() {
-        quantity--;
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,14 +24,17 @@ class _PlusOrMinusState extends State<PlusOrMinus> {
             ],
           ),
           child: IconButton(
-            onPressed: decrementQuantity,
+            onPressed: () {
+              context.read<QuantityCubit>().decrement();
+            },
             icon: Icon(Icons.remove, color: Color(0xffe26784)),
           ),
         ),
         const SizedBox(width: 12),
-        Text(
-          '$quantity',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        BlocBuilder<QuantityCubit, int>(
+          builder: (context, quantity) {
+            return Text(quantity.toString());
+          },
         ),
         const SizedBox(width: 12),
         Container(
@@ -68,7 +52,9 @@ class _PlusOrMinusState extends State<PlusOrMinus> {
             ],
           ),
           child: IconButton(
-            onPressed: incrementQuantity,
+            onPressed: () {
+              context.read<QuantityCubit>().increment();
+            },
             icon: Icon(Icons.add, color: Color(0xffe26784)),
           ),
         ),
