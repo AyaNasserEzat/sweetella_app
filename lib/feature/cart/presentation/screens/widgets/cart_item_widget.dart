@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sweetella/core/helper/extension.dart';
 import 'package:sweetella/core/utils/app_colors.dart';
+import 'package:sweetella/core/utils/app_text_styles.dart';
 import 'package:sweetella/feature/cart/data/models/cart_model.dart';
 import 'package:sweetella/feature/cart/presentation/cubits/cart_cubit.dart';
 import 'package:sweetella/feature/cart/presentation/screens/widgets/row_plus_or_minus.dart';
@@ -20,8 +21,6 @@ class CartItemWidget extends StatelessWidget {
     final imageSize = screenWidth * 0.12;
     final spacing = screenWidth * 0.02;
     final nameFontSize = screenWidth * 0.04;
-    final sizeFontSize = screenWidth * 0.035;
-
     return Container(
       padding: EdgeInsets.all(paddingValue),
       margin: const EdgeInsets.only(bottom: 14),
@@ -62,11 +61,7 @@ class CartItemWidget extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     item.productName,
-                    style: TextStyle(
-                      fontSize: nameFontSize,
-                      fontFamily: 'Nunito',
-                      fontVariations: [const FontVariation('wght', 800)],
-                    ),
+                    style: AppTextStyles.text18BoldDarkGray,
                   ),
                 ),
 
@@ -75,15 +70,11 @@ class CartItemWidget extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+
                     children: item.selectedAttributes.entries.map((entry) {
                       return Text(
                         '${entry.key}: ${entry.value}',
-                        style: TextStyle(
-                          fontSize: sizeFontSize,
-                          color: Colors.grey,
-                          fontFamily: 'Nunito',
-                          fontVariations: [const FontVariation('wght', 600)],
-                        ),
+                        style: AppTextStyles.text18SmiyBoldDarkGray,
                       );
                     }).toList(),
                   ),
@@ -93,14 +84,9 @@ class CartItemWidget extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "price ${item.price.toString()}\$",
-                    style: TextStyle(
-                      fontSize: nameFontSize,
-                      fontFamily: 'Nunito',
-                      fontVariations: [const FontVariation('wght', 800)],
-                    ),
+                    style: AppTextStyles.text16BoldBlack,
                   ),
                 ),
-                //(item: item),
               ],
             ),
           ),

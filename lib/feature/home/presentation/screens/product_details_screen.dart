@@ -6,7 +6,7 @@ import 'package:sweetella/feature/cart/presentation/cubits/cart_cubit.dart';
 import 'package:sweetella/feature/home/data/models/product_model.dart';
 import 'package:sweetella/feature/home/presentation/screens/cubit/product_attribut_selection_cubit.dart';
 import 'package:sweetella/feature/home/presentation/screens/widgets/add_to_cart_button.dart';
-import 'package:sweetella/feature/home/presentation/screens/widgets/donut_title_and_price.dart';
+import 'package:sweetella/feature/home/presentation/screens/widgets/product_title_and_price.dart';
 import 'package:sweetella/feature/home/presentation/screens/widgets/icon_favorite.dart';
 import 'package:sweetella/feature/home/presentation/screens/widgets/plus_or_minus.dart';
 import 'package:sweetella/feature/home/presentation/screens/widgets/product_attribute_section.dart';
@@ -67,7 +67,7 @@ class ProductDetailsScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       spacing: 8,
                       children: [
-                        DonutTitleAndPrice(productModel: productModel),
+                        ProductTitleAndPrice(productModel: productModel),
                         Reviews(),
                         ProductDescription(
                           description: productModel.description,
