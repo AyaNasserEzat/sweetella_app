@@ -5,16 +5,16 @@ import 'package:sweetella/feature/home/presentation/screens/cubit/product_attrib
 class ProductAttributesCubit extends Cubit<ProductSelectionState> {
   ProductAttributesCubit()
     : super(ProductSelectionState(selectedAttributes: {}));
-  final Map<String, String> defaultsAttribute = {};
+  final Map<String, String> defaults = {};
   // Automatically select the first available option for every attribute group
   Map<String, String> initializeDefaults(ProductModel product) {
     for (var attr in product.attributes) {
       if (attr.options.isNotEmpty) {
-        defaultsAttribute[attr.title] = attr.options.first.value;
+        defaults[attr.title] = attr.options.first.value;
       }
     }
-    emit(ProductSelectionState(selectedAttributes: defaultsAttribute));
-    return defaultsAttribute;
+    emit(ProductSelectionState(selectedAttributes: defaults));
+    return defaults;
   }
 
   // Triggers when a user selects a new item
@@ -29,28 +29,29 @@ class ProductAttributesCubit extends Cubit<ProductSelectionState> {
 
   // Dynamic getter that calculates the real-time final price
   double calculateFinalPrice(ProductModel product) {
-    // Base price defaults to salePrice if it exists, otherwise standard price
     double basePrice = product.salePrice > 0
         ? product.salePrice.toDouble()
         : product.price.toDouble();
-    double totalModifier = 0.0;
 
-    state.selectedAttributes.forEach((attributeTitle, selectedValue) {
-      // Find the parent attribute category
-      final attribute = product.attributes.firstWhere(
-        (attr) => attr.title == attributeTitle,
-        orElse: () => ProductAttribute(title: '', options: []),
-      );
+    if (product.attributes.isEmpty) {
+      return basePrice;
+    }
 
-      // Find the specific chosen option modifier
+    double total = 0;
+
+    for (int i = 0; i < product.attributes.length; i++) {
+      final attribute = product.attributes[i];
+
+      String? selectedValue = state.selectedAttributes[attribute.title];
+
       final option = attribute.options.firstWhere(
         (opt) => opt.value == selectedValue,
-        orElse: () => AttributeOption(value: '', priceModifier: 0.0, stock: 0),
+        orElse: () => attribute.options.first,
       );
 
-      totalModifier += option.priceModifier;
-    });
+      total += option.priceModifier;
+    }
 
-    return basePrice + totalModifier;
+    return total + basePrice;
   }
 }

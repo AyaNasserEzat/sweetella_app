@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sweetella/core/utils/app_text_styles.dart';
 import 'package:sweetella/feature/home/data/models/product_model.dart';
+import 'package:sweetella/feature/home/presentation/screens/cubit/product_attribut_selection_cubit.dart';
+import 'package:sweetella/feature/home/presentation/screens/cubit/product_attribut_selection_state.dart';
 import 'package:sweetella/feature/home/presentation/screens/widgets/add_to_cart_btn.dart';
 
 class RowOfPriceAndSalePrice extends StatelessWidget {
@@ -25,25 +28,20 @@ class RowOfPriceAndSalePrice extends StatelessWidget {
                     style: AppTextStyles.priceTextGreen,
                   ),
                 Text(
-                  productModel.salePrice != 0
-                      ? "${productModel.price}\$"
-                      : "${productModel.price}\$",
-                  style: productModel.salePrice != 0
-                      ? AppTextStyles.text18GreyLineThrough
-                      : AppTextStyles.text16BoldBlack,
+                  '${BlocProvider.of<ProductAttributesCubit>(context).calculateFinalPrice(productModel)}\$',
+                  style: AppTextStyles.text18BoldDarkGray,
                 ),
+                // Text(
+                //   "${productModel.price}\$",
+                //   style: productModel.salePrice != 0
+                //       ? AppTextStyles.text18GreyLineThrough
+                //       : AppTextStyles.text16BoldBlack,
+                // ),
               ],
             ),
           ),
         ),
         AddToCartBtn(productModel: productModel),
-
-        // Icon(
-        //   CupertinoIcons.cart_badge_plus,
-        //   color: AppColors.primaryColor,
-        //   fontWeight: FontWeight.bold,
-        //   size: 22,
-        // ),
       ],
     );
   }
