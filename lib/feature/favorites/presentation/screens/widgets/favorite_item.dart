@@ -91,9 +91,27 @@ class FavoriteItem extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 5),
-                  RowOfPriceAndSalePrice(
-                    productModel: productModel,
-                  ),
+                  productModel.attributes.isNotEmpty
+                      ? FittedBox(
+                          fit: BoxFit.scaleDown,
+                          alignment: Alignment.centerLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: productModel.attributes.map((attr) {
+                              // Get the first option value as the default
+                              final defaultOption = attr.options.isNotEmpty
+                                  ? attr.options.first.value
+                                  : '';
+
+                              return Text(
+                                '${attr.title}: $defaultOption',
+                                style: AppTextStyles.text16Grey,
+                              );
+                            }).toList(),
+                          ),
+                        )
+                      : const SizedBox.shrink(),
+                  RowOfPriceAndSalePrice(productModel: productModel),
                 ],
               ),
             ),

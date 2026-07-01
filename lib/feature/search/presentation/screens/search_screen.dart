@@ -5,6 +5,7 @@ import 'package:sweetella/core/helper/extension.dart';
 import 'package:sweetella/feature/auth/presentation/screens/widgets/app_bar.dart';
 import 'package:sweetella/feature/cart/presentation/cubits/cart_cubit.dart';
 import 'package:sweetella/feature/favorites/presentation/cubits/favorites_cubit.dart';
+import 'package:sweetella/feature/home/presentation/screens/cubit/product_attribut_selection_cubit.dart';
 import 'package:sweetella/feature/search/presentation/bloc/search_bloc.dart';
 import 'package:sweetella/feature/search/presentation/screens/widgets/search_screen_body.dart';
 
@@ -21,6 +22,7 @@ class SearchScreen extends StatelessWidget {
           create: (context) => sl<FavoritesCubit>()..getFavoritesIds(),
         ),
         BlocProvider(create: (context) => sl<CartCubit>()..getCartItems()),
+        BlocProvider(create: (_) => ProductAttributesCubit()),
       ],
       child: Scaffold(
         body: SingleChildScrollView(
