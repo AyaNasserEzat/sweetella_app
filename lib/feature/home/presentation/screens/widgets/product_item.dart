@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sweetella/core/utils/app_text_styles.dart';
+import 'package:sweetella/feature/cart/presentation/cubits/cart_cubit.dart';
 import 'package:sweetella/feature/favorites/presentation/cubits/favorites_cubit.dart';
 import 'package:sweetella/feature/favorites/presentation/screens/widgets/favorite_button.dart';
 import 'package:sweetella/feature/home/data/models/product_model.dart';
@@ -22,8 +23,11 @@ class ProductItem extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (_) => BlocProvider.value(
-                  value: context.read<FavoritesCubit>(),
+                builder: (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(value: context.read<FavoritesCubit>()),
+                    BlocProvider.value(value: context.read<CartCubit>()),
+                  ],
                   child: ProductDetailsScreen(productModel: productModel),
                 ),
               ),

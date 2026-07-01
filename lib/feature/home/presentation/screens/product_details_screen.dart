@@ -28,7 +28,7 @@ class ProductDetailsScreen extends StatelessWidget {
               ProductAttributesCubit()..initializeDefaults(productModel),
         ),
         BlocProvider(create: (_) => QuantityCubit()),
-        BlocProvider(create: (context) => sl<CartCubit>()),
+        //  BlocProvider(create: (context) => sl<CartCubit>()),
       ],
       child: Scaffold(
         backgroundColor: const Color(0xfffee3e3),
