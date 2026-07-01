@@ -111,9 +111,11 @@ class _AddToCartBtnState extends State<AddToCartBtn>
             price: cubit.calculateFinalPrice(widget.productModel).toInt(),
             imageUrl: widget.productModel.imageUrl,
             quantity: 1,
-            selectedAttributes: selectionState.selectedAttributes.isNotEmpty
-                ? selectionState.selectedAttributes
-                : defaultsAttribute,
+            selectedAttributes:
+                // selectionState.selectedAttributes.isNotEmpty
+                //     ? selectionState.selectedAttributes
+                //     :
+                defaultsAttribute,
           ),
         );
       },

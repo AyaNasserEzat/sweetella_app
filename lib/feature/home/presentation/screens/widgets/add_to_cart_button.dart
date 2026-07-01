@@ -33,31 +33,24 @@ class _AddToCartButtonState extends State<AddToCartButton> {
         selectedAttributes: selectionState.selectedAttributes,
       ),
     );
+
     context.read<QuantityCubit>().reset();
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTapDown: (_) {
-        setState(() => isPressed = true);
-      },
-      onTapUp: (_) {
-        setState(() => isPressed = false);
-        addToCart();
-      },
-      onTapCancel: () {
-        setState(() => isPressed = false);
-      },
+    return Listener(
+      onPointerDown: (_) => setState(() => isPressed = true),
+      onPointerUp: (_) => setState(() => isPressed = false),
       child: AnimatedScale(
         scale: isPressed ? 0.6 : 1.0,
-        duration: const Duration(milliseconds: 120),
+        duration: const Duration(milliseconds: 100),
         child: SizedBox(
           width: context.w * .5,
           child: ElevatedButton(
-            onPressed: null, // GestureDetector handles click
+            onPressed: addToCart,
             style: ElevatedButton.styleFrom(
-              disabledBackgroundColor: AppColors.primaryColor,
+              backgroundColor: AppColors.primaryColor,
               padding: const EdgeInsets.symmetric(vertical: 16),
             ),
             child: const Text(
