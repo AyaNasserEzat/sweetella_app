@@ -28,10 +28,14 @@ class BuildAttributsOption extends StatelessWidget {
       },
       child: Container(
         margin: const EdgeInsets.only(right: 12),
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.primaryColor : AppColors.grey,
+          color: isSelected ? AppColors.primaryColor : AppColors.white,
           borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: isSelected ? AppColors.primaryColor : Colors.grey,
+            width: 1.5,
+          ),
         ),
         child: Text(
           optionValue.value,

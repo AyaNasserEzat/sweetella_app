@@ -54,51 +54,62 @@ class ProductDetailsScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-
                 SliverFillRemaining(
                   hasScrollBody: false,
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(25),
-                      ),
-                    ),
-                    padding: const EdgeInsets.all(12),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      spacing: 8,
-                      children: [
-                        ProductTitleAndPrice(productModel: productModel),
-                        Reviews(),
-                        ProductDescription(
-                          description: productModel.description,
-                        ),
-                        productModel.attributes.isEmpty
-                            ? Container()
-                            : ProductAttributesSection(
-                                productModel: productModel,
-                              ),
-                        const Spacer(),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: [
-                              PlusOrMinus(),
-                              Spacer(),
-                              AddToCartButton(productModel: productModel),
-                              // AddToCartButton(productModel: productModel),
-                            ],
+                  child: Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(top: 25),
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(30),
+                            topRight: Radius.circular(25),
                           ),
                         ),
-                      ],
-                    ),
+                        padding: const EdgeInsets.all(12),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 20),
+
+                            ProductTitleAndPrice(productModel: productModel),
+                            Reviews(),
+                            ProductDescription(
+                              description: productModel.description,
+                            ),
+
+                            if (productModel.attributes.isNotEmpty)
+                              ProductAttributesSection(
+                                productModel: productModel,
+                              ),
+
+                            const Spacer(),
+
+                            Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Row(
+                                children: [
+                                  PlusOrMinus(),
+                                  const Spacer(),
+                                  AddToCartButton(productModel: productModel),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const Positioned(
+                        top: 0,
+                        right: 30,
+                        child: IconFavorite(),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
-            IconFavorite(),
           ],
         ),
       ),

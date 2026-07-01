@@ -1,37 +1,27 @@
-
 import 'package:flutter/material.dart';
-import 'package:sweetella/core/helper/extension.dart';
 
 class IconFavorite extends StatelessWidget {
-  const IconFavorite({
-    super.key,
-  });
+  const IconFavorite({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      top: 265,
-      right: context.w / 4 - 70,
-      child: Container(
-        width: 50,
-        height: 50,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black26,
-              blurRadius: 10,
-              offset: Offset(0, 4),
-            ),
-          ],
-        ),
-        child: IconButton(
-          icon: Icon(Icons.favorite_border, color: Color(0xffe26784)),
-          onPressed: () {
-            // Favorite button functionality
-          },
-        ),
+    return Container(
+      width: 50,
+      height: 50,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 10,
+            offset: Offset(0, 4),
+          ),
+        ],
+      ),
+      child: IconButton(
+        icon: Icon(Icons.favorite_border, color: Color(0xffe26784)),
+        onPressed: () {},
       ),
     );
   }

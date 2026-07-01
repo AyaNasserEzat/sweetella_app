@@ -30,7 +30,7 @@ class BuildAttributeSizeOption extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
           decoration: BoxDecoration(
-            color: isSelected ? Color(0xffe26784) : Colors.white,
+            color: isSelected ? AppColors.primaryColor : Colors.white,
             shape: BoxShape.circle,
             boxShadow: [
               BoxShadow(
