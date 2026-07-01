@@ -13,6 +13,16 @@ class CartCubit extends Cubit<CartState> {
   // Helper helper to clean up equality checks
   String _getItemId(CartItemModel item) => item.generateCartItemId(item);
 
+  int getItemQuantity(CartItemModel cartItemModel) {
+    final index = cartItems.indexWhere(
+      (item) => _getItemId(item) == _getItemId(cartItemModel),
+    );
+
+    if (index == -1) return 0;
+
+    return cartItems[index].quantity;
+  }
+
   Future<void> getCartItems() async {
     emit(CartLoading());
     final result = await cartRepo.getCartItems();

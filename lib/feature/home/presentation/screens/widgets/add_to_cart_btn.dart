@@ -74,20 +74,20 @@ class _AddToCartBtnState extends State<AddToCartBtn>
 
   @override
   Widget build(BuildContext context) {
+    final defaultsAttribute = context
+        .read<ProductAttributesCubit>()
+        .initializeDefaults(widget.productModel);
+    final currentItem = CartItemModel(
+      productId: widget.productModel.id,
+      productName: widget.productModel.name,
+      price: 0,
+      imageUrl: '',
+      quantity: 1,
+      selectedAttributes: defaultsAttribute,
+    );
     // Watch the current quantity of this specific product in the cart
     final cartQuantity = context.select<CartCubit, int>((cubit) {
-      final item = cubit.cartItems.firstWhere(
-        (item) => item.productId == widget.productModel.id,
-        orElse: () => CartItemModel(
-          productId: '',
-          productName: '',
-          price: 0,
-          imageUrl: '',
-          quantity: 0,
-          selectedAttributes: {},
-        ),
-      );
-      return item.quantity;
+      return cubit.getItemQuantity(currentItem);
     });
 
     // Trigger animation only if the item quantity increased
@@ -98,26 +98,7 @@ class _AddToCartBtnState extends State<AddToCartBtn>
 
     return GestureDetector(
       onTap: () {
-        final defaultsAttribute = context
-            .read<ProductAttributesCubit>()
-            .initializeDefaults(widget.productModel);
-        final selectionState = context.read<ProductAttributesCubit>().state;
-        final cubit = context.read<ProductAttributesCubit>();
-
-        context.read<CartCubit>().addToCart(
-          CartItemModel(
-            productId: widget.productModel.id,
-            productName: widget.productModel.name,
-            price: cubit.calculateFinalPrice(widget.productModel).toInt(),
-            imageUrl: widget.productModel.imageUrl,
-            quantity: 1,
-            selectedAttributes:
-                // selectionState.selectedAttributes.isNotEmpty
-                //     ? selectionState.selectedAttributes
-                //     :
-                defaultsAttribute,
-          ),
-        );
+        context.read<CartCubit>().addToCart(currentItem);
       },
       child: Container(
         padding: const EdgeInsets.all(6),
