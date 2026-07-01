@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sweetella/core/di/service_locator.dart';
 import 'package:sweetella/feature/cart/presentation/cubits/cart_cubit.dart';
+import 'package:sweetella/feature/favorites/presentation/cubits/favorites_cubit.dart';
 import 'package:sweetella/feature/home/data/models/product_model.dart';
 import 'package:sweetella/feature/home/presentation/screens/cubit/product_attribut_selection_cubit.dart';
 import 'package:sweetella/feature/home/presentation/screens/cubit/quantity_cubit.dart';
@@ -100,10 +101,10 @@ class ProductDetailsScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      const Positioned(
+                      Positioned(
                         top: 0,
                         right: 30,
-                        child: IconFavorite(),
+                        child: IconFavorite(productId: productModel.id),
                       ),
                     ],
                   ),

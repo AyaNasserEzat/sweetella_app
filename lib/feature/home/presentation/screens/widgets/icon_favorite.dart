@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:sweetella/feature/favorites/presentation/screens/widgets/favorite_button.dart';
 
 class IconFavorite extends StatelessWidget {
-  const IconFavorite({super.key});
-
+  const IconFavorite({super.key, required this.productId});
+  final String productId;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,10 +20,7 @@ class IconFavorite extends StatelessWidget {
           ),
         ],
       ),
-      child: IconButton(
-        icon: Icon(Icons.favorite_border, color: Color(0xffe26784)),
-        onPressed: () {},
-      ),
+      child: FavoriteButton(productId: productId),
     );
   }
 }
