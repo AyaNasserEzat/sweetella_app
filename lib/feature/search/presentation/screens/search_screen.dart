@@ -18,8 +18,7 @@ class SearchScreen extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => sl<SearchBloc>()),
-        BlocProvider.value(value: sl<FavoritesCubit>()),
-        BlocProvider.value(value: sl<CartCubit>()),
+
         BlocProvider(create: (_) => ProductAttributesCubit()),
       ],
       child: Scaffold(

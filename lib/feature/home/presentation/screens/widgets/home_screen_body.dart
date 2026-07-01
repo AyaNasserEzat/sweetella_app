@@ -31,13 +31,7 @@ class HomeScreenBody extends StatelessWidget {
             HomeHeader(),
             const SizedBox(height: 25),
             // ---------------- SEARCH BAR ----------------
-            MultiBlocProvider(
-              providers: [
-                BlocProvider.value(value: context.read<FavoritesCubit>()),
-                BlocProvider.value(value: context.read<CartCubit>()),
-              ],
-              child: SearchContainer(),
-            ),
+            SearchContainer(),
 
             const SizedBox(height: 25),
 

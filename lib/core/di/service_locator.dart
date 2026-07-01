@@ -57,7 +57,7 @@ void setupServiceLocator() {
     () => FavoritFirebaseRepoImp(favoritesRemoteDataSource: sl()),
   );
   //favorites cubit
-  sl.registerLazySingleton(() => FavoritesCubit(favoritesRepo: sl()));
+  sl.registerFactory(() => FavoritesCubit(favoritesRepo: sl()));
 
   // cart data source
   sl.registerLazySingleton<CartRemoteDataSource>(
@@ -69,7 +69,7 @@ void setupServiceLocator() {
     () => CartFirebaseRepoImp(cartRemoteDataSource: sl()),
   );
   //cart cubit
-  sl.registerLazySingleton(() => CartCubit(cartRepo: sl()));
+  sl.registerFactory(() => CartCubit(cartRepo: sl()));
 
   // search data source
   sl.registerLazySingleton<SearchRemoteDataSource>(
