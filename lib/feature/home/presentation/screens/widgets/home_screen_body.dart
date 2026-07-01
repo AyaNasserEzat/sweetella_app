@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sweetella/core/helper/extension.dart';
 import 'package:sweetella/core/utils/app_text_styles.dart';
+import 'package:sweetella/feature/cart/presentation/cubits/cart_cubit.dart';
+import 'package:sweetella/feature/favorites/presentation/cubits/favorites_cubit.dart';
 import 'package:sweetella/feature/home/presentation/screens/widgets/categories_bloc_builder.dart';
 import 'package:sweetella/feature/home/presentation/screens/widgets/products_bloc_builder.dart';
 import 'package:sweetella/feature/home/presentation/screens/widgets/home_header.dart';
@@ -28,7 +31,13 @@ class HomeScreenBody extends StatelessWidget {
             HomeHeader(),
             const SizedBox(height: 25),
             // ---------------- SEARCH BAR ----------------
-            SearchContainer(),
+            MultiBlocProvider(
+              providers: [
+                BlocProvider.value(value: context.read<FavoritesCubit>()),
+                BlocProvider.value(value: context.read<CartCubit>()),
+              ],
+              child: SearchContainer(),
+            ),
 
             const SizedBox(height: 25),
 
