@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sweetella/core/helper/extension.dart';
 import 'package:sweetella/core/utils/app_colors.dart';
+import 'package:sweetella/core/widgets/snack_bar.dart';
 import 'package:sweetella/feature/cart/data/models/cart_model.dart';
 import 'package:sweetella/feature/cart/presentation/cubits/cart_cubit.dart';
 import 'package:sweetella/feature/home/data/models/product_model.dart';
@@ -40,7 +41,14 @@ class _AddToCartButtonState extends State<AddToCartButton> {
   @override
   Widget build(BuildContext context) {
     return Listener(
-      onPointerDown: (_) => setState(() => isPressed = true),
+      onPointerDown: (_) {
+        setState(() => isPressed = true);
+        showsnakbar(
+          context,
+          "Added to cart successfully",
+          SnachBarState.success,
+        );
+      },
       onPointerUp: (_) => setState(() => isPressed = false),
       child: AnimatedScale(
         scale: isPressed ? 0.6 : 1.0,

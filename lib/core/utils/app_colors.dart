@@ -9,4 +9,8 @@ class AppColors {
   static Color greyLigt = Colors.grey.shade400;
   static Color greySmallLigt = Colors.grey.shade200;
   static const Color greyDark = Color(0xff484848);
+  static const Color greenSucess = Color(0xFFE8F5E9);
+  static const Color greenSucessDark = Color(0xFF4CAF50);
+  static const Color redError = Color(0xFFFFEBEE);
+  static const Color redErrorDark = Color(0xFFF44336);
 }
