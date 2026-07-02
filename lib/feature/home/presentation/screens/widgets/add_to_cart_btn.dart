@@ -80,8 +80,11 @@ class _AddToCartBtnState extends State<AddToCartBtn>
     final currentItem = CartItemModel(
       productId: widget.productModel.id,
       productName: widget.productModel.name,
-      price: 0,
-      imageUrl: '',
+      price: context
+          .read<ProductAttributesCubit>()
+          .calculateFinalPrice(widget.productModel)
+          .toInt(),
+      imageUrl: widget.productModel.imageUrl,
       quantity: 1,
       selectedAttributes: defaultsAttribute,
     );
