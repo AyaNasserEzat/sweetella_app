@@ -6,10 +6,11 @@ import 'package:sweetella/core/error/firebase_exception.dart';
 
 class ExceptionHandler {
   static void handle(dynamic e) {
-    
     // Firebase Auth
     if (e is FirebaseAuthException) {
       switch (e.code) {
+        case 'invalid-credential':
+          throw InvalidEmailOrPasswordException('Invalid email or password');
         case 'invalid-email':
           throw InvalidEmailException('Invalid email');
         case 'wrong-password':
@@ -21,7 +22,9 @@ class ExceptionHandler {
         case 'email-already-in-use':
           throw EmailAlreadyInUseException('Email already used');
         case 'network-request-failed':
-          throw NetworkException("no internet connection , check your internet");
+          throw NetworkException(
+            "no internet connection , check your internet",
+          );
         default:
           throw UnknownAppException(e.message ?? 'Unknown auth error');
       }

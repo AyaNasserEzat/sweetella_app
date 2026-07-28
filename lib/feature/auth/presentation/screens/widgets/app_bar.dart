@@ -2,8 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:sweetella/core/utils/app_text_styles.dart';
 
 class AppBarTitle extends StatelessWidget {
-  AppBarTitle({super.key, required this.title, this.haveArrow = false});
+  AppBarTitle({
+    super.key,
+    required this.title,
+    this.haveArrow = false,
+    this.style = AppTextStyles.text24BoldDarkGray,
+  });
   final String title;
+  TextStyle? style;
   bool? haveArrow = false;
   @override
   Widget build(BuildContext context) {
@@ -18,9 +24,7 @@ class AppBarTitle extends StatelessWidget {
               )
             : Container(),
         Expanded(
-          child: Center(
-            child: Text(title, style: AppTextStyles.text24BoldDarkGray),
-          ),
+          child: Center(child: Text(title, style: style)),
         ),
       ],
     );

@@ -22,25 +22,23 @@ class LoginForm extends StatelessWidget {
           CustomTextField(
             textInputAction: TextInputAction.next,
             controller: authCubit.signInEmailController,
-            labelText: "Email",
             hintText: "Email",
             prefixIcon: Icons.email_outlined,
           ),
-      
+
           const SizedBox(height: 15),
-      
+
           // Password
           CustomTextField(
             textInputAction: TextInputAction.done,
             controller: authCubit.signInPasswordController,
-            labelText: "Password",
             hintText: "Password",
             prefixIcon: Icons.lock_outline,
             obscureText: true,
             isPassword: true,
             suffixIcon: Icon(Icons.remove_red_eye_outlined),
           ),
-      
+
           const ForgotPassword(),
           const SizedBox(height: 4),
           CustomButton(

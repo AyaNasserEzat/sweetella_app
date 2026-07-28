@@ -18,13 +18,9 @@ class SignUpForm extends StatelessWidget {
       child: Column(
         spacing: 5,
         children: [
-          const Text(
-            "Sign Up",
-            style: AppTextStyles.text24BoldPink
-          ),
+          const Text("Sign Up", style: AppTextStyles.text24BoldPink),
           CustomTextField(
             controller: authCubit.nameController,
-            labelText: "Name",
             hintText: "Name",
             prefixIcon: Icons.person_outline,
           ),
@@ -32,7 +28,6 @@ class SignUpForm extends StatelessWidget {
           const SizedBox(height: 15),
           CustomTextField(
             controller: authCubit.signUEmailController,
-            labelText: "Email",
             hintText: "Email",
             prefixIcon: Icons.email_outlined,
           ),
@@ -42,7 +37,6 @@ class SignUpForm extends StatelessWidget {
           // Password
           CustomTextField(
             controller: authCubit.signUPasswordController,
-            labelText: "Password",
             hintText: "Password",
             prefixIcon: Icons.lock_outline,
             obscureText: true,

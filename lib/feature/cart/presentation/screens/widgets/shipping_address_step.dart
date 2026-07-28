@@ -3,13 +3,13 @@ import 'package:sweetella/core/utils/app_colors.dart';
 import 'package:sweetella/core/utils/app_text_styles.dart';
 import 'package:sweetella/core/widgets/custom_button.dart';
 import 'package:sweetella/core/widgets/custom_text_field.dart';
-import 'package:sweetella/feature/auth/presentation/screens/widgets/white_card.dart';
+import 'package:sweetella/feature/auth/presentation/screens/widgets/app_bar.dart';
 import 'package:sweetella/feature/cart/data/models/address_model.dart';
 
 class ShippingAddressStep extends StatefulWidget {
-  final List<Address> addresses;
-  final Address? selectedAddress;
-  final ValueChanged<Address> onAddressSelected;
+  final List<AddressModel> addresses;
+  final AddressModel? selectedAddress;
+  final ValueChanged<AddressModel> onAddressSelected;
 
   const ShippingAddressStep({
     super.key,
@@ -26,115 +26,183 @@ class _ShippingAddressStepState extends State<ShippingAddressStep> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _phoneController = TextEditingController();
-  final _addressController = TextEditingController();
-  final _zipController = TextEditingController();
+  final _countryController = TextEditingController();
+  final _cityController = TextEditingController();
+  final _streetNameController = TextEditingController();
+  final _floorNumberController = TextEditingController();
+  final _buildingNumberController = TextEditingController();
+  final _apartmentNumberController = TextEditingController();
+  void _saveAddress() {
+    final address = AddressModel(
+      name: _nameController.text,
+      phone: _phoneController.text,
+      country: _countryController.text,
+      city: _cityController.text,
+      streetName: _streetNameController.text,
+      floorNumber: _floorNumberController.text,
+      buildingNumber: _buildingNumberController.text,
+      apartmentNumber: _apartmentNumberController.text,
+    );
+
+    widget.onAddressSelected(address);
+
+    Navigator.pop(context);
+
+    _nameController.clear();
+    _phoneController.clear();
+    _countryController.clear();
+    _cityController.clear();
+    _streetNameController.clear();
+    _floorNumberController.clear();
+    _buildingNumberController.clear();
+    _apartmentNumberController.clear();
+  }
 
   void _addNewAddress() {
-    showDialog(
+    showModalBottomSheet(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Add New Address'),
-        content: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextFormField(
-                controller: _nameController,
-                decoration: const InputDecoration(labelText: 'Full Name'),
-                validator: (value) => value!.isEmpty ? 'Required' : null,
+      isScrollControlled: true,
+      builder: (context) {
+        return Padding(
+          padding: EdgeInsets.all(16),
+          child: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                spacing: 20,
+                children: [
+                  AppBarTitle(title: 'Shipping address'),
+
+                  CustomTextField(
+                    controller: _nameController,
+                    hintTextColor: AppColors.greyLigt,
+                    hintText: 'Full Name',
+                  ),
+
+                  CustomTextField(
+                    controller: _phoneController,
+                    hintTextColor: AppColors.greyLigt,
+                    hintText: 'Phone Number',
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: CustomTextField(
+                          controller: _countryController,
+                          hintTextColor: AppColors.greyLigt,
+                          hintText: 'Country',
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: CustomTextField(
+                          controller: _cityController,
+                          hintTextColor: AppColors.greyLigt,
+                          hintText: 'City',
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    spacing: 10,
+                    children: [
+                      Expanded(
+                        child: CustomTextField(
+                          controller: _streetNameController,
+                          hintTextColor: AppColors.greyLigt,
+                          hintText: 'Street Name',
+                        ),
+                      ),
+                      Expanded(
+                        child: CustomTextField(
+                          controller: _buildingNumberController,
+                          hintTextColor: AppColors.greyLigt,
+                          hintText: 'Building number',
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    spacing: 10,
+                    children: [
+                      Expanded(
+                        child: CustomTextField(
+                          controller: _floorNumberController,
+                          hintTextColor: AppColors.greyLigt,
+                          hintText: 'Floor number',
+                        ),
+                      ),
+                      Expanded(
+                        child: CustomTextField(
+                          controller: _apartmentNumberController,
+                          hintTextColor: AppColors.greyLigt,
+                          hintText: 'Apartment number',
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 5),
+                  Row(
+                    spacing: 10,
+                    children: [
+                      Expanded(
+                        child: CustomButton(
+                          onPressed: _saveAddress,
+                          text: 'Save address',
+                        ),
+                      ),
+                      Expanded(
+                        child: CustomButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          text: 'Cancel',
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-              TextFormField(
-                controller: _phoneController,
-                decoration: const InputDecoration(labelText: 'Phone Number'),
-                keyboardType: TextInputType.phone,
-                validator: (value) {
-                  if (value!.isEmpty) return 'Required';
-                  if (!RegExp(r'^\d{10}$').hasMatch(value)) return 'Invalid phone number';
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _addressController,
-                decoration: const InputDecoration(labelText: 'Address'),
-                validator: (value) => value!.isEmpty ? 'Required' : null,
-              ),
-              TextFormField(
-                controller: _zipController,
-                decoration: const InputDecoration(labelText: 'Zip Code'),
-                keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (value!.isEmpty) return 'Required';
-                  if (!RegExp(r'^\d{5}$').hasMatch(value)) return 'Invalid zip code';
-                  return null;
-                },
-              ),
-            ],
+            ),
           ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                final newAddress = Address(
-                  name: _nameController.text,
-                  phone: _phoneController.text,
-                  address: _addressController.text,
-                  zipCode: _zipController.text,
-                );
-                setState(() {
-                  widget.addresses.add(newAddress);
-                });
-                _nameController.clear();
-                _phoneController.clear();
-                _addressController.clear();
-                _zipController.clear();
-                Navigator.of(context).pop();
-              }
-            },
-            child: const Text('Add'),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return WhiteCard(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text('Shipping Address', style: AppTextStyles.text24BoldPink),
-          const SizedBox(height: 16),
-          Expanded(
-            child: ListView.builder(
-              itemCount: widget.addresses.length,
-              itemBuilder: (context, index) {
-                final address = widget.addresses[index];
-                return Card(
-                  margin: const EdgeInsets.only(bottom: 8),
-                  child: RadioListTile<Address>(
-                    title: Text(address.name),
-                    subtitle: Text('${address.address}, ${address.zipCode}\n${address.phone}'),
-                    value: address,
-                    groupValue: widget.selectedAddress,
-                    onChanged: (value) => widget.onAddressSelected(value!),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        AppBarTitle(
+          title: 'Shipping address',
+          style: AppTextStyles.text24BoldPink,
+        ),
+        const SizedBox(height: 16),
+        Expanded(
+          child: ListView.builder(
+            itemCount: widget.addresses.length,
+            itemBuilder: (context, index) {
+              final address = widget.addresses[index];
+              return Card(
+                margin: const EdgeInsets.only(bottom: 8),
+                child: RadioListTile<AddressModel>(
+                  title: Text(address.name),
+                  subtitle: Text(
+                    '${address.name}, ${address.streetName}\n${address.phone}',
                   ),
-                );
-              },
-            ),
+                  value: address,
+                  groupValue: widget.selectedAddress,
+                  onChanged: (value) => widget.onAddressSelected(value!),
+                ),
+              );
+            },
           ),
-          CustomButton(
-            onPressed: _addNewAddress,
-            text: 'Add New Address',
-          ),
-        ],
-      ),
+        ),
+        CustomButton(onPressed: _addNewAddress, text: 'Add New Address'),
+      ],
     );
   }
 }

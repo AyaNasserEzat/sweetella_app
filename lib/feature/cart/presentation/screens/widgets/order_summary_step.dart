@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:sweetella/core/utils/app_text_styles.dart';
-import 'package:sweetella/feature/auth/presentation/screens/widgets/white_card.dart';
 import 'package:sweetella/feature/cart/data/models/address_model.dart';
+import 'package:sweetella/feature/cart/data/models/cart_model.dart';
 import 'package:sweetella/feature/cart/data/models/payment_model.dart';
 
 class OrderSummaryStep extends StatelessWidget {
-  final List<dynamic> cartItems;
+  final List<CartItemModel> cartItems;
   final double totalPrice;
-  final Address? selectedAddress;
+  final AddressModel? selectedAddress;
   final PaymentMethod? selectedPayment;
 
   const OrderSummaryStep({
@@ -41,69 +41,85 @@ class OrderSummaryStep extends StatelessWidget {
     final subtotal = totalPrice;
     final total = subtotal + shipping + tax - discount;
 
-    return WhiteCard(
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text('Order Summary', style: AppTextStyles.text24BoldPink),
-            const SizedBox(height: 16),
-            const Text('Products:', style: AppTextStyles.text18BoldDarkGray),
-            ...cartItems.map((item) => ListTile(
-                  leading: Image.asset(item.image, width: 50, height: 50),
-                  title: Text(item.name),
-                  subtitle: Text('Quantity: ${item.quantity}'),
-                  trailing: Text('\$${(item.price * item.quantity).toStringAsFixed(2)}'),
-                )),
-            const Divider(),
-            const Text('Shipping Address:', style: AppTextStyles.text18BoldDarkGray),
-            if (selectedAddress != null)
-              Text('${selectedAddress!.name}\n${selectedAddress!.address}, ${selectedAddress!.zipCode}\n${selectedAddress!.phone}')
-            else
-              const Text('No address selected'),
-            const Divider(),
-            const Text('Payment Method:', style: AppTextStyles.text18BoldDarkGray),
-            Text(_paymentMethodString(selectedPayment)),
-            const Divider(),
-            const Text('Total Breakdown:', style: AppTextStyles.text18BoldDarkGray),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text('Subtotal:'),
-                Text('\$${subtotal.toStringAsFixed(2)}'),
-              ],
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text('Order Summary', style: AppTextStyles.text24BoldPink),
+          const SizedBox(height: 16),
+          const Text('Products:', style: AppTextStyles.text18BoldDarkGray),
+          ...cartItems.map(
+            (item) => ListTile(
+              leading: Image.network(item.imageUrl, width: 50, height: 50),
+              title: Text(item.productName),
+              subtitle: Text('Quantity: ${item.quantity}'),
+              trailing: Text(
+                '\$${(item.price * item.quantity).toStringAsFixed(2)}',
+              ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text('Shipping:'),
-                Text('\$${shipping.toStringAsFixed(2)}'),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text('Tax:'),
-                Text('\$${tax.toStringAsFixed(2)}'),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text('Discount:'),
-                Text('-\$${discount.toStringAsFixed(2)}'),
-              ],
-            ),
-            const Divider(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text('Total:', style: TextStyle(fontWeight: FontWeight.bold)),
-                Text('\$${total.toStringAsFixed(2)}', style: const TextStyle(fontWeight: FontWeight.bold)),
-              ],
-            ),
-          ],
-        ),
+          ),
+          const Divider(),
+          const Text(
+            'Shipping Address:',
+            style: AppTextStyles.text18BoldDarkGray,
+          ),
+          if (selectedAddress != null)
+            Text(
+              '${selectedAddress!.name}\n${selectedAddress!.phone}, ${selectedAddress!.streetName}\n${selectedAddress!.floorNumber}',
+            )
+          else
+            const Text('No address selected'),
+          const Divider(),
+          const Text(
+            'Payment Method:',
+            style: AppTextStyles.text18BoldDarkGray,
+          ),
+          Text(_paymentMethodString(selectedPayment)),
+          const Divider(),
+          const Text(
+            'Total Breakdown:',
+            style: AppTextStyles.text18BoldDarkGray,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text('Subtotal:'),
+              Text('\$${subtotal.toStringAsFixed(2)}'),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text('Shipping:'),
+              Text('\$${shipping.toStringAsFixed(2)}'),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [const Text('Tax:'), Text('\$${tax.toStringAsFixed(2)}')],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text('Discount:'),
+              Text('-\$${discount.toStringAsFixed(2)}'),
+            ],
+          ),
+          const Divider(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'Total:',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Text(
+                '\$${total.toStringAsFixed(2)}',
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

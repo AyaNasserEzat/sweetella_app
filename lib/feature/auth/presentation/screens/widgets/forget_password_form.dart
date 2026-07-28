@@ -20,7 +20,6 @@ class ForgetPasswordForm extends StatelessWidget {
           const SizedBox(height: 5),
           CustomTextField(
             controller: authCubit.forgetPassordEmailController,
-            labelText: "Email",
             hintText: "Email",
             prefixIcon: Icons.email_outlined,
           ),
@@ -38,4 +37,3 @@ class ForgetPasswordForm extends StatelessWidget {
     );
   }
 }
-

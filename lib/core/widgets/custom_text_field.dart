@@ -2,25 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:sweetella/core/utils/app_colors.dart';
 
 class CustomTextField extends StatefulWidget {
-  final String labelText;
   final String hintText;
-  final IconData prefixIcon;
+  final IconData? prefixIcon;
   final bool obscureText;
   final TextEditingController? controller;
   final Widget? suffixIcon;
   final bool? isPassword;
+  final Color? hintTextColor;
   final TextInputAction? textInputAction;
 
   const CustomTextField({
     super.key,
-    required this.labelText,
+
     required this.hintText,
-    required this.prefixIcon,
+    this.prefixIcon,
     this.obscureText = false,
     this.suffixIcon,
     this.isPassword = false,
     this.controller,
-    this.textInputAction=TextInputAction.next,
+    this.hintTextColor = AppColors.primaryColor,
+    this.textInputAction = TextInputAction.next,
   });
 
   @override
@@ -34,7 +35,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
     return TextField(
       textInputAction: widget.textInputAction,
       controller: widget.controller,
-      obscureText:widget.isPassword == true ? isHidden : widget.obscureText,
+      obscureText: widget.isPassword == true ? isHidden : widget.obscureText,
       decoration: InputDecoration(
         suffixIcon: widget.isPassword == true
             ? IconButton(
@@ -44,16 +45,14 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   });
                 },
                 icon: Icon(
-                 isHidden
-                      ? Icons.visibility_off
-                      : Icons.visibility,
+                  isHidden ? Icons.visibility_off : Icons.visibility,
                   color: AppColors.primaryColor,
                 ),
               )
             : null,
-        labelText: widget.labelText,
+        labelText: widget.hintText,
         hintText: widget.hintText,
-        labelStyle: TextStyle(color: AppColors.primaryColor),
+        labelStyle: TextStyle(color: widget.hintTextColor),
         prefixIcon: Icon(widget.prefixIcon, color: AppColors.primaryColor),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),

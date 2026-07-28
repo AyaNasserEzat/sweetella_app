@@ -5,6 +5,7 @@ import 'package:sweetella/core/widgets/custom_circle_progress_indecator.dart';
 import 'package:sweetella/core/widgets/empty_widget.dart';
 import 'package:sweetella/feature/auth/presentation/screens/widgets/app_bar.dart';
 import 'package:sweetella/feature/cart/presentation/cubits/cart_cubit.dart';
+import 'package:sweetella/feature/cart/presentation/screens/checkout_screen.dart';
 import 'package:sweetella/feature/cart/presentation/screens/widgets/cart_item_widget.dart';
 import 'package:sweetella/feature/cart/presentation/screens/widgets/cart_summary_widget.dart';
 
@@ -61,7 +62,7 @@ class CartScreen extends StatelessWidget {
                                   final item = cartItems[index];
                                   return CartItemWidget(
                                     item: item,
-                                    key: ValueKey(item.id),
+                                    // key: ValueKey(item.id),
                                   );
                                 },
                               ),
@@ -69,6 +70,15 @@ class CartScreen extends StatelessWidget {
                             CartSummaryWidget(
                               totalPrice: totalPrice,
                               onCheckout: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => CheckoutScreen(
+                                      cartItems: cartItems,
+                                      totalPrice: totalPrice,
+                                    ),
+                                  ),
+                                );
                                 // Your checkout logic
                               },
                             ),

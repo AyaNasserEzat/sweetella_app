@@ -5,6 +5,7 @@ import 'package:sweetella/core/widgets/custom_button.dart';
 import 'package:sweetella/feature/auth/presentation/screens/widgets/bottom_image.dart';
 import 'package:sweetella/feature/auth/presentation/screens/widgets/primary_color_container.dart';
 import 'package:sweetella/feature/cart/data/models/address_model.dart';
+import 'package:sweetella/feature/cart/data/models/cart_model.dart';
 import 'package:sweetella/feature/cart/data/models/payment_model.dart';
 import 'widgets/shipping_address_step.dart';
 import 'widgets/payment_method_step.dart';
@@ -12,7 +13,7 @@ import 'widgets/order_summary_step.dart';
 import 'widgets/success_step.dart';
 
 class CheckoutScreen extends StatefulWidget {
-  final List<dynamic> cartItems; // Assuming cart items are passed
+  final List<CartItemModel> cartItems; // Assuming cart items are passed
   final double totalPrice;
 
   const CheckoutScreen({
@@ -29,18 +30,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
-  Address? _selectedAddress;
+  AddressModel? _selectedAddress;
   PaymentMethod? _selectedPaymentMethod;
   CardDetails? _cardDetails;
   bool _isLoading = false;
 
-  final List<Address> _addresses = [
-    Address(
-      name: 'John Doe',
-      phone: '1234567890',
-      address: '123 Main St',
-      zipCode: '12345',
-    ),
+  final List<AddressModel> _addresses = [
     // Add more dummy addresses
   ];
 
@@ -62,8 +57,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     }
   }
 
-  void _onAddressSelected(Address address) {
+  void _onAddressSelected(AddressModel address) {
     setState(() {
+      _addresses.add(address);
       _selectedAddress = address;
     });
   }
@@ -97,15 +93,17 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
-        title: const Text('Checkout',style: AppTextStyles.text32BoldWhite,),
+        title: const Text('Checkout', style: AppTextStyles.text32BoldWhite),
         centerTitle: true,
         backgroundColor: AppColors.primaryColor,
-        leading: IconButton(onPressed: (){}, icon: Icon(Icons.arrow_back_ios, color: AppColors.white,),  ),
+        leading: IconButton(
+          onPressed: () {},
+          icon: Icon(Icons.arrow_back_ios, color: AppColors.white),
+        ),
       ),
-      
+
       body: Stack(
         children: [
-          const PrimaryColorContainer(),
           Column(
             children: [
               Expanded(
