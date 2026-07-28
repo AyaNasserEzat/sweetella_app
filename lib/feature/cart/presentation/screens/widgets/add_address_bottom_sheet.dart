@@ -1,0 +1,124 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sweetella/core/utils/app_colors.dart';
+import 'package:sweetella/core/widgets/custom_button.dart';
+import 'package:sweetella/core/widgets/custom_text_field.dart';
+import 'package:sweetella/feature/auth/presentation/screens/widgets/app_bar.dart';
+import 'package:sweetella/feature/cart/presentation/cubits/address_cubit.dart';
+
+Future<dynamic> addAddressBottomSheet(BuildContext context) {
+  final cubit = BlocProvider.of<AddressCubit>(context);
+  return showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    builder: (context) {
+      return Padding(
+        padding: EdgeInsets.all(16),
+        child: SingleChildScrollView(
+          child: Form(
+            key: cubit.formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              spacing: 20,
+              children: [
+                AppBarTitle(title: 'Shipping address'),
+
+                CustomTextField(
+                  controller: cubit.nameController,
+                  hintTextColor: AppColors.greyLigt,
+                  hintText: 'Full Name',
+                ),
+
+                CustomTextField(
+                  controller: cubit.phoneController,
+                  hintTextColor: AppColors.greyLigt,
+                  hintText: 'Phone Number',
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: CustomTextField(
+                        controller: cubit.countryController,
+                        hintTextColor: AppColors.greyLigt,
+                        hintText: 'Country',
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: CustomTextField(
+                        controller: cubit.cityController,
+                        hintTextColor: AppColors.greyLigt,
+                        hintText: 'City',
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  spacing: 10,
+                  children: [
+                    Expanded(
+                      child: CustomTextField(
+                        controller: cubit.streetNameController,
+                        hintTextColor: AppColors.greyLigt,
+                        hintText: 'Street Name',
+                      ),
+                    ),
+                    Expanded(
+                      child: CustomTextField(
+                        controller: cubit.buildingNumberController,
+                        hintTextColor: AppColors.greyLigt,
+                        hintText: 'Building number',
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  spacing: 10,
+                  children: [
+                    Expanded(
+                      child: CustomTextField(
+                        controller: cubit.floorNumberController,
+                        hintTextColor: AppColors.greyLigt,
+                        hintText: 'Floor number',
+                      ),
+                    ),
+                    Expanded(
+                      child: CustomTextField(
+                        controller: cubit.apartmentNumberController,
+                        hintTextColor: AppColors.greyLigt,
+                        hintText: 'Apartment number',
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 5),
+                Row(
+                  spacing: 10,
+                  children: [
+                    Expanded(
+                      child: CustomButton(
+                        onPressed: () {
+                          cubit.addAddress();
+                          Navigator.pop(context);
+                        },
+                        text: 'add address',
+                      ),
+                    ),
+                    Expanded(
+                      child: CustomButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        text: 'Cancel',
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    },
+  );
+}

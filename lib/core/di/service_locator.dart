@@ -1,8 +1,13 @@
 import 'package:get_it/get_it.dart';
+import 'package:sweetella/feature/cart/data/data_sources/address_remote_data_source.dart';
+import 'package:sweetella/feature/cart/data/data_sources/address_remote_data_source_imp.dart';
 import 'package:sweetella/feature/cart/data/data_sources/cart_remote_data_source.dart';
 import 'package:sweetella/feature/cart/data/data_sources/cart_remote_data_source_imp.dart';
+import 'package:sweetella/feature/cart/data/repositories/address_repo.dart';
+import 'package:sweetella/feature/cart/data/repositories/address_repo_impl.dart';
 import 'package:sweetella/feature/cart/data/repositories/cart_firebase_repo_imp.dart';
 import 'package:sweetella/feature/cart/data/repositories/cart_repo.dart';
+import 'package:sweetella/feature/cart/presentation/cubits/address_cubit.dart';
 import 'package:sweetella/feature/cart/presentation/cubits/cart_cubit.dart';
 import 'package:sweetella/feature/favorites/data/data_sources/favories_remote_data_source.dart';
 import 'package:sweetella/feature/favorites/data/data_sources/favorties_remote_data_source_imp.dart';
@@ -70,6 +75,17 @@ void setupServiceLocator() {
   );
   //cart cubit
   sl.registerFactory(() => CartCubit(cartRepo: sl()));
+
+  // address data source
+  sl.registerLazySingleton<AddressRemoteDataSource>(
+    () => AddressRemoteDataSourceImp(),
+  );
+
+  // address repository
+  sl.registerLazySingleton<AddressRepo>(() => AddressRepoImp(sl()));
+
+  // address cubit
+  sl.registerFactory(() => AddressCubit(addressRepo: sl()));
 
   // search data source
   sl.registerLazySingleton<SearchRemoteDataSource>(
