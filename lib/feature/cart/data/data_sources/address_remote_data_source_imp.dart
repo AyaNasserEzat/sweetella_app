@@ -46,10 +46,27 @@ class AddressRemoteDataSourceImp implements AddressRemoteDataSource {
   @override
   Future<void> editAddress({required AddressModel address}) async {
     try {
-      await firestore.collection('users').doc(_uid).update({
-        'selectedAddressId': address.id ?? '',
-        'selectedAddress': address.toJson(),
-      });
+      await firestore
+          .collection('users')
+          .doc(_uid)
+          .collection('addresses')
+          .doc(address.id)
+          .update(address.toJson());
+    } catch (e) {
+      ExceptionHandler.handle(e);
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> deleteAddress({required String addressId}) async {
+    try {
+      await firestore
+          .collection('users')
+          .doc(_uid)
+          .collection('addresses')
+          .doc(addressId)
+          .delete();
     } catch (e) {
       ExceptionHandler.handle(e);
       rethrow;

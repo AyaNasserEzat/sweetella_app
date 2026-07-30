@@ -7,7 +7,7 @@ part 'address_state.dart';
 
 class AddressCubit extends Cubit<AddressState> {
   final AddressRepo addressRepo;
-  final List<AddressModel> _addresses = [];
+  List<AddressModel> _addresses = [];
   AddressModel? _selectedAddress;
 
   AddressCubit({required this.addressRepo}) : super(AddressInitial());
@@ -23,16 +23,30 @@ class AddressCubit extends Cubit<AddressState> {
   final buildingNumberController = TextEditingController();
   final apartmentNumberController = TextEditingController();
 
-  AddressModel get address => AddressModel(
-    name: nameController.text,
-    phone: phoneController.text,
-    country: countryController.text,
-    city: cityController.text,
-    streetName: streetNameController.text,
-    floorNumber: floorNumberController.text,
-    buildingNumber: buildingNumberController.text,
-    apartmentNumber: apartmentNumberController.text,
-  );
+  AddressModel buildAddress({String? id}) {
+    return AddressModel(
+      id: id,
+      name: nameController.text.trim(),
+      phone: phoneController.text.trim(),
+      country: countryController.text.trim(),
+      city: cityController.text.trim(),
+      streetName: streetNameController.text.trim(),
+      floorNumber: floorNumberController.text.trim(),
+      buildingNumber: buildingNumberController.text.trim(),
+      apartmentNumber: apartmentNumberController.text.trim(),
+    );
+  }
+
+  void populateControllers(AddressModel address) {
+    nameController.text = address.name;
+    phoneController.text = address.phone;
+    countryController.text = address.country;
+    cityController.text = address.city;
+    streetNameController.text = address.streetName;
+    floorNumberController.text = address.floorNumber;
+    buildingNumberController.text = address.buildingNumber;
+    apartmentNumberController.text = address.apartmentNumber;
+  }
 
   void clearControllers() {
     nameController.clear();
@@ -65,8 +79,7 @@ class AddressCubit extends Cubit<AddressState> {
     result.fold((failure) => emit(AddressError(message: failure.message)), (
       addresses,
     ) {
-      _addresses.clear();
-      _addresses.addAll(addresses);
+      _addresses = addresses;
       emit(
         AddressLoaded(
           addresses: List.from(_addresses),
@@ -78,34 +91,36 @@ class AddressCubit extends Cubit<AddressState> {
 
   Future<void> addAddress() async {
     emit(AddressLoading());
-    final result = await addressRepo.addAddress(address: address);
-    result.fold((failure) => emit(AddressError(message: failure.message)), (_) {
-      _addresses.add(address);
-      _selectedAddress = address;
-      emit(
-        AddressLoaded(
-          addresses: List.from(_addresses),
-          selectedAddress: _selectedAddress,
-        ),
-      );
+    final addressToSave = buildAddress();
+    final result = await addressRepo.addAddress(address: addressToSave);
+    result.fold((failure) => emit(AddressError(message: failure.message)), (
+      _,
+    ) async {
       clearControllers();
+      await loadAddresses();
     });
   }
 
   Future<void> editAddress(AddressModel address) async {
     emit(AddressLoading());
     final result = await addressRepo.editAddress(address: address);
-    result.fold((failure) => emit(AddressError(message: failure.message)), (_) {
-      final index = _addresses.indexWhere((item) => item.name == address.name);
-      if (index != -1) {
-        _addresses[index] = address;
-      }
-      emit(
-        AddressLoaded(
-          addresses: List.from(_addresses),
-          selectedAddress: _selectedAddress,
-        ),
-      );
+    result.fold((failure) => emit(AddressError(message: failure.message)), (
+      _,
+    ) async {
+      clearControllers();
+      await loadAddresses();
+    });
+  }
+
+  Future<void> deleteAddress(String addressId) async {
+    if (addressId.isEmpty) return;
+
+    emit(AddressLoading());
+    final result = await addressRepo.deleteAddress(addressId: addressId);
+    result.fold((failure) => emit(AddressError(message: failure.message)), (
+      _,
+    ) async {
+      await loadAddresses();
     });
   }
 

@@ -43,4 +43,14 @@ class AddressRepoImp implements AddressRepo {
       return left(Failure(e.message));
     }
   }
+
+  @override
+  Future<Either<Failure, String>> deleteAddress({required String addressId}) async {
+    try {
+      await remoteDataSource.deleteAddress(addressId: addressId);
+      return right('Address deleted');
+    } on AppException catch (e) {
+      return left(Failure(e.message));
+    }
+  }
 }

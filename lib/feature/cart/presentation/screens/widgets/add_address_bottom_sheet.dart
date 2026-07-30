@@ -4,17 +4,26 @@ import 'package:sweetella/core/utils/app_colors.dart';
 import 'package:sweetella/core/widgets/custom_button.dart';
 import 'package:sweetella/core/widgets/custom_text_field.dart';
 import 'package:sweetella/feature/auth/presentation/screens/widgets/app_bar.dart';
+import 'package:sweetella/feature/cart/data/models/address_model.dart';
 import 'package:sweetella/feature/cart/presentation/cubits/address_cubit.dart';
 
-Future<dynamic> addAddressBottomSheet(BuildContext context) {
-  final cubit = BlocProvider.of<AddressCubit>(context);
+Future<dynamic> addAddressBottomSheet(
+  BuildContext screenContext, {
+  AddressModel? address,
+}) {
+  final cubit = BlocProvider.of<AddressCubit>(screenContext);
+
+  if (address != null) {
+    cubit.populateControllers(address);
+  }
+
   return showModalBottomSheet(
-    context: context,
+    context: screenContext,
     isScrollControlled: true,
-    builder: (context) {
+    builder: (sheetContext) {
       return SingleChildScrollView(
         padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
+          bottom: MediaQuery.of(sheetContext).viewInsets.bottom,
         ),
         child: Container(
           padding: const EdgeInsets.all(16),
@@ -28,7 +37,9 @@ Future<dynamic> addAddressBottomSheet(BuildContext context) {
               mainAxisSize: MainAxisSize.min,
               spacing: 20,
               children: [
-                AppBarTitle(title: 'Shipping address'),
+                AppBarTitle(
+                  title: address == null ? 'Shipping address' : 'Edit address',
+                ),
 
                 CustomTextField(
                   controller: cubit.nameController,
@@ -104,17 +115,26 @@ Future<dynamic> addAddressBottomSheet(BuildContext context) {
                   children: [
                     Expanded(
                       child: CustomButton(
-                        onPressed: () {
-                          cubit.addAddress();
-                          Navigator.pop(context);
+                        onPressed: () async {
+                          if (address == null) {
+                            await cubit.addAddress();
+                          } else {
+                            final updatedAddress = cubit.buildAddress(
+                              id: address.id,
+                            );
+                            await cubit.editAddress(updatedAddress);
+                          }
+                          if (Navigator.canPop(sheetContext)) {
+                            Navigator.pop(sheetContext);
+                          }
                         },
-                        text: 'add address',
+                        text: address == null ? 'Add address' : 'Save changes',
                       ),
                     ),
                     Expanded(
                       child: CustomButton(
                         onPressed: () {
-                          Navigator.pop(context);
+                          Navigator.pop(sheetContext);
                         },
                         text: 'Cancel',
                       ),
