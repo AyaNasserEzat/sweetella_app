@@ -81,19 +81,19 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       child: Builder(
         builder: (context) {
           return Scaffold(
-            backgroundColor: AppColors.backgroundColor,
+            backgroundColor: AppColors.scaffoldColor,
             appBar: AppBar(
               title: const Text(
                 'Checkout',
-                style: AppTextStyles.text32BoldWhite,
+                style: AppTextStyles.text24BoldDarkGray,
               ),
               centerTitle: true,
-              backgroundColor: AppColors.primaryColor,
+              backgroundColor: AppColors.scaffoldColor,
               leading: IconButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                icon: Icon(Icons.arrow_back_ios, color: AppColors.white),
+                icon: Icon(Icons.arrow_back_ios),
               ),
             ),
             body: Stack(

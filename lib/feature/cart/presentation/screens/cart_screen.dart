@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sweetella/core/di/service_locator.dart';
+import 'package:sweetella/core/utils/app_colors.dart';
 import 'package:sweetella/core/widgets/custom_circle_progress_indecator.dart';
 import 'package:sweetella/core/widgets/empty_widget.dart';
 import 'package:sweetella/feature/auth/presentation/screens/widgets/app_bar.dart';
@@ -19,7 +20,7 @@ class CartScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => sl<CartCubit>()..getCartItems(),
       child: Scaffold(
-        backgroundColor: const Color(0xffF6F6F6),
+        backgroundColor: AppColors.scaffoldColor,
         body: Padding(
           padding: EdgeInsets.only(
             left: horizontalPadding,

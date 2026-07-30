@@ -19,4 +19,8 @@ class AddressError extends AddressState {
   AddressError({required this.message});
 }
 
-class ChangeSelectedAddreesState extends AddressState {}
+class AddressSelectionChanged extends AddressState {
+  final AddressModel selectedAddress;
+
+  AddressSelectionChanged(this.selectedAddress);
+}
