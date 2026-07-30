@@ -12,9 +12,16 @@ Future<dynamic> addAddressBottomSheet(BuildContext context) {
     context: context,
     isScrollControlled: true,
     builder: (context) {
-      return Padding(
-        padding: EdgeInsets.all(16),
-        child: SingleChildScrollView(
+      return SingleChildScrollView(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: const BoxDecoration(
+            color: AppColors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+          ),
           child: Form(
             key: cubit.formKey,
             child: Column(
@@ -91,7 +98,7 @@ Future<dynamic> addAddressBottomSheet(BuildContext context) {
                     ),
                   ],
                 ),
-                const SizedBox(height: 5),
+                const SizedBox(height: 3),
                 Row(
                   spacing: 10,
                   children: [
