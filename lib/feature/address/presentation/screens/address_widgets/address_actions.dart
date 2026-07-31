@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sweetella/core/widgets/delete_confirmation_dialog.dart';
-import 'package:sweetella/feature/cart/data/models/address_model.dart';
-import 'package:sweetella/feature/cart/presentation/cubits/address_cubit.dart';
-import 'package:sweetella/feature/cart/presentation/screens/widgets/add_address_bottom_sheet.dart';
-import 'package:sweetella/feature/cart/presentation/screens/widgets/address_actions_button.dart';
+import 'package:sweetella/feature/address/data/models/address_model.dart';
+import 'package:sweetella/feature/address/presentation/cubits/address_cubit.dart';
+import 'package:sweetella/feature/address/presentation/screens/address_widgets/add_address_bottom_sheet.dart';
+import 'package:sweetella/feature/address/presentation/screens/address_widgets/address_actions_button.dart';
 
 class AddressActions extends StatelessWidget {
   const AddressActions({super.key, required this.address});

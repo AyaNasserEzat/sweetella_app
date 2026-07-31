@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sweetella/core/utils/app_text_styles.dart';
 import 'package:sweetella/core/widgets/custom_button.dart';
-import 'package:sweetella/feature/cart/presentation/cubits/address_cubit.dart';
-import 'package:sweetella/feature/cart/presentation/screens/widgets/add_address_bottom_sheet.dart';
-import 'package:sweetella/feature/cart/presentation/screens/widgets/address_item.dart';
+import 'package:sweetella/feature/address/presentation/cubits/address_cubit.dart';
+import 'package:sweetella/feature/address/presentation/screens/address_widgets/add_address_bottom_sheet.dart';
+import 'package:sweetella/feature/address/presentation/screens/address_widgets/address_list_view.dart';
 
 class AddressBlocBuilder extends StatelessWidget {
   const AddressBlocBuilder({super.key});
@@ -17,6 +17,7 @@ class AddressBlocBuilder extends StatelessWidget {
           current is AddressLoaded ||
           current is AddressError,
       builder: (context, state) {
+        debugPrint('AddressBlocBuilder state = ${state.runtimeType}');
         if (state is AddressLoading) {
           return const Center(child: CircularProgressIndicator());
         }
@@ -25,8 +26,8 @@ class AddressBlocBuilder extends StatelessWidget {
           return Center(child: Text(state.message));
         }
 
-        if (state is AddressLoaded) {
-          if (state.addresses.isEmpty) {
+        if (state is AddressSelectionChanged || state is AddressLoaded) {
+          if (context.read<AddressCubit>().addresses.isEmpty) {
             return const Center(child: Text('No addresses added yet'));
           }
           return Padding(
@@ -47,15 +48,8 @@ class AddressBlocBuilder extends StatelessWidget {
                   icon: Icons.add,
                 ),
                 const SizedBox(height: 16),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: state.addresses.length,
-                    itemBuilder: (context, index) {
-                      final address = state.addresses[index];
-
-                      return AddressItem(address: address);
-                    },
-                  ),
+                AddressListView(
+                  addresses: context.read<AddressCubit>().addresses,
                 ),
               ],
             ),

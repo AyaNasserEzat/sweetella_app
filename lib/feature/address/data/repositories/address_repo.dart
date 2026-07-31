@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:sweetella/core/error/failure.dart';
-import 'package:sweetella/feature/cart/data/models/address_model.dart';
+import 'package:sweetella/feature/address/data/models/address_model.dart';
 
 abstract class AddressRepo {
   Future<Either<Failure, String>> addAddress({required AddressModel address});

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sweetella/feature/home/data/models/category_model.dart';
 import 'package:sweetella/feature/home/data/models/product_model.dart';
@@ -14,6 +15,7 @@ class ProductCubit extends Cubit<ProductState> {
   int selectedCategoryIndex = 0;
   void changeSelectedCategoryIndex(int index) {
     selectedCategoryIndex = index;
+    debugPrint('selected category = ${selectedCategoryIndex}');
     emit(ChangeSelectedCategoryIndexState());
   }
 

@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sweetella/feature/cart/data/models/address_model.dart';
-import 'package:sweetella/feature/cart/data/repositories/address_repo.dart';
+import 'package:sweetella/feature/address/data/models/address_model.dart';
+import 'package:sweetella/feature/address/data/repositories/address_repo.dart';
 
 part 'address_state.dart';
 
 class AddressCubit extends Cubit<AddressState> {
   final AddressRepo addressRepo;
   List<AddressModel> _addresses = [];
-  AddressModel? _selectedAddress;
-
+  List<AddressModel> get addresses => _addresses;
   AddressCubit({required this.addressRepo}) : super(AddressInitial());
 
-  AddressModel? get selectedAddress => _selectedAddress;
+  AddressModel? selectedAddress;
   final formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
@@ -120,7 +119,8 @@ class AddressCubit extends Cubit<AddressState> {
   }
 
   void selectAddress(AddressModel address) {
-    _selectedAddress = address;
-    emit(AddressSelectionChanged(selectedAddress: _selectedAddress));
+    selectedAddress = address;
+    debugPrint('selectAddress called');
+    emit(AddressSelectionChanged(selectedAddress: selectedAddress));
   }
 }

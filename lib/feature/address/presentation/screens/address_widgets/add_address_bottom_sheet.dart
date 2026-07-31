@@ -4,8 +4,8 @@ import 'package:sweetella/core/utils/app_colors.dart';
 import 'package:sweetella/core/widgets/custom_button.dart';
 import 'package:sweetella/core/widgets/custom_text_field.dart';
 import 'package:sweetella/feature/auth/presentation/screens/widgets/app_bar.dart';
-import 'package:sweetella/feature/cart/data/models/address_model.dart';
-import 'package:sweetella/feature/cart/presentation/cubits/address_cubit.dart';
+import 'package:sweetella/feature/address/data/models/address_model.dart';
+import 'package:sweetella/feature/address/presentation/cubits/address_cubit.dart';
 
 Future<dynamic> addAddressBottomSheet(
   BuildContext screenContext, {

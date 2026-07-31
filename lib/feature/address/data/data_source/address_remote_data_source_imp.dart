@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sweetella/core/error/exception_handelr.dart';
-import 'package:sweetella/feature/cart/data/data_sources/address_remote_data_source.dart';
-import 'package:sweetella/feature/cart/data/models/address_model.dart';
+import 'package:sweetella/feature/address/data/data_source/address_remote_data_source.dart';
+import 'package:sweetella/feature/address/data/models/address_model.dart';
 
 class AddressRemoteDataSourceImp implements AddressRemoteDataSource {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;

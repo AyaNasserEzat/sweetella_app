@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sweetella/feature/cart/data/models/address_model.dart';
+import 'package:sweetella/feature/address/data/models/address_model.dart';
 
 class AddressInfo extends StatelessWidget {
   const AddressInfo({super.key, required this.address});

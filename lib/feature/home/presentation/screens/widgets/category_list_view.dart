@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sweetella/feature/home/data/models/category_model.dart';
@@ -14,7 +13,6 @@ class GategoryListView extends StatefulWidget {
 }
 
 class _GategoryListViewState extends State<GategoryListView> {
-
   @override
   void initState() {
     final cubit = context.read<ProductCubit>();
@@ -49,4 +47,3 @@ class _GategoryListViewState extends State<GategoryListView> {
     );
   }
 }
-

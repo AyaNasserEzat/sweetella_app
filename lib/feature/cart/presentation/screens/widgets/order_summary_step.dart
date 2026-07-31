@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sweetella/core/utils/app_text_styles.dart';
-import 'package:sweetella/feature/cart/data/models/address_model.dart';
+import 'package:sweetella/feature/address/data/models/address_model.dart';
 import 'package:sweetella/feature/cart/data/models/cart_model.dart';
 import 'package:sweetella/feature/cart/data/models/payment_model.dart';
 

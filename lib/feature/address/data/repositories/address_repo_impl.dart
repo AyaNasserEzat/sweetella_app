@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:sweetella/core/error/failure.dart';
 import 'package:sweetella/core/error/firebase_exception.dart';
-import 'package:sweetella/feature/cart/data/data_sources/address_remote_data_source.dart';
-import 'package:sweetella/feature/cart/data/models/address_model.dart';
-import 'package:sweetella/feature/cart/data/repositories/address_repo.dart';
+import 'package:sweetella/feature/address/data/data_source/address_remote_data_source.dart';
+import 'package:sweetella/feature/address/data/models/address_model.dart';
+import 'package:sweetella/feature/address/data/repositories/address_repo.dart';
 
 class AddressRepoImp implements AddressRepo {
   final AddressRemoteDataSource remoteDataSource;
@@ -45,7 +45,9 @@ class AddressRepoImp implements AddressRepo {
   }
 
   @override
-  Future<Either<Failure, String>> deleteAddress({required String addressId}) async {
+  Future<Either<Failure, String>> deleteAddress({
+    required String addressId,
+  }) async {
     try {
       await remoteDataSource.deleteAddress(addressId: addressId);
       return right('Address deleted');

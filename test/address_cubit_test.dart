@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sweetella/core/error/failure.dart';
-import 'package:sweetella/feature/cart/data/models/address_model.dart';
-import 'package:sweetella/feature/cart/data/repositories/address_repo.dart';
-import 'package:sweetella/feature/cart/presentation/cubits/address_cubit.dart';
+import 'package:sweetella/feature/address/data/models/address_model.dart';
+import 'package:sweetella/feature/address/data/repositories/address_repo.dart';
+import 'package:sweetella/feature/address/presentation/cubits/address_cubit.dart';
 
 class FakeAddressRepo implements AddressRepo {
   List<AddressModel> addresses = [];
