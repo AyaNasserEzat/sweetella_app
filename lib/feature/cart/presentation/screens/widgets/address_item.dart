@@ -38,13 +38,11 @@ class AddressItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<AddressCubit, AddressState, AddressModel?>(
+    return BlocSelector<AddressCubit, AddressState, bool>(
       selector: (state) {
-        return context.read<AddressCubit>().selectedAddress;
+        return context.read<AddressCubit>().selectedAddress?.id == address.id;
       },
-      builder: (context, selectedAddress) {
-        final isSelected = selectedAddress == address;
-
+      builder: (context, state) {
         return GestureDetector(
           onTap: () {
             context.read<AddressCubit>().selectAddress(address);
@@ -54,15 +52,13 @@ class AddressItem extends StatelessWidget {
             margin: const EdgeInsets.symmetric(horizontal: 3, vertical: 10),
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: isSelected
+              color: state
                   ? AppColors.pinkLigt.withValues(alpha: 0.45)
                   : AppColors.white,
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
-                color: isSelected
-                    ? AppColors.primaryColor
-                    : Colors.grey.shade300,
-                width: isSelected ? 1.8 : 1,
+                color: state ? AppColors.primaryColor : Colors.grey.shade300,
+                width: state ? 1.8 : 1,
               ),
               boxShadow: [
                 BoxShadow(
@@ -133,7 +129,7 @@ class AddressItem extends StatelessWidget {
                   children: [
                     Transform.scale(
                       scale: 1.4,
-                      child: Radio<AddressModel>(
+                      child: Radio<String>(
                         side: WidgetStateBorderSide.resolveWith((states) {
                           return const BorderSide(
                             width: 1,
@@ -141,8 +137,11 @@ class AddressItem extends StatelessWidget {
                           );
                         }),
                         activeColor: AppColors.primaryColor,
-                        value: address,
-                        groupValue: selectedAddress,
+                        value: address.id!,
+                        groupValue: context
+                            .read<AddressCubit>()
+                            .selectedAddress
+                            ?.id,
                         onChanged: (_) {
                           context.read<AddressCubit>().selectAddress(address);
                         },

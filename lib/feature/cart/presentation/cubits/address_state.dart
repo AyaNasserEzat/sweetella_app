@@ -8,9 +8,8 @@ class AddressLoading extends AddressState {}
 
 class AddressLoaded extends AddressState {
   final List<AddressModel> addresses;
-  final AddressModel? selectedAddress;
 
-  AddressLoaded({required this.addresses, this.selectedAddress});
+  AddressLoaded({required this.addresses});
 }
 
 class AddressError extends AddressState {
@@ -20,7 +19,7 @@ class AddressError extends AddressState {
 }
 
 class AddressSelectionChanged extends AddressState {
-  final AddressModel selectedAddress;
+  final AddressModel? selectedAddress;
 
-  AddressSelectionChanged(this.selectedAddress);
+  AddressSelectionChanged({required this.selectedAddress});
 }

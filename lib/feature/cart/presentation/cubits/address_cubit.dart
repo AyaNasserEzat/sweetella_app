@@ -80,12 +80,7 @@ class AddressCubit extends Cubit<AddressState> {
       addresses,
     ) {
       _addresses = addresses;
-      emit(
-        AddressLoaded(
-          addresses: List.from(_addresses),
-          selectedAddress: _selectedAddress,
-        ),
-      );
+      emit(AddressLoaded(addresses: List.from(_addresses)));
     });
   }
 
@@ -126,11 +121,6 @@ class AddressCubit extends Cubit<AddressState> {
 
   void selectAddress(AddressModel address) {
     _selectedAddress = address;
-    emit(
-      AddressLoaded(
-        addresses: List.from(_addresses),
-        selectedAddress: _selectedAddress,
-      ),
-    );
+    emit(AddressSelectionChanged(selectedAddress: _selectedAddress));
   }
 }

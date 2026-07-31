@@ -8,7 +8,7 @@ import 'package:sweetella/core/widgets/snack_bar.dart';
 import 'package:sweetella/feature/cart/data/models/cart_model.dart';
 import 'package:sweetella/feature/cart/data/models/payment_model.dart';
 import 'package:sweetella/feature/cart/presentation/cubits/address_cubit.dart';
-import 'widgets/shipping_address_step.dart';
+import 'widgets/address_bloc_builder.dart';
 import 'widgets/payment_method_step.dart';
 import 'widgets/order_summary_step.dart';
 import 'widgets/success_step.dart';
@@ -110,29 +110,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         },
                         physics: const NeverScrollableScrollPhysics(),
                         children: [
-                          BlocBuilder<AddressCubit, AddressState>(
-                            builder: (context, state) {
-                              if (state is AddressLoading) {
-                                return const Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              }
-
-                              if (state is AddressError) {
-                                return Center(child: Text(state.message));
-                              }
-
-                              if (state is AddressLoaded) {
-                                return ShippingAddressStep(
-                                  addresses: state.addresses,
-                                );
-                              }
-
-                              return const Center(
-                                child: Text('No addresses added yet'),
-                              );
-                            },
-                          ),
+                          AddressBlocBuilder(),
                           PaymentMethodStep(
                             selectedMethod: _selectedPaymentMethod,
                             onMethodSelected: _onPaymentMethodSelected,
