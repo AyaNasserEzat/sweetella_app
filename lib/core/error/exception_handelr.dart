@@ -38,7 +38,7 @@ class ExceptionHandler {
         case 'unavailable':
           throw NetworkException('No internet connection');
         default:
-          throw UnknownAppException('Firebase error: ss');
+          throw UnknownAppException('Firebase error: ${e.toString()}');
       }
     }
 

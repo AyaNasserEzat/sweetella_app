@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sweetella/core/utils/app_text_styles.dart';
-import 'package:sweetella/core/widgets/custom_button.dart';
 import 'package:sweetella/feature/address/presentation/cubits/address_cubit.dart';
-import 'package:sweetella/feature/address/presentation/screens/address_widgets/add_address_bottom_sheet.dart';
 import 'package:sweetella/feature/address/presentation/screens/address_widgets/address_list_view.dart';
 
 class AddressBlocBuilder extends StatelessWidget {
@@ -30,29 +27,8 @@ class AddressBlocBuilder extends StatelessWidget {
           if (context.read<AddressCubit>().addresses.isEmpty) {
             return const Center(child: Text('No addresses added yet'));
           }
-          return Padding(
-            padding: const EdgeInsets.all(14),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Select Shipping address',
-                  style: AppTextStyles.text18BoldDarkGray,
-                ),
-                const SizedBox(height: 5),
-                CustomButton(
-                  onPressed: () {
-                    addAddressBottomSheet(context);
-                  },
-                  text: 'Add New Address',
-                  icon: Icons.add,
-                ),
-                const SizedBox(height: 16),
-                AddressListView(
-                  addresses: context.read<AddressCubit>().addresses,
-                ),
-              ],
-            ),
+          return AddressListView(
+            addresses: context.read<AddressCubit>().addresses,
           );
         }
 

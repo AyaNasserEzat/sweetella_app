@@ -11,12 +11,12 @@ class AddressRepoImp implements AddressRepo {
   AddressRepoImp(this.remoteDataSource);
 
   @override
-  Future<Either<Failure, String>> addAddress({
+  Future<Either<Failure, AddressModel>> addAddress({
     required AddressModel address,
   }) async {
     try {
-      await remoteDataSource.addAddress(address: address);
-      return right('Address saved successfully');
+      final res = await remoteDataSource.addAddress(address: address);
+      return right(res);
     } on AppException catch (e) {
       return left(Failure(e.message));
     }

@@ -19,20 +19,25 @@ class AddressItem extends StatelessWidget {
           BlocProvider.of<AddressCubit>(context).selectedAddress?.id ==
           address.id,
       builder: (context, isSelected) {
-        return AddressItemContainer(
-          isSelected: isSelected,
-          child: Row(
-            children: [
-              Expanded(child: AddressInfo(address: address)),
+        return GestureDetector(
+          onTap: () {
+            BlocProvider.of<AddressCubit>(context).selectAddress(address);
+          },
+          child: AddressItemContainer(
+            isSelected: isSelected,
+            child: Row(
+              children: [
+                Expanded(child: AddressInfo(address: address)),
 
-              Column(
-                children: [
-                  AddressSelectionRadio(address: address),
+                Column(
+                  children: [
+                    AddressSelectionRadio(address: address),
 
-                  AddressActions(address: address),
-                ],
-              ),
-            ],
+                    AddressActions(address: address),
+                  ],
+                ),
+              ],
+            ),
           ),
         );
       },

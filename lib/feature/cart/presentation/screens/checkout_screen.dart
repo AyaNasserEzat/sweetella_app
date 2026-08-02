@@ -5,6 +5,7 @@ import 'package:sweetella/core/utils/app_colors.dart';
 import 'package:sweetella/core/utils/app_text_styles.dart';
 import 'package:sweetella/core/widgets/custom_button.dart';
 import 'package:sweetella/core/widgets/snack_bar.dart';
+import 'package:sweetella/feature/address/presentation/screens/address_screen.dart';
 import 'package:sweetella/feature/cart/data/models/cart_model.dart';
 import 'package:sweetella/feature/cart/data/models/payment_model.dart';
 import 'package:sweetella/feature/address/presentation/cubits/address_cubit.dart';
@@ -110,7 +111,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         },
                         physics: const NeverScrollableScrollPhysics(),
                         children: [
-                          AddressBlocBuilder(),
+                          AddressScreen(),
                           PaymentMethodStep(
                             selectedMethod: _selectedPaymentMethod,
                             onMethodSelected: _onPaymentMethodSelected,

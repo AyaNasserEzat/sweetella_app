@@ -84,43 +84,87 @@ class AddressCubit extends Cubit<AddressState> {
   }
 
   Future<void> addAddress() async {
-    emit(AddressLoading());
-    final addressToSave = buildAddress();
-    final result = await addressRepo.addAddress(address: addressToSave);
-    result.fold((failure) => emit(AddressError(message: failure.message)), (
-      _,
-    ) async {
-      clearControllers();
-      await loadAddresses();
-    });
+    final tempAddress = buildAddress(
+      id: 'temp_${DateTime.now().millisecondsSinceEpoch}',
+    );
+
+    _addresses.insert(0, tempAddress);
+
+    emit(AddressLoaded(addresses: List.from(_addresses)));
+
+    final result = await addressRepo.addAddress(address: tempAddress);
+
+    result.fold(
+      (failure) {
+        _addresses.removeWhere((item) => item.id == tempAddress.id);
+
+        emit(AddressLoaded(addresses: List.from(_addresses)));
+
+        emit(AddressError(message: failure.message));
+      },
+      (savedAddress) {
+        final index = _addresses.indexWhere(
+          (item) => item.id == tempAddress.id,
+        );
+
+        if (index != -1) {
+          _addresses[index] = savedAddress;
+        }
+        clearControllers();
+        emit(AddressLoaded(addresses: List.from(_addresses)));
+      },
+    );
   }
 
-  Future<void> editAddress(AddressModel address) async {
-    emit(AddressLoading());
-    final result = await addressRepo.editAddress(address: address);
-    result.fold((failure) => emit(AddressError(message: failure.message)), (
-      _,
-    ) async {
-      clearControllers();
-      await loadAddresses();
-    });
+  Future<void> editAddress(AddressModel updatedAddress) async {
+    final oldAddresses = List<AddressModel>.from(_addresses);
+
+    // Update local list immediately
+    final index = _addresses.indexWhere((item) => item.id == updatedAddress.id);
+
+    if (index != -1) {
+      _addresses[index] = updatedAddress;
+
+      emit(AddressLoaded(addresses: List.from(_addresses)));
+    }
+
+    final result = await addressRepo.editAddress(address: updatedAddress);
+
+    result.fold(
+      (failure) {
+        // Rollback if request failed
+        _addresses = oldAddresses;
+
+        emit(AddressLoaded(addresses: List.from(_addresses)));
+
+        emit(AddressError(message: failure.message));
+      },
+      (_) {
+        clearControllers();
+      },
+    );
   }
 
   Future<void> deleteAddress(String addressId) async {
-    if (addressId.isEmpty) return;
+    final oldAddresses = List<AddressModel>.from(_addresses);
 
-    emit(AddressLoading());
+    _addresses.removeWhere((address) => address.id == addressId);
+
+    emit(AddressLoaded(addresses: List.from(_addresses)));
+
     final result = await addressRepo.deleteAddress(addressId: addressId);
-    result.fold((failure) => emit(AddressError(message: failure.message)), (
-      _,
-    ) async {
-      await loadAddresses();
-    });
+
+    result.fold((failure) {
+      _addresses = oldAddresses;
+
+      emit(AddressLoaded(addresses: List.from(_addresses)));
+
+      emit(AddressError(message: failure.message));
+    }, (_) {});
   }
 
   void selectAddress(AddressModel address) {
     selectedAddress = address;
-    debugPrint('selectAddress called');
     emit(AddressSelectionChanged(selectedAddress: selectedAddress));
   }
 }

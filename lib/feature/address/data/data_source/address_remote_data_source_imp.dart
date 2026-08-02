@@ -9,16 +9,22 @@ class AddressRemoteDataSourceImp implements AddressRemoteDataSource {
   final String _uid = FirebaseAuth.instance.currentUser!.uid;
 
   @override
-  Future<void> addAddress({required AddressModel address}) async {
+  Future<AddressModel> addAddress({required AddressModel address}) async {
     try {
-      final docRef = firestore
+      final collectionRef = firestore
           .collection('users')
           .doc(_uid)
-          .collection('addresses')
-          .doc();
+          .collection('addresses');
+
+      final documentId =
+          (address.id != null && address.id!.isNotEmpty)
+              ? address.id!
+              : collectionRef.doc().id;
+      final docRef = collectionRef.doc(documentId);
 
       final addressToSave = address.copyWith(id: docRef.id);
       await docRef.set(addressToSave.toJson());
+      return addressToSave;
     } catch (e) {
       ExceptionHandler.handle(e);
       rethrow;

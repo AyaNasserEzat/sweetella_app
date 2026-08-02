@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sweetella/core/error/failure.dart';
@@ -7,11 +9,15 @@ import 'package:sweetella/feature/address/presentation/cubits/address_cubit.dart
 
 class FakeAddressRepo implements AddressRepo {
   List<AddressModel> addresses = [];
+  Future<Either<Failure, String>>? addAddressResult;
 
   @override
   Future<Either<Failure, String>> addAddress({
     required AddressModel address,
   }) async {
+    if (addAddressResult != null) {
+      return addAddressResult!;
+    }
     addresses.add(address);
     return right('address added');
   }
@@ -85,6 +91,30 @@ void main() {
       expect(cubit.state, isA<AddressLoaded>());
       final state = cubit.state as AddressLoaded;
       expect(state.addresses, hasLength(1));
+    });
+
+    test('updates the UI immediately for add operations before the repo completes', () async {
+      final completer = Completer<Either<Failure, String>>();
+      final repo = FakeAddressRepo();
+      repo.addAddressResult = completer.future;
+      final cubit = AddressCubit(addressRepo: repo);
+
+      cubit.nameController.text = 'John';
+      cubit.phoneController.text = '01111111111';
+      cubit.countryController.text = 'Egypt';
+      cubit.cityController.text = 'Alexandria';
+      cubit.streetNameController.text = 'Blue Street';
+      cubit.floorNumberController.text = '1';
+      cubit.buildingNumberController.text = '5';
+      cubit.apartmentNumberController.text = '2';
+
+      final future = cubit.addAddress();
+
+      expect(cubit.state, isA<AddressLoaded>());
+      expect((cubit.state as AddressLoaded).addresses, hasLength(1));
+
+      completer.complete(right('address added'));
+      await future;
     });
 
     test(
