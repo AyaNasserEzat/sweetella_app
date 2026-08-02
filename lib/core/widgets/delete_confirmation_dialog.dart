@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sweetella/core/utils/app_colors.dart';
 import 'package:sweetella/core/utils/app_text_styles.dart';
 import 'package:sweetella/core/widgets/custom_button.dart';
+import 'package:sweetella/core/widgets/snack_bar.dart';
 
 Future<bool> showDeleteConfirmationDialog(
   BuildContext context, {
@@ -36,6 +37,11 @@ Future<bool> showDeleteConfirmationDialog(
               CustomButton(
                 onPressed: () {
                   Navigator.pop(dialogContext, true);
+                  showsnakbar(
+                    context,
+                    "Deleted Addrees  Succesfully",
+                    SnachBarState.success,
+                  );
                 },
                 text: 'Delete',
                 width: 95,

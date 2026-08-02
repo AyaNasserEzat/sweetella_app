@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sweetella/core/utils/app_colors.dart';
 import 'package:sweetella/core/widgets/custom_button.dart';
 import 'package:sweetella/core/widgets/custom_text_field.dart';
+import 'package:sweetella/core/widgets/snack_bar.dart';
 import 'package:sweetella/feature/auth/presentation/screens/widgets/app_bar.dart';
 import 'package:sweetella/feature/address/data/models/address_model.dart';
 import 'package:sweetella/feature/address/presentation/cubits/address_cubit.dart';
@@ -118,11 +119,21 @@ Future<dynamic> addAddressBottomSheet(
                         onPressed: () async {
                           if (address == null) {
                             await cubit.addAddress();
+                            showsnakbar(
+                              sheetContext,
+                              "Added  Addrees  Succesfully",
+                              SnachBarState.success,
+                            );
                           } else {
                             final updatedAddress = cubit.buildAddress(
                               id: address.id,
                             );
                             await cubit.editAddress(updatedAddress);
+                            showsnakbar(
+                              sheetContext,
+                              "Edited Addrees  Succesfully",
+                              SnachBarState.success,
+                            );
                           }
                           if (Navigator.canPop(sheetContext)) {
                             Navigator.pop(sheetContext);
