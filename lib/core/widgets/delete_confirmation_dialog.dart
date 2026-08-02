@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:sweetella/core/utils/app_colors.dart';
+import 'package:sweetella/core/utils/app_text_styles.dart';
+import 'package:sweetella/core/widgets/custom_button.dart';
 
 Future<bool> showDeleteConfirmationDialog(
   BuildContext context, {
@@ -7,22 +10,36 @@ Future<bool> showDeleteConfirmationDialog(
 }) async {
   return await showDialog<bool>(
         context: context,
-        builder: (_) {
+        builder: (dialogContext) {
           return AlertDialog(
-            title: Text(title),
-            content: Text(message),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context, false);
-                },
-                child: const Text('Cancel'),
+            backgroundColor: AppColors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+              side: BorderSide(color: AppColors.greySmallLigt),
+            ),
+            title: Text(title, style: AppTextStyles.text18BoldDarkGray),
+            content: Text(
+              message,
+              style: AppTextStyles.text16Grey.copyWith(
+                fontWeight: FontWeight.normal,
               ),
-              TextButton(
+            ),
+            actions: [
+              CustomButton(
+                onPressed: () => Navigator.pop(dialogContext, false),
+                text: 'Cancel',
+                width: 95,
+                backgroundColor: AppColors.white,
+                textColor: AppColors.primaryColor,
+                verticalPadding: 10,
+              ),
+              CustomButton(
                 onPressed: () {
-                  Navigator.pop(context, true);
+                  Navigator.pop(dialogContext, true);
                 },
-                child: const Text('Delete'),
+                text: 'Delete',
+                width: 95,
+                verticalPadding: 10,
               ),
             ],
           );
