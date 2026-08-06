@@ -1,28 +1,30 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:sweetella/core/utils/app_colors.dart';
 import 'package:sweetella/core/utils/app_text_styles.dart';
 import 'package:sweetella/core/widgets/custom_button.dart';
 import 'package:sweetella/feature/auth/presentation/screens/widgets/white_card.dart';
-import 'package:sweetella/feature/cart/presentation/screens/track_order_screen.dart';
+import 'package:sweetella/feature/order/presentation/screens/track_order_screen.dart';
 
 class SuccessStep extends StatefulWidget {
-  const SuccessStep({super.key});
+  final String? orderId;
+
+  const SuccessStep({super.key, this.orderId});
 
   @override
   State<SuccessStep> createState() => _SuccessStepState();
 }
 
-class _SuccessStepState extends State<SuccessStep> with TickerProviderStateMixin {
+class _SuccessStepState extends State<SuccessStep>
+    with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
-  final String orderId = 'ORD${Random().nextInt(1000000).toString().padLeft(6, '0')}';
+  late final String orderId;
 
   @override
   void initState() {
     super.initState();
+    orderId = widget.orderId ?? 'PENDING';
     _controller = AnimationController(
       duration: const Duration(seconds: 1),
       vsync: this,
@@ -55,18 +57,36 @@ class _SuccessStepState extends State<SuccessStep> with TickerProviderStateMixin
             const SizedBox(height: 16),
             const Text('Success!', style: AppTextStyles.text24BoldPink),
             const SizedBox(height: 8),
-            Text('Your order has been placed successfully.',textAlign: TextAlign.center, style: AppTextStyles.text16BoldBlack),
+            const Text(
+              'Your order has been placed successfully.',
+              textAlign: TextAlign.center,
+              style: AppTextStyles.text16BoldBlack,
+            ),
             const SizedBox(height: 16),
-            Text('Order ID: $orderId', style: AppTextStyles.text18BoldDarkGray),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+              decoration: BoxDecoration(
+                color: AppColors.primaryColor.withValues(alpha: 0.08),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Text(
+                orderId == 'PENDING'
+                    ? 'Preparing your order...'
+                    : 'Order ID: $orderId',
+                style: AppTextStyles.text18BoldDarkGray,
+              ),
+            ),
             const SizedBox(height: 32),
             CustomButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => TrackOrderScreen(orderId: orderId),
-                  ),
-                );
+                if (orderId != 'PENDING') {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => TrackOrderScreen(orderId: orderId),
+                    ),
+                  );
+                }
               },
               text: 'Track Order',
             ),

@@ -3,10 +3,14 @@ import 'package:sweetella/feature/address/data/data_source/address_remote_data_s
 import 'package:sweetella/feature/address/data/data_source/address_remote_data_source_imp.dart';
 import 'package:sweetella/feature/cart/data/data_sources/cart_remote_data_source.dart';
 import 'package:sweetella/feature/cart/data/data_sources/cart_remote_data_source_imp.dart';
+import 'package:sweetella/feature/order/data/data_source/order_remote_data_source.dart';
+import 'package:sweetella/feature/order/data/data_source/order_remote_data_source_imp.dart';
 import 'package:sweetella/feature/address/data/repositories/address_repo.dart';
 import 'package:sweetella/feature/address/data/repositories/address_repo_impl.dart';
 import 'package:sweetella/feature/cart/data/repositories/cart_firebase_repo_imp.dart';
 import 'package:sweetella/feature/cart/data/repositories/cart_repo.dart';
+import 'package:sweetella/feature/order/data/repositories/order_repo.dart';
+import 'package:sweetella/feature/order/data/repositories/order_repo_imp.dart';
 import 'package:sweetella/feature/address/presentation/cubits/address_cubit.dart';
 import 'package:sweetella/feature/cart/presentation/cubits/cart_cubit.dart';
 import 'package:sweetella/feature/favorites/data/data_sources/favories_remote_data_source.dart';
@@ -17,6 +21,7 @@ import 'package:sweetella/feature/favorites/presentation/cubits/favorites_cubit.
 import 'package:sweetella/feature/home/data/repositories/product_repo_imp.dart';
 import 'package:sweetella/feature/home/data/services/product_firebase_service.dart';
 import 'package:sweetella/feature/home/presentation/screens/cubit/product_cubit.dart';
+import 'package:sweetella/feature/order/presentation/cubits/order_cubit.dart';
 import 'package:sweetella/feature/profile/data/data_source/profile_remote_data_source.dart';
 import 'package:sweetella/feature/profile/data/data_source/profile_remote_data_source_imp.dart';
 import 'package:sweetella/feature/profile/data/repos/profile_repo.dart';
@@ -75,6 +80,16 @@ void setupServiceLocator() {
   );
   //cart cubit
   sl.registerFactory(() => CartCubit(cartRepo: sl()));
+
+  // order data source
+  sl.registerLazySingleton<OrderRemoteDataSource>(
+    () => OrderRemoteDataSourceImp(),
+  );
+
+  // order repository
+  sl.registerLazySingleton<OrderRepo>(() => OrderRepoImp(sl()));
+
+  sl.registerFactory(() => OrderCubit(orderRepo: sl()));
 
   // address data source
   sl.registerLazySingleton<AddressRemoteDataSource>(

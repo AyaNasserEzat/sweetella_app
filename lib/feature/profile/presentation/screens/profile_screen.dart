@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sweetella/core/di/service_locator.dart';
 import 'package:sweetella/core/utils/app_colors.dart';
 import 'package:sweetella/feature/auth/presentation/screens/widgets/app_bar.dart';
+import 'package:sweetella/feature/order/presentation/cubits/order_cubit.dart';
+import 'package:sweetella/feature/order/presentation/screens/my_orders_screen.dart';
 import 'package:sweetella/feature/profile/presentation/cubits/profile_cubit.dart';
 import 'package:sweetella/feature/profile/presentation/screens/widgets/profile_header.dart';
 import 'package:sweetella/feature/profile/presentation/screens/widgets/profile_option.dart';
@@ -44,7 +46,15 @@ class ProfileScreen extends StatelessWidget {
                       icon: Icons.shopping_bag,
                       title: 'My Orders',
                       onTap: () {
-                        // Navigate to orders
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => BlocProvider(
+                              create: (_) => sl<OrderCubit>()..getOrders(),
+                              child: const MyOrdersScreen(),
+                            ),
+                          ),
+                        );
                       },
                     ),
                     Divider(height: 1, color: Colors.grey.shade300),

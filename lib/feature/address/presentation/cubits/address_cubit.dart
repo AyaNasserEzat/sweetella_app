@@ -118,13 +118,13 @@ class AddressCubit extends Cubit<AddressState> {
 
   Future<void> editAddress(AddressModel updatedAddress) async {
     final oldAddresses = List<AddressModel>.from(_addresses);
-
+    final oldSelectedAddress = selectedAddress;
     // Update local list immediately
     final index = _addresses.indexWhere((item) => item.id == updatedAddress.id);
 
     if (index != -1) {
       _addresses[index] = updatedAddress;
-
+      selectedAddress = updatedAddress; //update selected addrees
       emit(AddressLoaded(addresses: List.from(_addresses)));
     }
 
@@ -134,7 +134,7 @@ class AddressCubit extends Cubit<AddressState> {
       (failure) {
         // Rollback if request failed
         _addresses = oldAddresses;
-
+        selectedAddress = oldSelectedAddress;
         emit(AddressLoaded(addresses: List.from(_addresses)));
 
         emit(AddressError(message: failure.message));
@@ -147,18 +147,26 @@ class AddressCubit extends Cubit<AddressState> {
 
   Future<void> deleteAddress(String addressId) async {
     final oldAddresses = List<AddressModel>.from(_addresses);
+    final oldSelectedAddress = selectedAddress;
 
+    // حذف العنوان من القائمة
     _addresses.removeWhere((address) => address.id == addressId);
+
+    // لو العنوان المحذوف هو المختار
+    if (selectedAddress?.id == addressId) {
+      selectedAddress = null;
+    }
 
     emit(AddressLoaded(addresses: List.from(_addresses)));
 
     final result = await addressRepo.deleteAddress(addressId: addressId);
 
     result.fold((failure) {
+      // Rollback
       _addresses = oldAddresses;
+      selectedAddress = oldSelectedAddress;
 
       emit(AddressLoaded(addresses: List.from(_addresses)));
-
       emit(AddressError(message: failure.message));
     }, (_) {});
   }

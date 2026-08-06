@@ -19,12 +19,12 @@ class AddressItemContainer extends StatelessWidget {
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: isSelected
-            ? AppColors.pinkLigt.withValues(alpha: 0.45)
+            ? AppColors.primaryColor.withValues(alpha: 0.08)
             : AppColors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: isSelected ? AppColors.primaryColor : Colors.grey.shade300,
-          width: isSelected ? 1.8 : 1,
+          width: isSelected ? 1.5 : 1,
         ),
         boxShadow: [
           BoxShadow(

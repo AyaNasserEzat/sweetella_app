@@ -9,7 +9,8 @@ import 'package:sweetella/feature/address/presentation/screens/address_screen.da
 import 'package:sweetella/feature/cart/data/models/cart_model.dart';
 import 'package:sweetella/feature/cart/data/models/payment_model.dart';
 import 'package:sweetella/feature/address/presentation/cubits/address_cubit.dart';
-import '../../../address/presentation/screens/address_widgets/address_bloc_builder.dart';
+import 'package:sweetella/feature/order/presentation/cubits/order_cubit.dart';
+import 'package:sweetella/feature/order/presentation/cubits/order_state.dart';
 import 'widgets/payment_method_step.dart';
 import 'widgets/order_summary_step.dart';
 import 'widgets/success_step.dart';
@@ -31,8 +32,8 @@ class CheckoutScreen extends StatefulWidget {
 class _CheckoutScreenState extends State<CheckoutScreen> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
-  PaymentMethod? _selectedPaymentMethod;
-  bool _isLoading = false;
+  late final OrderCubit _orderCubit;
+  late BuildContext _providerContext;
 
   void _nextPage() {
     if (_currentPage < 3) {
@@ -52,35 +53,64 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     }
   }
 
-  void _onPaymentMethodSelected(PaymentMethod method, CardDetails? details) {
-    setState(() {
-      _selectedPaymentMethod = method;
-    });
+  @override
+  void initState() {
+    super.initState();
+    _orderCubit = sl<OrderCubit>();
   }
 
-  void _confirmOrder() async {
-    setState(() {
-      _isLoading = true;
-    });
-    // Simulate payment processing
-    await Future.delayed(const Duration(seconds: 2));
-    setState(() {
-      _isLoading = false;
-      _currentPage = 3; // Go to success
-    });
-    _pageController.animateToPage(
-      3,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.ease,
+  @override
+  void dispose() {
+    _orderCubit.close();
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  void _onPaymentMethodSelected(PaymentMethod method, CardDetails? details) {
+    _orderCubit.selectPaymentMethod(method);
+  }
+
+  Future<void> _confirmOrder() async {
+    final addressCubit = _providerContext.read<AddressCubit>();
+    final selectedAddress = addressCubit.selectedAddress;
+
+    await _orderCubit.createOrder(
+      selectedAddress: selectedAddress,
+      cartItems: widget.cartItems,
+      totalPrice: widget.totalPrice,
     );
+
+    if (!mounted) return;
+
+    if (_orderCubit.state is OrderSuccess) {
+      setState(() {
+        _currentPage = 3;
+      });
+      _pageController.animateToPage(
+        3,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.ease,
+      );
+      return;
+    }
+
+    if (_orderCubit.state is OrderFailure) {
+      final message = (_orderCubit.state as OrderFailure).message;
+      showsnakbar(_providerContext, message, SnachBarState.error);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => sl<AddressCubit>()..loadAddresses(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => sl<AddressCubit>()..loadAddresses()),
+        BlocProvider.value(value: _orderCubit),
+        //BlocProvider(create: (_) => sl<OrderCubit>()..getOrders()),
+      ],
       child: Builder(
         builder: (context) {
+          _providerContext = context;
           return Scaffold(
             backgroundColor: AppColors.scaffoldColor,
             appBar: AppBar(
@@ -113,7 +143,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         children: [
                           AddressScreen(),
                           PaymentMethodStep(
-                            selectedMethod: _selectedPaymentMethod,
+                            selectedMethod: _orderCubit.selectedPaymentMethod,
                             onMethodSelected: _onPaymentMethodSelected,
                           ),
                           OrderSummaryStep(
@@ -122,9 +152,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             selectedAddress: BlocProvider.of<AddressCubit>(
                               context,
                             ).selectedAddress,
-                            selectedPayment: _selectedPaymentMethod,
+                            selectedPayment: _orderCubit.selectedPaymentMethod,
                           ),
-                          const SuccessStep(),
+                          SuccessStep(orderId: _orderCubit.orderId),
                         ],
                       ),
                     ),
@@ -142,11 +172,16 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           const SizedBox(width: 16),
                           Expanded(
                             child: _currentPage == 2
-                                ? CustomButton(
-                                    onPressed: _confirmOrder,
-                                    text: _isLoading
-                                        ? 'Processing...'
-                                        : 'Confirm & Pay',
+                                ? BlocBuilder<OrderCubit, OrderState>(
+                                    builder: (context, state) {
+                                      final isLoading = state is OrderLoading;
+                                      return CustomButton(
+                                        onPressed: _confirmOrder,
+                                        text: isLoading
+                                            ? 'Processing...'
+                                            : 'Confirm & Pay',
+                                      );
+                                    },
                                   )
                                 : CustomButton(
                                     onPressed: () {

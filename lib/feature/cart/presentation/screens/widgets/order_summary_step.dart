@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sweetella/core/utils/app_colors.dart';
 import 'package:sweetella/core/utils/app_text_styles.dart';
 import 'package:sweetella/feature/address/data/models/address_model.dart';
 import 'package:sweetella/feature/cart/data/models/cart_model.dart';
@@ -47,80 +48,111 @@ class OrderSummaryStep extends StatelessWidget {
         children: [
           const Text('Order Summary', style: AppTextStyles.text24BoldPink),
           const SizedBox(height: 16),
-          const Text('Products:', style: AppTextStyles.text18BoldDarkGray),
-          ...cartItems.map(
-            (item) => ListTile(
-              leading: Image.network(item.imageUrl, width: 50, height: 50),
-              title: Text(item.productName),
-              subtitle: Text('Quantity: ${item.quantity}'),
-              trailing: Text(
-                '\$${(item.price * item.quantity).toStringAsFixed(2)}',
-              ),
+          _buildSectionCard(
+            title: 'Products',
+            child: Column(
+              children: cartItems.map((item) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 6),
+                  child: Row(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: Image.network(item.imageUrl, width: 46, height: 46, fit: BoxFit.cover),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(item.productName, style: const TextStyle(fontWeight: FontWeight.w600)),
+                            Text('Qty: ${item.quantity}', style: TextStyle(color: AppColors.greyDark)),
+                          ],
+                        ),
+                      ),
+                      Text('\$${(item.price * item.quantity).toStringAsFixed(2)}'),
+                    ],
+                  ),
+                );
+              }).toList(),
             ),
           ),
-          const Divider(),
-          const Text(
-            'Shipping Address:',
-            style: AppTextStyles.text18BoldDarkGray,
+          const SizedBox(height: 12),
+          _buildSectionCard(
+            title: 'Shipping Address',
+            child: selectedAddress != null
+                ? Text(
+                    '${selectedAddress!.name}\n${selectedAddress!.phone}\n${selectedAddress!.streetName}, ${selectedAddress!.buildingNumber}, ${selectedAddress!.floorNumber}, ${selectedAddress!.apartmentNumber}, ${selectedAddress!.city}',
+                    style: TextStyle(color: AppColors.greyDark, height: 1.4),
+                  )
+                : const Text('No address selected'),
           ),
-          if (selectedAddress != null)
-            Text(
-              '${selectedAddress!.name}\n${selectedAddress!.phone}, ${selectedAddress!.streetName}\n${selectedAddress!.floorNumber}',
-            )
-          else
-            const Text('No address selected'),
-          const Divider(),
-          const Text(
-            'Payment Method:',
-            style: AppTextStyles.text18BoldDarkGray,
+          const SizedBox(height: 12),
+          _buildSectionCard(
+            title: 'Payment Method',
+            child: Text(_paymentMethodString(selectedPayment), style: TextStyle(color: AppColors.greyDark)),
           ),
-          Text(_paymentMethodString(selectedPayment)),
-          const Divider(),
-          const Text(
-            'Total Breakdown:',
-            style: AppTextStyles.text18BoldDarkGray,
+          const SizedBox(height: 12),
+          _buildSectionCard(
+            title: 'Total Breakdown',
+            child: Column(
+              children: [
+                _buildPriceRow('Subtotal', subtotal),
+                _buildPriceRow('Shipping', shipping),
+                _buildPriceRow('Tax', tax),
+                _buildPriceRow('Discount', discount, isNegative: true),
+                const Divider(height: 20),
+                _buildPriceRow('Total', total, isBold: true),
+              ],
+            ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text('Subtotal:'),
-              Text('\$${subtotal.toStringAsFixed(2)}'),
-            ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSectionCard({required String title, required Widget child}) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.greySmallLigt),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(title, style: AppTextStyles.text18BoldDarkGray),
+          const SizedBox(height: 10),
+          child,
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPriceRow(
+    String label,
+    double value, {
+    bool isNegative = false,
+    bool isBold = false,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 3),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            label,
+            style: isBold ? const TextStyle(fontWeight: FontWeight.w700) : null,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text('Shipping:'),
-              Text('\$${shipping.toStringAsFixed(2)}'),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [const Text('Tax:'), Text('\$${tax.toStringAsFixed(2)}')],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text('Discount:'),
-              Text('-\$${discount.toStringAsFixed(2)}'),
-            ],
-          ),
-          const Divider(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                'Total:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text(
-                '\$${total.toStringAsFixed(2)}',
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ],
+          Text(
+            '${isNegative ? '-' : ''}\$${value.toStringAsFixed(2)}',
+            style: isBold ? const TextStyle(fontWeight: FontWeight.w700) : null,
           ),
         ],
       ),
     );
   }
 }
+
