@@ -49,6 +49,7 @@ class AppTextStyles {
     fontFamily: 'Nunito',
     fontVariations: [FontVariation('wght', 800)],
   );
+
   static const text18BoldDarkGray = TextStyle(
     fontSize: 18,
     color: AppColors.greyDark,
@@ -99,6 +100,12 @@ class AppTextStyles {
     fontFamily: 'Nunito',
     fontSize: 16,
     fontVariations: [FontVariation('wght', 900)],
+    color: Colors.grey,
+  );
+  static const text14Grey = TextStyle(
+    fontFamily: 'Nunito',
+    fontSize: 14,
+    fontVariations: [FontVariation('wght', 800)],
     color: Colors.grey,
   );
   static const text18GreyLineThrough = TextStyle(

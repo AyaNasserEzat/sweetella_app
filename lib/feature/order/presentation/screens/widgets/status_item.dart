@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sweetella/core/utils/app_colors.dart';
 import 'package:sweetella/feature/order/data/models/order_model.dart';
 
 class StatusItem extends StatelessWidget {
@@ -28,7 +29,7 @@ class StatusItem extends StatelessWidget {
   Color get _backgroundColor {
     switch (status) {
       case OrderStatus.pending:
-        return Colors.orange.shade100;
+        return AppColors.primaryColor.withValues(alpha: 0.09);
 
       case OrderStatus.outForDelivery:
         return Colors.blue.shade100;
@@ -46,7 +47,7 @@ class StatusItem extends StatelessWidget {
   Color get _textColor {
     switch (status) {
       case OrderStatus.pending:
-        return Colors.orange;
+        return AppColors.primaryColor;
 
       case OrderStatus.confirmed:
         return Colors.blue;

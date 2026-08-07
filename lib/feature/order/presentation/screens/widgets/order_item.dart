@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sweetella/core/extension/timestamp_extension.dart';
 import 'package:sweetella/core/utils/app_colors.dart';
 import 'package:sweetella/core/utils/app_text_styles.dart';
 import 'package:sweetella/feature/order/data/models/order_model.dart';
@@ -43,10 +44,10 @@ class OrderItem extends StatelessWidget {
                 StatusItem(status: order.status),
               ],
             ),
-            const SizedBox(height: 12),
             Text(
-              order.addressLine,
+              order.createdAt.formattedDate,
               maxLines: 2,
+              style: AppTextStyles.text14Grey,
               overflow: TextOverflow.ellipsis,
             ),
             const SizedBox(height: 12),
