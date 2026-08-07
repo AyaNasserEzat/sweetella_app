@@ -14,12 +14,13 @@ class MyOrdersScreen extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 35),
+            padding: const EdgeInsets.only(top: 35, left: 12, right: 12),
             sliver: SliverList(
               delegate: SliverChildListDelegate.fixed([
                 AppBarTitle(title: "My Orders"),
                 const SizedBox(height: 15),
                 const OrdersFilter(),
+                const SizedBox(height: 12),
               ]),
             ),
           ),
