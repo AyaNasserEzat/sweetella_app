@@ -57,25 +57,4 @@ class OrderRemoteDataSourceImp implements OrderRemoteDataSource {
       rethrow;
     }
   }
-
-  @override
-  Future<void> updateOrderStatus({
-    required String orderId,
-    required OrderStatus status,
-  }) async {
-    try {
-      await firestore
-          .collection('users')
-          .doc(uid)
-          .collection('orders')
-          .doc(orderId)
-          .update({
-            'status': status.name,
-            'updatedAt': FieldValue.serverTimestamp(),
-          });
-    } catch (e) {
-      ExceptionHandler.handle(e);
-      rethrow;
-    }
-  }
 }

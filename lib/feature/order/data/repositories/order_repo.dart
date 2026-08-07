@@ -6,8 +6,4 @@ abstract class OrderRepo {
   Future<Either<Failure, String>> createOrder({required OrderModel order});
   Future<Either<Failure, OrderModel?>> getOrderById({required String orderId});
   Future<Either<Failure, List<OrderModel>>> getOrders();
-  Future<Either<Failure, void>> updateOrderStatus({
-    required String orderId,
-    required OrderStatus status,
-  });
 }

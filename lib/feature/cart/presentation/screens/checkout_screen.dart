@@ -106,7 +106,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       providers: [
         BlocProvider(create: (context) => sl<AddressCubit>()..loadAddresses()),
         BlocProvider.value(value: _orderCubit),
-        //BlocProvider(create: (_) => sl<OrderCubit>()..getOrders()),
       ],
       child: Builder(
         builder: (context) {

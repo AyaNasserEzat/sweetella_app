@@ -43,20 +43,4 @@ class OrderRepoImp implements OrderRepo {
       return left(Failure(e.message));
     }
   }
-
-  @override
-  Future<Either<Failure, void>> updateOrderStatus({
-    required String orderId,
-    required OrderStatus status,
-  }) async {
-    try {
-      await remoteDataSource.updateOrderStatus(
-        orderId: orderId,
-        status: status,
-      );
-      return right(null);
-    } on AppException catch (e) {
-      return left(Failure(e.message));
-    }
-  }
 }
