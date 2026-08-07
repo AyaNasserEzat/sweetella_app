@@ -125,4 +125,19 @@ class CartCubit extends Cubit<CartState> {
       (item) => _getItemId(item) == _getItemId(cartItemModel),
     );
   }
+
+  Future<void> clearCart() async {
+    final result = await cartRepo.clearCart();
+
+    result.fold(
+      (failure) {
+        emit(CartError(message: failure.message));
+      },
+      (_) {
+        cartItems.clear();
+
+        emit(CartLoaded(cartItems: []));
+      },
+    );
+  }
 }

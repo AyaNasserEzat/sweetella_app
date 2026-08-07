@@ -83,4 +83,27 @@ class CartRemoteDataSourceImp implements CartRemoteDataSource {
       rethrow;
     }
   }
+
+  @override
+  Future<void> clearCart() async {
+    try {
+      final cartCollection = firestore
+          .collection('users')
+          .doc(uid)
+          .collection('cart');
+
+      final snapshot = await cartCollection.get();
+
+      final batch = FirebaseFirestore.instance.batch();
+
+      for (final doc in snapshot.docs) {
+        batch.delete(doc.reference);
+      }
+
+      await batch.commit();
+    } catch (e) {
+      ExceptionHandler.handle(e);
+      rethrow;
+    }
+  }
 }

@@ -8,4 +8,5 @@ abstract class CartRemoteDataSource {
     required String cartItemId,
     required int quantity,
   });
+  Future<void> clearCart();
 }

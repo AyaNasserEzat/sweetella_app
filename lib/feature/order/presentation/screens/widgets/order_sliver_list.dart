@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sweetella/core/widgets/empty_widget.dart';
 import 'package:sweetella/feature/order/data/models/order_model.dart';
 import 'package:sweetella/feature/order/presentation/cubits/order_cubit.dart';
 import 'package:sweetella/feature/order/presentation/cubits/order_state.dart';
@@ -20,7 +21,12 @@ class OrdersSliverList extends StatelessWidget {
       builder: (context, orders) {
         if (orders.isEmpty) {
           return const SliverToBoxAdapter(
-            child: Center(child: Text("No Order found")),
+            child: Center(
+              child: EmptyWidget(
+                imageUrl: "assets/images/empty_order.png",
+                imageWidth: 230,
+              ),
+            ),
           );
         }
 

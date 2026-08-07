@@ -9,6 +9,7 @@ import 'package:sweetella/feature/address/presentation/screens/address_screen.da
 import 'package:sweetella/feature/cart/data/models/cart_model.dart';
 import 'package:sweetella/feature/cart/data/models/payment_model.dart';
 import 'package:sweetella/feature/address/presentation/cubits/address_cubit.dart';
+import 'package:sweetella/feature/cart/presentation/cubits/cart_cubit.dart';
 import 'package:sweetella/feature/order/presentation/cubits/order_cubit.dart';
 import 'package:sweetella/feature/order/presentation/cubits/order_state.dart';
 import 'widgets/payment_method_step.dart';
@@ -36,7 +37,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   late BuildContext _providerContext;
 
   void _nextPage() {
-    if (_currentPage < 3) {
+    if (_currentPage < 2) {
       _pageController.nextPage(
         duration: const Duration(milliseconds: 300),
         curve: Curves.ease,
@@ -83,15 +84,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     if (!mounted) return;
 
     if (_orderCubit.state is OrderSuccess) {
-      setState(() {
-        _currentPage = 3;
-      });
-      _pageController.animateToPage(
-        3,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.ease,
+      await _providerContext.read<CartCubit>().clearCart();
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => SuccessStep(orderId: _orderCubit.orderId),
+        ),
       );
-      return;
     }
 
     if (_orderCubit.state is OrderFailure) {
@@ -153,7 +152,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             ).selectedAddress,
                             selectedPayment: _orderCubit.selectedPaymentMethod,
                           ),
-                          SuccessStep(orderId: _orderCubit.orderId),
                         ],
                       ),
                     ),

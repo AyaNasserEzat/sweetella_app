@@ -74,9 +74,12 @@ class CartScreen extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => CheckoutScreen(
-                                      cartItems: cartItems,
-                                      totalPrice: totalPrice,
+                                    builder: (_) => BlocProvider.value(
+                                      value: context.read<CartCubit>(),
+                                      child: CheckoutScreen(
+                                        cartItems: cartItems,
+                                        totalPrice: totalPrice,
+                                      ),
                                     ),
                                   ),
                                 );

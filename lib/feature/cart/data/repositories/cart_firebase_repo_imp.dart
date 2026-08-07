@@ -10,7 +10,9 @@ class CartFirebaseRepoImp implements CartRepo {
   CartFirebaseRepoImp({required this.cartRemoteDataSource});
 
   @override
-  Future<Either<Failure, String>> addToCart({required CartItemModel item}) async {
+  Future<Either<Failure, String>> addToCart({
+    required CartItemModel item,
+  }) async {
     try {
       await cartRemoteDataSource.addToCart(item: item);
       return right('add to cart successfully');
@@ -20,7 +22,9 @@ class CartFirebaseRepoImp implements CartRepo {
   }
 
   @override
-  Future<Either<Failure, String>> removeFromCart({required CartItemModel item}) async {
+  Future<Either<Failure, String>> removeFromCart({
+    required CartItemModel item,
+  }) async {
     try {
       await cartRemoteDataSource.removeFromCart(item: item);
       return right('remove from cart successfully');
@@ -40,10 +44,26 @@ class CartFirebaseRepoImp implements CartRepo {
   }
 
   @override
-  Future<Either<Failure, String>> updateCartItemQuantity({required String cartItemId, required int quantity}) async {
+  Future<Either<Failure, String>> updateCartItemQuantity({
+    required String cartItemId,
+    required int quantity,
+  }) async {
     try {
-      await cartRemoteDataSource.updateCartItemQuantity(cartItemId: cartItemId, quantity: quantity);
+      await cartRemoteDataSource.updateCartItemQuantity(
+        cartItemId: cartItemId,
+        quantity: quantity,
+      );
       return right('cart item quantity updated successfully');
+    } on AppException catch (e) {
+      return left(Failure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> clearCart() async {
+    try {
+      await cartRemoteDataSource.clearCart();
+      return right(null);
     } on AppException catch (e) {
       return left(Failure(e.message));
     }
