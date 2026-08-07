@@ -6,14 +6,20 @@ import 'package:sweetella/feature/home/presentation/screens/home_screen.dart';
 import 'package:sweetella/feature/profile/presentation/screens/profile_screen.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
-
+  const MainScreen({super.key, this.initialIndex = 0});
+  final int initialIndex;
   @override
   State<MainScreen> createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _selectedIndex = 0;
+  late int _selectedIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = widget.initialIndex;
+  }
 
   final List<Widget> _screens = [
     const DonutsHomeScreen(),
@@ -52,7 +58,7 @@ class _MainScreenState extends State<MainScreen> {
               showUnselectedLabels: false,
               selectedLabelStyle: TextStyle(
                 fontFamily: 'Nunito',
-               fontVariations: [FontVariation('wght', 900)],
+                fontVariations: [FontVariation('wght', 900)],
               ),
               onTap: (index) {
                 setState(() {
