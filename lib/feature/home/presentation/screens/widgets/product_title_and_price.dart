@@ -15,14 +15,14 @@ class ProductTitleAndPrice extends StatelessWidget {
       children: [
         Text(productModel.name, style: AppTextStyles.text24BoldPink),
         SizedBox(height: 8),
-        BlocBuilder<ProductAttributesCubit, ProductSelectionState>(
-          builder: (context, state) {
-            return Text(
-              'Price: ${BlocProvider.of<ProductAttributesCubit>(context).calculateFinalPrice(productModel)}\$',
-              style: AppTextStyles.text18BoldDarkGray,
-            );
-          },
-        ),
+        // BlocBuilder<ProductAttributesCubit, ProductSelectionState>(
+        //   builder: (context, state) {
+        //     return Text(
+        //       'Price: ${BlocProvider.of<ProductAttributesCubit>(context).calculateFinalPrice(productModel)}\$',
+        //       style: AppTextStyles.text18BoldDarkGray,
+        //     );
+        //   },
+        // ),
       ],
     );
   }

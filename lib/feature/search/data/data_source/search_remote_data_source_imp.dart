@@ -15,7 +15,7 @@ class SearchRemoteDataSourceImp extends SearchRemoteDataSource {
           .where('name', isLessThanOrEqualTo: '$query\uf8ff')
           .get();
       final list = snapshot.docs
-          .map((document) => ProductModel.fromSnapshot(document))
+          .map((doc) => ProductModel.fromJson(doc.data(), doc.id))
           .toList();
       return list;
     } catch (e) {

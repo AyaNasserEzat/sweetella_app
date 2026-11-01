@@ -17,7 +17,7 @@ class FavoritesScreen extends StatelessWidget {
         BlocProvider(create: (context) => sl<FavoritesCubit>()),
         BlocProvider(create: (context) => sl<ProductCubit>()),
         BlocProvider(create: (context) => sl<CartCubit>()),
-        BlocProvider(create: (_) => ProductAttributesCubit()),
+        // BlocProvider(create: (_) => ProductDetailsCubit()),
       ],
       child: FavoriteScreenBody(),
     );

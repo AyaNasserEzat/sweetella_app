@@ -9,7 +9,7 @@ class ProductFirebaseService {
     try {
       final snapshot = await firestore.collection('Products').get();
       final list = snapshot.docs
-          .map((document) => ProductModel.fromSnapshot(document))
+          .map((doc) => ProductModel.fromJson(doc.data(), doc.id))
           .toList();
       return list;
     } catch (e) {
@@ -25,7 +25,7 @@ class ProductFirebaseService {
           .where('categoryId', isEqualTo: categoryId)
           .get();
       final list = snapshot.docs
-          .map((document) => ProductModel.fromSnapshot(document))
+          .map((doc) => ProductModel.fromJson(doc.data(), doc.id))
           .toList();
       return list;
     } catch (e) {

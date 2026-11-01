@@ -6,6 +6,7 @@ import 'package:sweetella/core/utils/app_text_styles.dart';
 import 'package:sweetella/feature/home/data/models/category_model.dart';
 import 'package:sweetella/feature/home/presentation/screens/cubit/product_cubit.dart';
 import 'package:sweetella/feature/home/presentation/screens/cubit/product_state.dart';
+
 class CategoryItem extends StatelessWidget {
   const CategoryItem({
     super.key,
@@ -52,7 +53,8 @@ class CategoryItem extends StatelessWidget {
                       ),
                       errorWidget: (context, url, error) => const Icon(
                         Icons.image_not_supported_rounded,
-                        //color: Colors.grey,
+
+                        color: Colors.grey,
                       ),
                     )
                   : Container(width: 40),

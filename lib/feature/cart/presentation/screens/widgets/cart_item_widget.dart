@@ -20,7 +20,6 @@ class CartItemWidget extends StatelessWidget {
     final paddingValue = screenWidth * 0.03;
     final imageSize = screenWidth * 0.12;
     final spacing = screenWidth * 0.02;
-    final nameFontSize = screenWidth * 0.04;
     return Container(
       padding: EdgeInsets.all(paddingValue),
       margin: const EdgeInsets.only(bottom: 14),
@@ -64,27 +63,40 @@ class CartItemWidget extends StatelessWidget {
                     style: AppTextStyles.text18BoldDarkGray,
                   ),
                 ),
-
                 FittedBox(
                   fit: BoxFit.scaleDown,
                   alignment: Alignment.centerLeft,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
 
-                    children: item.selectedAttributes.entries.map((entry) {
-                      return Text(
-                        '${entry.key}: ${entry.value}',
-                        style: AppTextStyles.text18SmiyBoldDarkGray,
-                      );
-                    }).toList(),
+                    children: [
+                      if (item.selectedVariant != null)
+                        Text(
+                          '${item.selectedVariant!.sizeName}: ${item.selectedVariant!.price}',
+                          style: AppTextStyles.text18SmiyBoldDarkGray,
+                        )
+                      else
+                        Text(
+                          'Price: ${item.price}\$',
+                          style: AppTextStyles.text18SmiyBoldDarkGray,
+                        ),
+                    ],
                   ),
                 ),
                 FittedBox(
                   fit: BoxFit.scaleDown,
                   alignment: Alignment.centerLeft,
-                  child: Text(
-                    "price ${item.price.toString()}\$",
-                    style: AppTextStyles.text16BoldBlack,
+                  child: Column(
+                    children:
+                        item.selectedAddons
+                            ?.map(
+                              (e) => Text(
+                                "${e.name}:+${e.price}",
+                                style: AppTextStyles.text16BoldBlack,
+                              ),
+                            )
+                            .toList() ??
+                        [],
                   ),
                 ),
               ],

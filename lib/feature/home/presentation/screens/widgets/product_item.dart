@@ -89,20 +89,15 @@ class ProductItem extends StatelessWidget {
                     ),
                   ),
 
-                  productModel.attributes.isNotEmpty
+                  productModel.variants.isNotEmpty
                       ? FittedBox(
                           fit: BoxFit.scaleDown,
                           alignment: Alignment.centerLeft,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: productModel.attributes.map((attr) {
-                              // Get the first option value as the default
-                              final defaultOption = attr.options.isNotEmpty
-                                  ? attr.options.first.value
-                                  : '';
-
+                            children: productModel.variants.map((attr) {
                               return Text(
-                                '${attr.title}: $defaultOption',
+                                '${attr.sizeName}: ${attr.price}',
                                 style: AppTextStyles.text16Grey,
                               );
                             }).toList(),

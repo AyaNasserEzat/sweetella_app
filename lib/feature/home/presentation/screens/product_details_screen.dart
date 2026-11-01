@@ -21,10 +21,7 @@ class ProductDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (_) =>
-              ProductAttributesCubit()..initializeDefaults(productModel),
-        ),
+        BlocProvider(create: (_) => ProductDetailsCubit(productModel)),
         BlocProvider(create: (_) => QuantityCubit()),
       ],
       child: Scaffold(
@@ -116,11 +113,195 @@ class ProductDetailsScreen extends StatelessWidget {
                               description: productModel.description,
                             ),
                             const SizedBox(height: 20),
-                            if (productModel.attributes.isNotEmpty) ...[
-                              ProductAttributesSection(
-                                productModel: productModel,
+
+                            // ==========================================
+                            // 1. قسم اختيار الحجم / الوزن (Variants - Radio)
+                            // ==========================================
+                            if (productModel.hasVariants &&
+                                productModel.variants.isNotEmpty) ...[
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text(
+                                    'Choose Size',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  Text(
+                                    'مطلوب *',
+                                    style: TextStyle(
+                                      color: Colors.red[700],
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              const SizedBox(height: 20),
+                              const SizedBox(height: 10),
+
+                              BlocBuilder<
+                                ProductDetailsCubit,
+                                ProductDetailsState
+                              >(
+                                builder: (context, state) {
+                                  return Column(
+                                    children: productModel.variants.map((
+                                      variant,
+                                    ) {
+                                      bool isSelected =
+                                          state.selectedVariant?.id ==
+                                          variant.id;
+                                      return InkWell(
+                                        onTap: () => context
+                                            .read<ProductDetailsCubit>()
+                                            .selectVariant(variant),
+                                        child: Container(
+                                          margin: const EdgeInsets.only(
+                                            bottom: 8,
+                                          ),
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 8,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: isSelected
+                                                ? AppColors.primaryColor
+                                                      .withValues(alpha: 0.05)
+                                                : Colors.white,
+                                            borderRadius: BorderRadius.circular(
+                                              16,
+                                            ),
+                                            border: Border.all(
+                                              color: isSelected
+                                                  ? AppColors.primaryColor
+                                                  : Colors.grey.shade300,
+                                              width: 1,
+                                            ),
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              Radio<ProductVariantModel>(
+                                                value: variant,
+                                                groupValue:
+                                                    state.selectedVariant,
+                                                activeColor:
+                                                    AppColors.primaryColor,
+                                                onChanged: (val) => context
+                                                    .read<ProductDetailsCubit>()
+                                                    .selectVariant(val!),
+                                              ),
+                                              Expanded(
+                                                child: Text(
+                                                  variant.sizeName,
+                                                  style: const TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 15,
+                                                  ),
+                                                ),
+                                              ),
+                                              Text(
+                                                '${variant.price} ج.م',
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.brown,
+                                                  fontSize: 15,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    }).toList(),
+                                  );
+                                },
+                              ),
+                              const Divider(height: 30),
+                            ],
+
+                            // ==========================================
+                            // 2. قسم الإضافات الاختيارية (Add-ons - Checkbox)
+                            // ==========================================
+                            if (productModel.hasAddons &&
+                                productModel.addons.isNotEmpty) ...[
+                              const Text(
+                                'إضافات اختيارية (Add-ons):',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+
+                              BlocBuilder<
+                                ProductDetailsCubit,
+                                ProductDetailsState
+                              >(
+                                builder: (context, state) {
+                                  return Column(
+                                    children: productModel.addons.map((addon) {
+                                      bool isChecked = state.selectedAddons
+                                          .contains(addon);
+                                      return InkWell(
+                                        onTap: () => context
+                                            .read<ProductDetailsCubit>()
+                                            .toggleAddon(addon),
+                                        child: Container(
+                                          margin: const EdgeInsets.only(
+                                            bottom: 8,
+                                          ),
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 8,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: isChecked
+                                                ? AppColors.primaryColor
+                                                      .withValues(alpha: 0.08)
+                                                : Colors.white,
+                                            borderRadius: BorderRadius.circular(
+                                              16,
+                                            ),
+                                            border: Border.all(
+                                              color: isChecked
+                                                  ? AppColors.primaryColor
+                                                  : Colors.grey.shade300,
+                                            ),
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              Checkbox(
+                                                value: isChecked,
+                                                activeColor:
+                                                    AppColors.primaryColor,
+                                                onChanged: (_) => context
+                                                    .read<ProductDetailsCubit>()
+                                                    .toggleAddon(addon),
+                                              ),
+                                              Expanded(
+                                                child: Text(
+                                                  addon.name,
+                                                  style: const TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                              ),
+                                              Text(
+                                                '+${addon.price} ج.م',
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: AppColors.primaryColor,
+                                                  fontSize: 14,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    }).toList(),
+                                  );
+                                },
+                              ),
                             ],
                           ],
                         ),

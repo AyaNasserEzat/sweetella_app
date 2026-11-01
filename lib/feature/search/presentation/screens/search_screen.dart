@@ -19,7 +19,7 @@ class SearchScreen extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => sl<SearchBloc>()),
 
-        BlocProvider(create: (_) => ProductAttributesCubit()),
+        //BlocProvider(create: (_) => ProductAttributesCubit()),
       ],
       child: Scaffold(
         body: SingleChildScrollView(

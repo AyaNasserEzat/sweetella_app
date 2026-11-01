@@ -21,17 +21,23 @@ class _AddToCartButtonState extends State<AddToCartButton> {
   bool isPressed = false;
 
   void addToCart() {
-    final selectionState = context.read<ProductAttributesCubit>().state;
-    final cubit = context.read<ProductAttributesCubit>();
+    final selection = context.read<ProductDetailsCubit>().state;
+    final addonsPrice = selection.selectedAddons.fold<double>(
+      0,
+      (total, addon) => total + addon.price,
+    );
+    final basePrice =
+        selection.selectedVariant?.price ?? widget.productModel.price ?? 0;
 
     context.read<CartCubit>().addToCart(
       CartItemModel(
         productId: widget.productModel.id,
         productName: widget.productModel.name,
-        price: cubit.calculateFinalPrice(widget.productModel).toInt(),
+        price: (basePrice + addonsPrice).round(),
         imageUrl: widget.productModel.imageUrl,
         quantity: context.read<QuantityCubit>().state,
-        selectedAttributes: selectionState.selectedAttributes,
+        selectedVariant: selection.selectedVariant,
+        selectedAddons: selection.selectedAddons,
       ),
     );
 

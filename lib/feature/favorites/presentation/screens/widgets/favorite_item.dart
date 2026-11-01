@@ -91,20 +91,18 @@ class FavoriteItem extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 5),
-                  productModel.attributes.isNotEmpty
+                  productModel.variants.isNotEmpty
                       ? FittedBox(
                           fit: BoxFit.scaleDown,
                           alignment: Alignment.centerLeft,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: productModel.attributes.map((attr) {
+                            children: productModel.variants.map((attr) {
                               // Get the first option value as the default
-                              final defaultOption = attr.options.isNotEmpty
-                                  ? attr.options.first.value
-                                  : '';
+                              final defaultOption = attr.sizeName.isNotEmpty;
 
                               return Text(
-                                '${attr.title}: $defaultOption',
+                                '${attr.sizeName}: $defaultOption',
                                 style: AppTextStyles.text16Grey,
                               );
                             }).toList(),

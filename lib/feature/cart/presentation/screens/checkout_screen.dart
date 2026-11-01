@@ -10,6 +10,7 @@ import 'package:sweetella/feature/cart/data/models/cart_model.dart';
 import 'package:sweetella/feature/cart/data/models/payment_model.dart';
 import 'package:sweetella/feature/address/presentation/cubits/address_cubit.dart';
 import 'package:sweetella/feature/cart/presentation/cubits/cart_cubit.dart';
+import 'package:sweetella/feature/cart/presentation/cubits/payment_cubit.dart';
 import 'package:sweetella/feature/order/presentation/cubits/order_cubit.dart';
 import 'package:sweetella/feature/order/presentation/cubits/order_state.dart';
 import 'widgets/payment_method_step.dart';
@@ -103,6 +104,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(create: (context) => PaymentCubit()),
         BlocProvider(create: (context) => sl<AddressCubit>()..loadAddresses()),
         BlocProvider.value(value: _orderCubit),
       ],
@@ -167,37 +169,74 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               ),
                             ),
                           const SizedBox(width: 16),
-                          Expanded(
-                            child: _currentPage == 2
-                                ? BlocBuilder<OrderCubit, OrderState>(
-                                    builder: (context, state) {
-                                      final isLoading = state is OrderLoading;
-                                      return CustomButton(
-                                        onPressed: _confirmOrder,
-                                        text: isLoading
-                                            ? 'Processing...'
-                                            : 'Confirm & Pay',
-                                      );
-                                    },
-                                  )
-                                : CustomButton(
-                                    onPressed: () {
-                                      if (BlocProvider.of<AddressCubit>(
-                                                context,
-                                              ).selectedAddress ==
-                                              null &&
-                                          _currentPage == 0) {
-                                        showsnakbar(
-                                          context,
-                                          'please select addrees',
-                                          SnachBarState.error,
+                          BlocListener<PaymentCubit, PaymentState>(
+                            listener: (context, state) {
+                              if (state is PaymentSuccess) {
+                                // context.read<PaymentCubit>().openCheckout(
+                                //   clientSecret: state.clientSecret,
+                                //   publicKey:
+                                //       'egy_pk_test_P2sLXid97D1r1jUMfLe9QvVUzFlvL3WL',
+                                // );
+                                context.read<PaymentCubit>().payWithSdk(
+                                  clientSecret: state.clientSecret,
+                                );
+
+                                showsnakbar(
+                                  context,
+                                  "payment processing...",
+                                  SnachBarState.success,
+                                );
+                                print(state.clientSecret);
+                              }
+
+                              if (state is PaymentFailure) {
+                                showsnakbar(
+                                  context,
+                                  state.message,
+                                  SnachBarState.error,
+                                );
+                                print(state.message);
+                              }
+                            },
+
+                            child: Expanded(
+                              child: _currentPage == 2
+                                  ? BlocBuilder<OrderCubit, OrderState>(
+                                      builder: (context, state) {
+                                        final isLoading = state is OrderLoading;
+                                        return CustomButton(
+                                          onPressed: () {
+                                       
+                                            // context
+                                            //     .read<PaymentCubit>()
+                                            //     .createPaymentIntent();
+                                          },
+                                          //_confirmOrder,
+                                          text: isLoading
+                                              ? 'Processing...'
+                                              : 'Confirm & Pay',
                                         );
-                                      } else {
-                                        _nextPage();
-                                      }
-                                    },
-                                    text: 'Next',
-                                  ),
+                                      },
+                                    )
+                                  : CustomButton(
+                                      onPressed: () {
+                                        if (BlocProvider.of<AddressCubit>(
+                                                  context,
+                                                ).selectedAddress ==
+                                                null &&
+                                            _currentPage == 0) {
+                                          showsnakbar(
+                                            context,
+                                            'please select addrees',
+                                            SnachBarState.error,
+                                          );
+                                        } else {
+                                          _nextPage();
+                                        }
+                                      },
+                                      text: 'Next',
+                                    ),
+                            ),
                           ),
                         ],
                       ),

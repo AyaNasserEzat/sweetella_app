@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sweetella/core/utils/app_text_styles.dart';
 import 'package:sweetella/feature/home/data/models/product_model.dart';
 import 'package:sweetella/feature/home/presentation/screens/cubit/product_attribut_selection_cubit.dart';
-import 'package:sweetella/feature/home/presentation/screens/cubit/product_attribut_selection_state.dart';
 import 'package:sweetella/feature/home/presentation/screens/widgets/add_to_cart_btn.dart';
 
 class RowOfPriceAndSalePrice extends StatelessWidget {
@@ -27,21 +26,24 @@ class RowOfPriceAndSalePrice extends StatelessWidget {
                     "${productModel.salePrice}\$",
                     style: AppTextStyles.priceTextGreen,
                   ),
-                Text(
-                  '${BlocProvider.of<ProductAttributesCubit>(context).calculateFinalPrice(productModel)}\$',
-                  style: AppTextStyles.text18BoldDarkGray,
-                ),
-                // Text(
-                //   "${productModel.price}\$",
-                //   style: productModel.salePrice != 0
-                //       ? AppTextStyles.text18GreyLineThrough
-                //       : AppTextStyles.text16BoldBlack,
-                // ),
+                productModel.hasVariants == false
+                    ? Text(
+                        "${productModel.price}\$",
+                        style: productModel.salePrice != 0
+                            ? AppTextStyles.text18GreyLineThrough
+                            : AppTextStyles.text16BoldBlack,
+                      )
+                    : SizedBox.shrink(),
               ],
             ),
           ),
         ),
-        AddToCartBtn(productModel: productModel),
+        productModel.variants.isEmpty
+            ? BlocProvider(
+                create: (context) => ProductDetailsCubit(productModel),
+                child: AddToCartBtn(productModel: productModel),
+              )
+            : SizedBox.shrink(),
       ],
     );
   }

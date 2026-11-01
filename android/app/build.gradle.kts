@@ -12,7 +12,9 @@ android {
     namespace = "com.example.sweetella"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
-
+    buildFeatures {
+        dataBinding = true
+    }    
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11

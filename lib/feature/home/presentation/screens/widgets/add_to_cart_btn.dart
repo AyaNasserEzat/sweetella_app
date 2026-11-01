@@ -4,7 +4,6 @@ import 'package:sweetella/core/utils/app_colors.dart';
 import 'package:sweetella/feature/cart/data/models/cart_model.dart';
 import 'package:sweetella/feature/cart/presentation/cubits/cart_cubit.dart';
 import 'package:sweetella/feature/home/data/models/product_model.dart';
-import 'package:sweetella/feature/home/presentation/screens/cubit/product_attribut_selection_cubit.dart';
 
 class AddToCartBtn extends StatefulWidget {
   final ProductModel productModel;
@@ -74,19 +73,18 @@ class _AddToCartBtnState extends State<AddToCartBtn>
 
   @override
   Widget build(BuildContext context) {
-    final defaultsAttribute = context
-        .read<ProductAttributesCubit>()
-        .initializeDefaults(widget.productModel);
+    // final defaultsAttribute = context
+    //     .read<ProductAttributesCubit>()
+    //     .initializeDefaults(widget.productModel);
+    //final state = context.read<ProductDetailsCubit>().state;
     final currentItem = CartItemModel(
       productId: widget.productModel.id,
       productName: widget.productModel.name,
-      price: context
-          .read<ProductAttributesCubit>()
-          .calculateFinalPrice(widget.productModel)
-          .toInt(),
+      price: widget.productModel.price?.toInt() ?? 0,
       imageUrl: widget.productModel.imageUrl,
       quantity: 1,
-      selectedAttributes: defaultsAttribute,
+      selectedVariant: null,
+      selectedAddons: [],
     );
     // Watch the current quantity of this specific product in the cart
     final cartQuantity = context.select<CartCubit, int>((cubit) {
