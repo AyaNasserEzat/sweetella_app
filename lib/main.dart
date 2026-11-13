@@ -2,6 +2,7 @@ import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart' show Firebase;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:sweetella/core/bloc/bloc_observer.dart';
 import 'package:sweetella/core/utils/app_colors.dart';
 import 'package:sweetella/feature/auth/presentation/screens/login_screen.dart';
@@ -10,6 +11,7 @@ import 'package:sweetella/core/di/service_locator.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: '.env');
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   setupServiceLocator();
   Bloc.observer = AppBlocObserver();

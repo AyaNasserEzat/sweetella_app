@@ -2,6 +2,13 @@
 
 A new Flutter project.
 
+## Environment configuration
+
+Copy `.env.example` to `.env` and provide the required Paymob configuration
+before running the app. Keep `.env` local and never commit real credentials.
+Payment secret keys must not be shipped in a client app; use a trusted backend
+for secret-key API requests.
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.

@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_paymob_sdk/flutter_paymob_sdk.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 part 'payment_state.dart';
 
@@ -9,7 +10,11 @@ class PaymentCubit extends Cubit<PaymentState> {
   PaymentCubit() : super(PaymentInitial());
 
   final Dio dio = Dio();
-  String publicKey = "";
+
+  String get publicKey => dotenv.env['PAYMOB_PUBLIC_KEY'] ?? '';
+
+  String get secretKey => dotenv.env['PAYMOB_SECRET_KEY'] ?? '';
+
   Future<void> openCheckout({
     required String clientSecret,
     required String publicKey,
@@ -31,11 +36,12 @@ class PaymentCubit extends Cubit<PaymentState> {
 
     try {
       dio.interceptors.add(LogInterceptor(request: true, responseBody: true));
+
       final response = await dio.post(
         'https://accept.paymob.com/v1/intention/',
         options: Options(
           headers: {
-            'Authorization': 'Token ',
+            'Authorization': 'Token $secretKey',
             'Content-Type': 'application/json',
           },
         ),
@@ -64,8 +70,7 @@ class PaymentCubit extends Cubit<PaymentState> {
             'state': 'Cairo',
             'country': 'EG',
           },
-          "notification_url":
-              "https://hooks.paymob.com/4d269efd-3225-4e46-9f71-c022e14e832a",
+          'notification_url': 'YOUR_NOTIFICATION_URL',
         },
       );
 
