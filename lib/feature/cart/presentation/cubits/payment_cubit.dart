@@ -9,7 +9,7 @@ class PaymentCubit extends Cubit<PaymentState> {
   PaymentCubit() : super(PaymentInitial());
 
   final Dio dio = Dio();
-  String publicKey = "egy_pk_test_P2sLXid97D1r1jUMfLe9QvVUzFlvL3WL";
+  String publicKey = "";
   Future<void> openCheckout({
     required String clientSecret,
     required String publicKey,
@@ -35,8 +35,7 @@ class PaymentCubit extends Cubit<PaymentState> {
         'https://accept.paymob.com/v1/intention/',
         options: Options(
           headers: {
-            'Authorization':
-                'Token ',
+            'Authorization': 'Token ',
             'Content-Type': 'application/json',
           },
         ),
