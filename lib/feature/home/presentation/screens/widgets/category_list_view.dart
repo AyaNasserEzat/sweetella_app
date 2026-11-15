@@ -16,7 +16,7 @@ class _GategoryListViewState extends State<GategoryListView> {
   @override
   void initState() {
     final cubit = context.read<ProductCubit>();
-    cubit.getProducts(categoryId: widget.categories[0].id);
+    cubit.getAllProducts();
     super.initState();
   }
 
@@ -30,12 +30,13 @@ class _GategoryListViewState extends State<GategoryListView> {
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
             onTap: () {
-              BlocProvider.of<ProductCubit>(
-                context,
-              ).changeSelectedCategoryIndex(index);
-              BlocProvider.of<ProductCubit>(
-                context,
-              ).getProducts(categoryId: widget.categories[index].id);
+              final cubit = context.read<ProductCubit>();
+              cubit.changeSelectedCategoryIndex(index);
+              if (index == 0) {
+                cubit.getAllProducts();
+              } else {
+                cubit.getProducts(categoryId: widget.categories[index].id);
+              }
             },
             child: CategoryItem(
               categoryModel: widget.categories[index],

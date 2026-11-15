@@ -27,7 +27,16 @@ class CategoriesBlocBuilder extends StatelessWidget {
             ),
           );
         } else if (state is GetAllCategoriesSuccess) {
-          return GategoryListView(categories: state.categories);
+          return GategoryListView(
+            categories: [
+              CategoryModel(
+                id: '',
+                name: 'All',
+                imageUrl: 'assets/images/all.png',
+              ),
+              ...state.categories,
+            ],
+          );
         } else if (state is GetAllCategoriesError) {
           return Center(child: Text(state.message));
         }

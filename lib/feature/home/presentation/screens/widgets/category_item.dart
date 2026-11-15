@@ -30,14 +30,13 @@ class CategoryItem extends StatelessWidget {
           margin: const EdgeInsets.only(right: 12),
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 3),
           decoration: BoxDecoration(
-            color: state && categoryModel.imageUrl.isNotEmpty
-                ? AppColors.primaryColor
-                : AppColors.grey,
+            color: state ? AppColors.primaryColor : AppColors.grey,
             borderRadius: BorderRadius.circular(20),
           ),
           child: Row(
             spacing: 10,
             children: [
+              //this check for loading not show circle insid
               categoryModel.imageUrl.isNotEmpty
                   ? CachedNetworkImage(
                       imageUrl: categoryModel.imageUrl,
