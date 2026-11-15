@@ -88,23 +88,6 @@ class ProductItem extends StatelessWidget {
                       style: AppTextStyles.text16BoldBlack,
                     ),
                   ),
-
-                  productModel.variants.isNotEmpty
-                      ? FittedBox(
-                          fit: BoxFit.scaleDown,
-                          alignment: Alignment.centerLeft,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: productModel.variants.map((attr) {
-                              return Text(
-                                '${attr.sizeName}: ${attr.price}',
-                                style: AppTextStyles.text16Grey,
-                              );
-                            }).toList(),
-                          ),
-                        )
-                      : const SizedBox.shrink(),
-
                   SizedBox(height: 5),
                   RowOfPriceAndSalePrice(productModel: productModel),
                 ],

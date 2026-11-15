@@ -21,13 +21,11 @@ class PriceAndSalPrice extends StatelessWidget {
               children: [
                 if (item.salePrice != null)
                   Text(
-                    "${item.salePrice}\$",
+                    "${item.salePrice}",
                     style: AppTextStyles.priceTextGreen,
                   ),
                 Text(
-                  item.salePrice != null
-                      ? " ${item.price}\$"
-                      : "${item.price}\$",
+                  item.salePrice != null ? " ${item.price}" : "${item.price}",
                   style: item.salePrice != null
                       ? AppTextStyles.text18GreyLineThrough
                       : AppTextStyles.text16BoldBlack,

@@ -73,10 +73,6 @@ class _AddToCartBtnState extends State<AddToCartBtn>
 
   @override
   Widget build(BuildContext context) {
-    // final defaultsAttribute = context
-    //     .read<ProductAttributesCubit>()
-    //     .initializeDefaults(widget.productModel);
-    //final state = context.read<ProductDetailsCubit>().state;
     final currentItem = CartItemModel(
       productId: widget.productModel.id,
       productName: widget.productModel.name,
