@@ -4,21 +4,9 @@ import 'package:sweetella/feature/home/data/models/category_model.dart';
 import 'package:sweetella/feature/home/presentation/screens/cubit/product_cubit.dart';
 import 'package:sweetella/feature/home/presentation/screens/widgets/category_item.dart';
 
-class GategoryListView extends StatefulWidget {
+class GategoryListView extends StatelessWidget {
   const GategoryListView({super.key, required this.categories});
   final List<CategoryModel> categories;
-
-  @override
-  State<GategoryListView> createState() => _GategoryListViewState();
-}
-
-class _GategoryListViewState extends State<GategoryListView> {
-  @override
-  void initState() {
-    final cubit = context.read<ProductCubit>();
-    cubit.getAllProducts();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +14,7 @@ class _GategoryListViewState extends State<GategoryListView> {
       height: 48,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: widget.categories.length,
+        itemCount: categories.length,
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
             onTap: () {
@@ -35,13 +23,10 @@ class _GategoryListViewState extends State<GategoryListView> {
               if (index == 0) {
                 cubit.getAllProducts();
               } else {
-                cubit.getProducts(categoryId: widget.categories[index].id);
+                cubit.getProducts(categoryId: categories[index].id);
               }
             },
-            child: CategoryItem(
-              categoryModel: widget.categories[index],
-              index: index,
-            ),
+            child: CategoryItem(categoryModel: categories[index], index: index),
           );
         },
       ),

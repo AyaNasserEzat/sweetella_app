@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sweetella/core/widgets/empty_gridview.dart';
+import 'package:sweetella/core/widgets/home_loading_view.dart';
 import 'package:sweetella/core/widgets/empty_widget.dart';
+import 'package:sweetella/core/widgets/products_loading_view.dart';
 import 'package:sweetella/feature/home/presentation/screens/widgets/products_grid_view.dart';
 import 'package:sweetella/feature/search/presentation/bloc/search_bloc.dart';
 import 'package:sweetella/feature/search/presentation/bloc/search_state.dart';
@@ -22,7 +23,7 @@ class SearchScreenBody extends StatelessWidget {
         BlocBuilder<SearchBloc, SearchState>(
           builder: (context, state) {
             if (state is SearchLoading) {
-              return EmptyGridView();
+              return LoadingProductsView();
             }
 
             if (state is SearchError) {

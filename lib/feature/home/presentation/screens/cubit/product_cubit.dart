@@ -13,6 +13,12 @@ class ProductCubit extends Cubit<ProductState> {
   List<CategoryModel> allCategories = [];
   List<ProductModel> allproducts = [];
   int selectedCategoryIndex = 0;
+  bool hasResolvedCategories = false;
+
+  Future<void> initialize() async {
+    await Future.wait([getAllCategories(), getAllProducts()]);
+  }
+
   void changeSelectedCategoryIndex(int index) {
     selectedCategoryIndex = index;
     debugPrint('selected category = ${selectedCategoryIndex}');
@@ -37,13 +43,19 @@ class ProductCubit extends Cubit<ProductState> {
   }
 
   Future<void> getAllCategories() async {
+    hasResolvedCategories = false;
     emit(GetAllCategoriesLoading());
     final result = await productRepo.getAllCategories();
-    result.fold((failure) => emit(GetAllCategoriesError(failure.message)), (
-      categories,
-    ) {
-      allCategories = categories;
-      emit(GetAllCategoriesSuccess(categories));
-    });
+    result.fold(
+      (failure) {
+        hasResolvedCategories = true;
+        emit(GetAllCategoriesError(failure.message));
+      },
+      (categories) {
+        hasResolvedCategories = true;
+        allCategories = categories;
+        emit(GetAllCategoriesSuccess(categories));
+      },
+    );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sweetella/core/widgets/empty_gridview.dart';
+import 'package:sweetella/core/widgets/home_loading_view.dart';
+import 'package:sweetella/core/widgets/products_loading_view.dart';
 import 'package:sweetella/feature/cart/presentation/cubits/cart_cubit.dart';
 import 'package:sweetella/feature/favorites/presentation/cubits/favories_state.dart';
 import 'package:sweetella/feature/favorites/presentation/cubits/favorites_cubit.dart';
@@ -49,7 +50,7 @@ class ProductsBlocBuilder extends StatelessWidget {
         builder: (context, state) {
           print(state);
           if (state is ProductLoading) {
-            return EmptyGridView();
+            return LoadingProductsView();
           } else if (state is ProductSuccess) {
             return ProductsGridView(products: state.products);
           } else if (state is ProductError) {

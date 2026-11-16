@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sweetella/core/helper/extension.dart';
-import 'package:sweetella/core/widgets/empty_gridview.dart';
+import 'package:sweetella/core/widgets/home_loading_view.dart';
 import 'package:sweetella/core/widgets/empty_widget.dart';
+import 'package:sweetella/core/widgets/products_loading_view.dart';
 import 'package:sweetella/feature/auth/presentation/screens/widgets/app_bar.dart';
 import 'package:sweetella/feature/favorites/presentation/cubits/favorites_cubit.dart';
 import 'package:sweetella/feature/favorites/presentation/cubits/favories_state.dart';
@@ -50,7 +51,7 @@ class _FavoriteScreenBodyState extends State<FavoriteScreenBody> {
                 builder: (context, productState) {
                   print(productState);
                   if (productState is ProductLoading) {
-                    return EmptyGridView();
+                    return LoadingProductsView();
                   }
 
                   if (productState is ProductSuccess) {
@@ -63,7 +64,7 @@ class _FavoriteScreenBodyState extends State<FavoriteScreenBody> {
                         print(favState);
 
                         if (favState is FavoriesLoading) {
-                          return EmptyGridView();
+                          return LoadingProductsView();
                         }
 
                         if (favState is FavoriesLoaded) {

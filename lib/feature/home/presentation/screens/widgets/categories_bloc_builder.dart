@@ -12,14 +12,20 @@ class CategoriesBlocBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProductCubit, ProductState>(
-      buildWhen: (previous, current) =>
-          current is GetAllCategoriesLoading ||
-          current is GetAllCategoriesSuccess ||
-          current is GetAllCategoriesError,
+      buildWhen: (previous, current) {
+        final categoriesResolved = context
+            .read<ProductCubit>()
+            .hasResolvedCategories;
+        return current is GetAllCategoriesLoading ||
+            current is GetAllCategoriesSuccess ||
+            current is GetAllCategoriesError ||
+            !categoriesResolved;
+      },
       builder: (context, state) {
         debugPrint('categoryBlocBuilder state = ${state.runtimeType}');
 
-        if (state is GetAllCategoriesLoading) {
+        if (!context.read<ProductCubit>().hasResolvedCategories ||
+            state is GetAllCategoriesLoading) {
           return Skeletonizer(
             enabled: true,
             child: GategoryListView(

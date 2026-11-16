@@ -14,9 +14,7 @@ class DonutsHomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) => sl<ProductCubit>()..getAllCategories(),
-        ),
+        BlocProvider(create: (context) => sl<ProductCubit>()..initialize()),
         // BlocProvider(create: (_) => ProductAttributesCubit()),
         BlocProvider(
           create: (context) => sl<FavoritesCubit>()..getFavoritesIds(),
