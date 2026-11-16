@@ -24,16 +24,19 @@ class RowOfPriceAndSalePrice extends StatelessWidget {
           child: FittedBox(
             fit: BoxFit.scaleDown,
             child: Row(
-              spacing: 3,
+              spacing: 5,
               children: [
-                if (productModel.salePrice != 0)
+                if (productModel.hasDiscount)
                   Text(
-                    "${productModel.salePrice}",
-                    style: AppTextStyles.priceTextGreen,
+                    '${productModel.effectivePrice} EGP',
+                    style: AppTextStyles.text16BoldBlack,
                   ),
+
                 Text(
-                  productModel.formattedPrice,
-                  style: productModel.salePrice != 0
+                  productModel.hasDiscount
+                      ? '${productModel.price} EGP'
+                      : productModel.formattedPrice,
+                  style: productModel.hasDiscount
                       ? AppTextStyles.text18GreyLineThrough
                       : AppTextStyles.text16BoldBlack,
                 ),

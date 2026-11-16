@@ -52,7 +52,9 @@ class ProductItem extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      if (productModel.salePrice != 0) SaleContainer(),
+                      if (productModel.hasDiscount ||
+                          productModel.hasAnyDiscount)
+                        SaleContainer(),
                       Spacer(),
                       FavoriteButton(productId: productModel.id),
                     ],

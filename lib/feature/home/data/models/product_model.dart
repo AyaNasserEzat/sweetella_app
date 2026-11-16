@@ -86,22 +86,28 @@ class ProductModel {
     'addons': addons.map((e) => e.toJson()).toList(),
   };
 
-  double get effectivePrice =>
-      salePrice != null &&
-          salePrice! > 0 &&
-          price != null &&
-          salePrice! < price!
-      ? salePrice!
-      : price ?? 0;
+  // السعر النهائي بعد الخصم
+  double get effectivePrice {
+    if (salePrice != null &&
+        salePrice! > 0 &&
+        price != null &&
+        salePrice! < price!) {
+      return salePrice!;
+    }
 
+    return price ?? 0;
+  }
+
+  // هل المنتج عليه خصم؟
   bool get hasDiscount =>
       salePrice != null &&
       salePrice! > 0 &&
       price != null &&
       salePrice! < price!;
 
+  // أقل وأعلى سعر بعد الخصم للـ Variants
   List<double> get effectivePrices {
-    if (hasVariants && variants.isNotEmpty) {
+    if (variants.isNotEmpty) {
       return variants.map((e) => e.effectivePrice).toList();
     }
 
@@ -112,17 +118,23 @@ class ProductModel {
 
   double get maxPrice => effectivePrices.reduce((a, b) => a > b ? a : b);
 
-  bool get hasAnyDiscount => hasVariants && variants.isNotEmpty
-      ? variants.any((e) => e.hasDiscount)
-      : hasDiscount;
+  // هل أي Variant عليه خصم؟
+  bool get hasAnyDiscount {
+    if (variants.isNotEmpty) {
+      return variants.any((e) => e.hasDiscount);
+    }
 
+    return hasDiscount;
+  }
+
+  // تنسيق السعر
   String get formattedPrice {
     if (minPrice == maxPrice) {
-      return '${_formatPrice(minPrice)} ج.م';
+      return '${_formatPrice(minPrice)} EGP';
     }
 
     return '${_formatPrice(minPrice)} - '
-        '${_formatPrice(maxPrice)} ج.م';
+        '${_formatPrice(maxPrice)} EGP';
   }
 
   static String _formatPrice(double price) => price == price.truncateToDouble()
