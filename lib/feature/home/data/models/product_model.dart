@@ -163,10 +163,7 @@ class ProductVariantModel {
       sizeName: json['sizeName'] ?? '',
       price: (json['price'] as num?)?.toDouble() ?? 0,
       salePrice: (json['salePrice'] as num?)?.toDouble(),
-      stock:
-          (json['stock'] as num?)?.toInt() ??
-          (json['dailyStock'] as num?)?.toInt() ??
-          0,
+      stock: (json['stock'] as num?)?.toInt() ?? 0,
     );
   }
 
