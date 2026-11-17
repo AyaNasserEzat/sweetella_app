@@ -1,10 +1,3 @@
-// class ProductSelectionState {
-//   // Holds the selections, e.g., {"Size": "M", "Flavor": "Chocolate"}
-//   final Map<String, String> selectedAttributes;
-
-//   ProductSelectionState({required this.selectedAttributes});
-// }
-// lib/features/customer_product/presentation/cubit/product_details_cubit.dart
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sweetella/feature/home/data/models/product_model.dart';
 

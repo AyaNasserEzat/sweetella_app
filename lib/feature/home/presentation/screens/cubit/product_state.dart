@@ -1,4 +1,3 @@
-import 'package:sweetella/feature/home/data/models/category_model.dart';
 import 'package:sweetella/feature/home/data/models/product_model.dart';
 import 'package:equatable/equatable.dart';
 
@@ -9,7 +8,6 @@ abstract class ProductState extends Equatable {
   List<Object?> get props => [];
 }
 
-// ignore: must_be_immutable
 class ChangeSelectedCategoryIndexState extends ProductState {}
 
 class ProductInitial extends ProductState {
@@ -36,16 +34,4 @@ class ProductError extends ProductState {
 
   @override
   List<Object?> get props => [message];
-}
-
-class GetAllCategoriesLoading extends ProductState {}
-
-class GetAllCategoriesSuccess extends ProductState {
-  final List<CategoryModel> categories;
-  GetAllCategoriesSuccess(this.categories);
-}
-
-class GetAllCategoriesError extends ProductState {
-  final String message;
-  GetAllCategoriesError(this.message);
 }

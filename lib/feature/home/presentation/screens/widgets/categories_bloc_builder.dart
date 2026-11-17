@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sweetella/feature/home/data/models/category_model.dart';
-import 'package:sweetella/feature/home/presentation/screens/cubit/product_cubit.dart';
-import 'package:sweetella/feature/home/presentation/screens/cubit/product_state.dart';
+import 'package:sweetella/feature/home/presentation/screens/cubit/category_cubit.dart';
+import 'package:sweetella/feature/home/presentation/screens/cubit/category_state.dart';
 import 'package:sweetella/feature/home/presentation/screens/widgets/category_list_view.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -11,21 +11,14 @@ class CategoriesBlocBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProductCubit, ProductState>(
+    return BlocBuilder<CategoryCubit, CategoryState>(
       buildWhen: (previous, current) {
-        final categoriesResolved = context
-            .read<ProductCubit>()
-            .hasResolvedCategories;
         return current is GetAllCategoriesLoading ||
             current is GetAllCategoriesSuccess ||
-            current is GetAllCategoriesError ||
-            !categoriesResolved;
+            current is GetAllCategoriesError;
       },
       builder: (context, state) {
-        debugPrint('categoryBlocBuilder state = ${state.runtimeType}');
-
-        if (!context.read<ProductCubit>().hasResolvedCategories ||
-            state is GetAllCategoriesLoading) {
+        if (state is GetAllCategoriesLoading) {
           return Skeletonizer(
             enabled: true,
             child: GategoryListView(

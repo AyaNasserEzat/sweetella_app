@@ -3,6 +3,7 @@ import 'package:sweetella/feature/address/data/data_source/address_remote_data_s
 import 'package:sweetella/feature/address/data/data_source/address_remote_data_source_imp.dart';
 import 'package:sweetella/feature/cart/data/data_sources/cart_remote_data_source.dart';
 import 'package:sweetella/feature/cart/data/data_sources/cart_remote_data_source_imp.dart';
+import 'package:sweetella/feature/home/presentation/screens/cubit/category_cubit.dart';
 import 'package:sweetella/feature/order/data/data_source/order_remote_data_source.dart';
 import 'package:sweetella/feature/order/data/data_source/order_remote_data_source_imp.dart';
 import 'package:sweetella/feature/address/data/repositories/address_repo.dart';
@@ -56,6 +57,7 @@ void setupServiceLocator() {
 
   // Cubits
   sl.registerFactory(() => ProductCubit(sl<ProductRepoImp>()));
+  sl.registerFactory(() => CategoryCubit(sl<ProductRepoImp>()));
 
   // favorites data source
   sl.registerLazySingleton<FavoritesRemoteDataSource>(

@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sweetella/feature/home/data/models/category_model.dart';
 import 'package:sweetella/feature/home/data/models/product_model.dart';
 import '../../../data/repositories/product_repo_imp.dart';
 import 'product_state.dart';
@@ -10,20 +8,7 @@ class ProductCubit extends Cubit<ProductState> {
 
   ProductCubit(this.productRepo) : super(ProductInitial());
 
-  List<CategoryModel> allCategories = [];
   List<ProductModel> allproducts = [];
-  int selectedCategoryIndex = 0;
-  bool hasResolvedCategories = false;
-
-  Future<void> initialize() async {
-    await Future.wait([getAllCategories(), getAllProducts()]);
-  }
-
-  void changeSelectedCategoryIndex(int index) {
-    selectedCategoryIndex = index;
-    debugPrint('selected category = ${selectedCategoryIndex}');
-    emit(ChangeSelectedCategoryIndexState());
-  }
 
   Future<void> getAllProducts() async {
     emit(ProductLoading());
@@ -40,22 +25,5 @@ class ProductCubit extends Cubit<ProductState> {
     result.fold((failure) => emit(ProductError(failure.message)), (products) {
       emit(ProductSuccess(products));
     });
-  }
-
-  Future<void> getAllCategories() async {
-    hasResolvedCategories = false;
-    emit(GetAllCategoriesLoading());
-    final result = await productRepo.getAllCategories();
-    result.fold(
-      (failure) {
-        hasResolvedCategories = true;
-        emit(GetAllCategoriesError(failure.message));
-      },
-      (categories) {
-        hasResolvedCategories = true;
-        allCategories = categories;
-        emit(GetAllCategoriesSuccess(categories));
-      },
-    );
   }
 }

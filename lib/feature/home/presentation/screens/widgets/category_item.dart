@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sweetella/core/utils/app_colors.dart';
 import 'package:sweetella/core/utils/app_text_styles.dart';
 import 'package:sweetella/feature/home/data/models/category_model.dart';
+import 'package:sweetella/feature/home/presentation/screens/cubit/category_cubit.dart';
 import 'package:sweetella/feature/home/presentation/screens/cubit/product_cubit.dart';
 import 'package:sweetella/feature/home/presentation/screens/cubit/product_state.dart';
 
@@ -19,13 +20,10 @@ class CategoryItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocSelector<ProductCubit, ProductState, bool>(
       selector: (state) {
-        return BlocProvider.of<ProductCubit>(context).selectedCategoryIndex ==
+        return BlocProvider.of<CategoryCubit>(context).selectedCategoryIndex ==
             index;
       },
       builder: (context, state) {
-        print(
-          'build category item with name: ${categoryModel.name} and selected: $state',
-        );
         return Container(
           margin: const EdgeInsets.only(right: 12),
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 3),
