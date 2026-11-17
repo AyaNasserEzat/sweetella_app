@@ -76,7 +76,7 @@ class _AddToCartBtnState extends State<AddToCartBtn>
     final currentItem = CartItemModel(
       productId: widget.productModel.id,
       productName: widget.productModel.name,
-      price: widget.productModel.price?.toInt() ?? 0,
+      price: widget.productModel.price ?? 0,
       imageUrl: widget.productModel.imageUrl,
       quantity: 1,
       selectedVariant: null,

@@ -10,7 +10,6 @@ import 'package:sweetella/feature/cart/data/models/cart_model.dart';
 import 'package:sweetella/feature/cart/data/models/payment_model.dart';
 import 'package:sweetella/feature/address/presentation/cubits/address_cubit.dart';
 import 'package:sweetella/feature/cart/presentation/cubits/cart_cubit.dart';
-import 'package:sweetella/feature/cart/presentation/cubits/payment_cubit.dart';
 import 'package:sweetella/feature/order/presentation/cubits/order_cubit.dart';
 import 'package:sweetella/feature/order/presentation/cubits/order_state.dart';
 import 'widgets/payment_method_step.dart';
@@ -68,24 +67,26 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     super.dispose();
   }
 
-  void _onPaymentMethodSelected(PaymentMethod method, CardDetails? details) {
+  void _onPaymentMethodSelected(PaymentMethod method, CardDetails? _) {
     _orderCubit.selectPaymentMethod(method);
   }
 
   Future<void> _confirmOrder() async {
-    final addressCubit = _providerContext.read<AddressCubit>();
+    final checkoutContext = _providerContext;
+    final addressCubit = checkoutContext.read<AddressCubit>();
+    final cartCubit = checkoutContext.read<CartCubit>();
     final selectedAddress = addressCubit.selectedAddress;
 
     await _orderCubit.createOrder(
       selectedAddress: selectedAddress,
       cartItems: widget.cartItems,
-      totalPrice: widget.totalPrice,
     );
 
     if (!mounted) return;
 
     if (_orderCubit.state is OrderSuccess) {
-      await _providerContext.read<CartCubit>().clearCart();
+      await cartCubit.clearCart();
+      if (!mounted) return;
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -96,7 +97,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
     if (_orderCubit.state is OrderFailure) {
       final message = (_orderCubit.state as OrderFailure).message;
-      showsnakbar(_providerContext, message, SnachBarState.error);
+      showsnakbar(context, message, SnachBarState.error);
     }
   }
 
@@ -104,7 +105,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => PaymentCubit()),
         BlocProvider(create: (context) => sl<AddressCubit>()..loadAddresses()),
         BlocProvider.value(value: _orderCubit),
       ],
@@ -169,74 +169,41 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               ),
                             ),
                           const SizedBox(width: 16),
-                          BlocListener<PaymentCubit, PaymentState>(
-                            listener: (context, state) {
-                              if (state is PaymentSuccess) {
-                                // context.read<PaymentCubit>().openCheckout(
-                                //   clientSecret: state.clientSecret,
-                                //   publicKey:
-                                //       'egy_pk_test_P2sLXid97D1r1jUMfLe9QvVUzFlvL3WL',
-                                // );
-                                context.read<PaymentCubit>().payWithSdk(
-                                  clientSecret: state.clientSecret,
-                                );
-
-                                showsnakbar(
-                                  context,
-                                  "payment processing...",
-                                  SnachBarState.success,
-                                );
-                                print(state.clientSecret);
-                              }
-
-                              if (state is PaymentFailure) {
-                                showsnakbar(
-                                  context,
-                                  state.message,
-                                  SnachBarState.error,
-                                );
-                                print(state.message);
-                              }
-                            },
-
-                            child: Expanded(
-                              child: _currentPage == 2
-                                  ? BlocBuilder<OrderCubit, OrderState>(
-                                      builder: (context, state) {
-                                        final isLoading = state is OrderLoading;
-                                        return CustomButton(
-                                          onPressed: () {
-                                       
-                                            // context
-                                            //     .read<PaymentCubit>()
-                                            //     .createPaymentIntent();
-                                          },
-                                          //_confirmOrder,
-                                          text: isLoading
-                                              ? 'Processing...'
-                                              : 'Confirm & Pay',
+                          Expanded(
+                            child: _currentPage == 2
+                                ? BlocBuilder<OrderCubit, OrderState>(
+                                    builder: (context, state) {
+                                      final isLoading = state is OrderLoading;
+                                      return CustomButton(
+                                        onPressed: () {
+                                          if (!isLoading) {
+                                            _confirmOrder();
+                                          }
+                                        },
+                                        text: isLoading
+                                            ? 'Processing...'
+                                            : 'Place Order',
+                                      );
+                                    },
+                                  )
+                                : CustomButton(
+                                    onPressed: () {
+                                      if (BlocProvider.of<AddressCubit>(
+                                                context,
+                                              ).selectedAddress ==
+                                              null &&
+                                          _currentPage == 0) {
+                                        showsnakbar(
+                                          context,
+                                          'please select addrees',
+                                          SnachBarState.error,
                                         );
-                                      },
-                                    )
-                                  : CustomButton(
-                                      onPressed: () {
-                                        if (BlocProvider.of<AddressCubit>(
-                                                  context,
-                                                ).selectedAddress ==
-                                                null &&
-                                            _currentPage == 0) {
-                                          showsnakbar(
-                                            context,
-                                            'please select addrees',
-                                            SnachBarState.error,
-                                          );
-                                        } else {
-                                          _nextPage();
-                                        }
-                                      },
-                                      text: 'Next',
-                                    ),
-                            ),
+                                      } else {
+                                        _nextPage();
+                                      }
+                                    },
+                                    text: 'Next',
+                                  ),
                           ),
                         ],
                       ),

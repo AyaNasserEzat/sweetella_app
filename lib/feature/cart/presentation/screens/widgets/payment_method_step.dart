@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sweetella/core/utils/app_colors.dart';
 import 'package:sweetella/core/utils/app_text_styles.dart';
-import 'package:sweetella/feature/auth/presentation/screens/widgets/white_card.dart';
 import 'package:sweetella/feature/cart/data/models/payment_model.dart';
 
 class PaymentMethodStep extends StatefulWidget {
@@ -20,10 +19,6 @@ class PaymentMethodStep extends StatefulWidget {
 
 class _PaymentMethodStepState extends State<PaymentMethodStep> {
   PaymentMethod? _selectedMethod;
-  final _cardNumberController = TextEditingController();
-  final _expiryController = TextEditingController();
-  final _cvvController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -32,22 +27,11 @@ class _PaymentMethodStepState extends State<PaymentMethodStep> {
   }
 
   void _onMethodChanged(PaymentMethod? value) {
+    if (value == null) return;
     setState(() {
       _selectedMethod = value;
     });
-    if (value == PaymentMethod.creditCard) {
-      // If credit card, validate and pass details
-      if (_formKey.currentState!.validate()) {
-        final details = CardDetails(
-          number: _cardNumberController.text,
-          expiry: _expiryController.text,
-          cvv: _cvvController.text,
-        );
-        widget.onMethodSelected(value!, details);
-      }
-    } else {
-      widget.onMethodSelected(value!, null);
-    }
+    widget.onMethodSelected(value, null);
   }
 
   @override
@@ -57,13 +41,20 @@ class _PaymentMethodStepState extends State<PaymentMethodStep> {
         PaymentMethod.creditCard,
         'Credit Card',
         Icons.credit_card,
+        isAvailable: false,
       ),
       _PaymentOption(
         PaymentMethod.paypal,
         'PayPal',
         Icons.account_balance_wallet,
+        isAvailable: false,
       ),
-      _PaymentOption(PaymentMethod.applePay, 'Apple Pay', Icons.phone_iphone),
+      _PaymentOption(
+        PaymentMethod.applePay,
+        'Apple Pay',
+        Icons.phone_iphone,
+        isAvailable: false,
+      ),
       _PaymentOption(
         PaymentMethod.cashOnDelivery,
         'Cash on Delivery',
@@ -112,65 +103,14 @@ class _PaymentMethodStepState extends State<PaymentMethodStep> {
                 ),
                 value: option.method,
                 groupValue: _selectedMethod,
-                onChanged: _onMethodChanged,
+                secondary: option.isAvailable
+                    ? null
+                    : const Text('Coming soon'),
+                onChanged: option.isAvailable ? _onMethodChanged : null,
                 activeColor: AppColors.primaryColor,
               ),
             );
           }),
-          if (_selectedMethod == PaymentMethod.creditCard)
-            Form(
-              key: _formKey,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 8),
-                child: Column(
-                  children: [
-                    TextFormField(
-                      controller: _cardNumberController,
-                      decoration: const InputDecoration(
-                        labelText: 'Card Number',
-                      ),
-                      keyboardType: TextInputType.number,
-                      validator: (value) {
-                        if (!RegExp(r'^\d{16}$').hasMatch(value!))
-                          return 'Invalid card number';
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: TextFormField(
-                            controller: _expiryController,
-                            decoration: const InputDecoration(
-                              labelText: 'Expiry (MM/YY)',
-                            ),
-                            validator: (value) {
-                              if (!RegExp(r'^\d{2}/\d{2}$').hasMatch(value!))
-                                return 'Invalid expiry';
-                              return null;
-                            },
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: TextFormField(
-                            controller: _cvvController,
-                            decoration: const InputDecoration(labelText: 'CVV'),
-                            keyboardType: TextInputType.number,
-                            validator: (value) {
-                              if (!RegExp(r'^\d{3}$').hasMatch(value!))
-                                return 'Invalid CVV';
-                              return null;
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
         ],
       ),
     );
@@ -181,6 +121,12 @@ class _PaymentOption {
   final PaymentMethod method;
   final String label;
   final IconData icon;
+  final bool isAvailable;
 
-  const _PaymentOption(this.method, this.label, this.icon);
+  const _PaymentOption(
+    this.method,
+    this.label,
+    this.icon, {
+    this.isAvailable = true,
+  });
 }

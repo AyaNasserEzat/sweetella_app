@@ -26,14 +26,14 @@ class _AddToCartButtonState extends State<AddToCartButton> {
       0,
       (total, addon) => total + addon.price,
     );
-    final basePrice =
+    final double basePrice =
         selection.selectedVariant?.price ?? widget.productModel.price ?? 0;
 
     context.read<CartCubit>().addToCart(
       CartItemModel(
         productId: widget.productModel.id,
         productName: widget.productModel.name,
-        price: (basePrice + addonsPrice).round(),
+        price: basePrice + addonsPrice,
         imageUrl: widget.productModel.imageUrl,
         quantity: context.read<QuantityCubit>().state,
         selectedVariant: selection.selectedVariant,

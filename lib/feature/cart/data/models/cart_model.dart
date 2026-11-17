@@ -24,7 +24,7 @@ class CartItemModel {
   String? id; // doc id
   final String productId;
   final String productName;
-  final int price;
+  final double price;
   final double? salePrice;
   final int quantity;
   final String imageUrl;
@@ -57,7 +57,7 @@ class CartItemModel {
       id: doc.id,
       productId: data['productId'],
       productName: data['productName'],
-      price: data['price'],
+      price: (data['price'] as num).toDouble(),
       salePrice: data['salePrice'],
       quantity: data['quantity'] ?? 1,
       imageUrl: data['imageUrl'],
@@ -96,7 +96,7 @@ class CartItemModel {
     String? productId,
     String? productName,
     Map<String, String>? selectedAttributes,
-    int? price,
+    double? price,
     int? quantity,
     String? imageUrl,
   }) {

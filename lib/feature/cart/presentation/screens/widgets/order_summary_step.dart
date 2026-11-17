@@ -82,6 +82,16 @@ class OrderSummaryStep extends StatelessWidget {
                                 'Qty: ${item.quantity}',
                                 style: TextStyle(color: AppColors.greyDark),
                               ),
+                              if (item.selectedVariant != null)
+                                Text(
+                                  'Variant: ${item.selectedVariant!.sizeName}',
+                                  style: TextStyle(color: AppColors.greyDark),
+                                ),
+                              if (item.selectedAddons?.isNotEmpty ?? false)
+                                Text(
+                                  'Add-ons: ${item.selectedAddons!.map((addon) => addon.name).join(', ')}',
+                                  style: TextStyle(color: AppColors.greyDark),
+                                ),
                             ],
                           ),
                         ),

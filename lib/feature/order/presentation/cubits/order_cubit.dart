@@ -60,19 +60,37 @@ class OrderCubit extends Cubit<OrderState> {
   Future<void> createOrder({
     required AddressModel? selectedAddress,
     required List<CartItemModel> cartItems,
-    required double totalPrice,
   }) async {
     if (selectedAddress == null) {
       emit(OrderFailure(message: 'Please select a shipping address.'));
       return;
     }
 
-    if (selectedPaymentMethod == null) {
-      emit(OrderFailure(message: 'Please select a payment method.'));
+    if (selectedPaymentMethod != PaymentMethod.cashOnDelivery) {
+      emit(
+        OrderFailure(
+          message: selectedPaymentMethod == null
+              ? 'Please select Cash on Delivery.'
+              : 'Only Cash on Delivery is available right now.',
+        ),
+      );
+      return;
+    }
+
+    if (cartItems.isEmpty) {
+      emit(OrderFailure(message: 'Your cart is empty.'));
       return;
     }
 
     emit(OrderLoading());
+
+    final subtotal = cartItems.fold<double>(
+      0,
+      (total, item) => total + item.price * item.quantity,
+    );
+    const shipping = 5.0;
+    const tax = 2.0;
+    const discount = 1.0;
 
     final order = OrderModel(
       addressName: selectedAddress.name,
@@ -82,19 +100,26 @@ class OrderCubit extends Cubit<OrderState> {
       paymentMethod: _paymentMethodToString(selectedPaymentMethod!),
       items: cartItems
           .map(
-            (item) => {
+            (item) => <String, dynamic>{
+              'productId': item.productId,
               'productName': item.productName,
-              'quantity': item.quantity,
-              'price': item.price,
               'imageUrl': item.imageUrl,
+              'price': item.price,
+              'quantity': item.quantity,
+              'selectedVariant': item.selectedVariant?.toJson(),
+              'selectedAddons':
+                  item.selectedAddons
+                      ?.map((addon) => addon.toJson())
+                      .toList() ??
+                  <Map<String, dynamic>>[],
             },
           )
           .toList(),
-      subtotal: totalPrice,
-      shipping: 5,
-      tax: 2,
-      discount: 1,
-      total: totalPrice + 5 + 2 - 1,
+      subtotal: subtotal,
+      shipping: shipping,
+      tax: tax,
+      discount: discount,
+      total: subtotal + shipping + tax - discount,
     );
 
     final result = await orderRepo.createOrder(order: order);
